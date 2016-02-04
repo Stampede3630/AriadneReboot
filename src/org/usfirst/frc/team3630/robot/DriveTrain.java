@@ -8,9 +8,10 @@ public class DriveTrain {
 	//Joystick defence1; // 2 joystick for defence breaching 
     //Joystick defence2;
     Joystick shooter1;// 2 for shooting and driveing 
-    Joystick shooter2; 
-    int Left = 0;
-    int Right = 1;
+    Joystick shooter2;
+    //input ports on roborio are represented by integers left and right
+    final int Left = 0;
+    final int Right = 1;
     
     RobotDrive mainDrive;
     
