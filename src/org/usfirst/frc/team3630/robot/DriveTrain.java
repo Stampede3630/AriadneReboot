@@ -12,11 +12,18 @@ public class DriveTrain {
     
     int Left = 0;
     int Right = 1;
+
+
     
+    //input ports on roborio are represented by integers left and right
+   // final int Left = 0;
+    //final int Right = 1; // who final them
+
+    // intialsie drives 
     RobotDrive mainDrive;
     
     public DriveTrain(){
-    	shooter1 = new Joystick(1);
+    	shooter1 = new Joystick(1); // joysticks inisalise 
     	shooter2 = new Joystick(2);
 
     
@@ -24,6 +31,7 @@ public class DriveTrain {
 	//defence1 = new Joystick(1);
 //	defence2 = new Joystick(2);
     
+    	
     
     	
     }
@@ -33,7 +41,7 @@ public class DriveTrain {
     
     }
     public void driveTrainPeriodic(){
-    	mainDrive.arcadeDrive(shooter1.getY(),shooter2.getX());
+    	mainDrive.arcadeDrive((shooter1.getY()*-1), shooter2.getX());
     }
     
     

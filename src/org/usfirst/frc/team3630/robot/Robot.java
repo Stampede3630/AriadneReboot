@@ -23,7 +23,7 @@ public class Robot extends IterativeRobot {
     Joystick defence1; // 2 joystick for defence breaching 
   
     Joystick defence2;
-    Joystick shooter1;// 2 for shooting and driveing 
+    Joystick shooter1;// 2 for shooting and driving 
     Joystick shooter2; 
     int LeftFrontChanel;
     int LeftRearChanel;
