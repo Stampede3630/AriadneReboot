@@ -31,7 +31,7 @@ public class LifterManipulator  {
 	public void LifterUp(){
 		//double rot2 = lifterrot.degreesRot();
 		//if (rot2 != 0){
-		Lifter.set(-.25);
+		Lifter.set(-.5);
 		//}
 	}
 	
@@ -60,11 +60,39 @@ public class LifterManipulator  {
 		Lifter.set(0);
 		Ballkicker.set(0);
 	}
+	public int getJoyStickValue(){
+		if(shooter1.getRawButton(1)){
+			return 1;
+		}
+		else if(shooter1.getRawButton(2)){
+			return 2;
+		}
+		else if(shooter1.getRawButton(3)){
+			return 3;
+		}
+		else if(shooter1.getRawButton(4)){
+			return  4 ; 
+		}
+		else if(shooter1.getRawButton(5)){
+			return 5;
+		}
+		else if(shooter1.getRawButton(6)){
+			return 6;
+		}
+		else if(shooter1.getRawButton(7)){
+			return  7 ; 
+		}
+		else{
+			return 0;
+	}
+
+	}
+		
 	
 	
 	
 	public void manipulatorPeriodic(){
-		
+		/*
 		if(shooter1.getRawButton(2)){
 			Lifterdown(); // moves lifter down
 		}
@@ -87,9 +115,39 @@ public class LifterManipulator  {
 		
 		if (shooter1.getRawButton(1)){
 			stop(); // kicks ball to shooting mec
-		}
+		}*/
+	switch(getJoyStickValue()) {
 		
+		case 1:
+			
+		break;
+		
+		case 2: 
+			Lifterdown();
+		break;
+		
+		case 3: 
+			LifterUp();
+		break;
+		
+		case 4: 
+			loadBall();
+		break;
+		case 5:
+			shootBall();
+			break;
+		case 6:
+			
+			
+			break;
+		case 7:
+			break;
+			default:
+				stop();
+				break;
 	}
 	
 }
+}
+
 

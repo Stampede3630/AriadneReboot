@@ -41,7 +41,7 @@ public class DriveTrain {
     
     }
     public void driveTrainPeriodic(){
-    	mainDrive.arcadeDrive((shooter1.getY()*-1), shooter2.getX());
+    	mainDrive.arcadeDrive((shooter1.getY()*-1), (shooter2.getX()*-1));
     }
     
     
