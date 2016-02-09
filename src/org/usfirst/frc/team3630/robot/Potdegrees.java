@@ -19,7 +19,9 @@ public class Potdegrees {
 		
 		double degrees = pot.get();
 		return degrees;
+		
 	}
+	
 	
 	}
 
