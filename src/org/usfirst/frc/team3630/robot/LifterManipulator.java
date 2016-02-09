@@ -11,6 +11,7 @@ public class LifterManipulator  {
 	Joystick shooter1;// 2 for shooting and driving 
 
 	//ShooterEncoder lifterrot= new ShooterEncoder(1,2); // encoder to fetch degres of lifter shaft
+	Potdegrees  shaftRotation = new Potdegrees();
 	public  LifterManipulator(){
 		shooter1= new Joystick(1);
 		//spinLeft.setInverted(spinLeft.equals(true));
@@ -24,15 +25,16 @@ public class LifterManipulator  {
 
 	public void Lifterdown(){
 		// double rot = lifterrot.degreesRot();
-	//if (rot != 98){
+		double rot = shaftRotation.fetchDegrees();
+	if (rot < 100){
 		 Lifter.set(.25);
-	//}
+	}
 	}
 	public void LifterUp(){
-		//double rot2 = lifterrot.degreesRot();
-		//if (rot2 != 0){
+		double rot2 = shaftRotation.fetchDegrees();
+		if (rot2 > 0){
 		Lifter.set(-.5);
-		//}
+		}
 	}
 	
 	public void loadBall(){
