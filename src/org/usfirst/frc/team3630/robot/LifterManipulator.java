@@ -1,6 +1,8 @@
 package org.usfirst.frc.team3630.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj.Talon;
 public class LifterManipulator  {
 // inisaliose talons 
@@ -12,13 +14,17 @@ public class LifterManipulator  {
 
 	//ShooterEncoder lifterrot= new ShooterEncoder(1,2); // encoder to fetch degres of lifter shaft
 	Potdegrees  shaftRotation = new Potdegrees();
-	public  LifterManipulator(){
+	public LifterManipulator(){
 		shooter1= new Joystick(1);
 		//spinLeft.setInverted(spinLeft.equals(true));
 		//spinRight.setInverted(spinRight.equals(true));
 		//spinLeft.setInverted(true);
 		//spinRight.setInverted(false);
 	}
+	public void publishtodash(){
+	
+	}
+	
 	
 	
 
@@ -26,13 +32,13 @@ public class LifterManipulator  {
 	public void Lifterdown(){
 		// double rot = lifterrot.degreesRot();
 		double rot = shaftRotation.fetchDegrees();
-	if (rot < 100){
+	if (rot <= 100){
 		 Lifter.set(.25);
 	}
 	}
 	public void LifterUp(){
 		double rot2 = shaftRotation.fetchDegrees();
-		if (rot2 > 0){
+		if (rot2 >= 0){
 		Lifter.set(-.5);
 		}
 	}
@@ -147,8 +153,9 @@ public class LifterManipulator  {
 			default:
 				stop();
 				break;
+		
 	}
-	
+	SmartDashboard.putNumber("pot degrees",shaftRotation.fetchDegrees());
 }
 }
 
