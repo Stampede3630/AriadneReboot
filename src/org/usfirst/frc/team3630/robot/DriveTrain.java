@@ -9,6 +9,8 @@ public class DriveTrain {
     //Joystick defence2;
     Joystick shooter1;// 2 for shooting and driving 
     Joystick shooter2; 
+    Joystick breachLeft;
+    Joystick breachRight;
     
     int Left = 0;
     int Right = 1;
@@ -25,7 +27,8 @@ public class DriveTrain {
     public DriveTrain(){
     	shooter1 = new Joystick(1); // joysticks inisalise 
     	shooter2 = new Joystick(2);
-
+    	breachLeft = new Joystick(3);
+        breachRight= new Joystick(4);
     
 
 	//defence1 = new Joystick(1);
@@ -42,6 +45,14 @@ public class DriveTrain {
     }
     public void driveTrainPeriodic(){
     	mainDrive.arcadeDrive((shooter1.getY()*-1), (shooter2.getX()*-1));
+    if (shooter2.getRawButton(6)){ // switch driver controls make o
+    	mainDrive.arcadeDrive((-breachLeft.getY()*-1), (-breachRight.getX()*-1));// invert joyticks for front
+    	
+    }
+    else{
+    	shooter.getRawButton(7);
+    	mainDrive.arcadeDrive((shooter1.getY()*-1), (shooter2.getX()*-1));
+    }
     }
     
     
