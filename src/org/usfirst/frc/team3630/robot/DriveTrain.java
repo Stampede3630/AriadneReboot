@@ -73,11 +73,13 @@ public class DriveTrain {
     	
     	//returns angles for which X = zero (otherwise forward)
     	else if ((Math.signum(X) == 0 && Math.signum(Y) == Y) || 
-    			(Math.signum(X) == 0 ** Math.signum(Y) )){
+    			(Math.signum(X) == 0 && Math.signum(Y) == -Y)){
     		double angle = 0;  
     		return angle;
     	}
-    	else
+    	else {
+    		return 0;
+    	}
     }
     
 }
