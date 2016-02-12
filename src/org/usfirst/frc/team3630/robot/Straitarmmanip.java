@@ -1,6 +1,6 @@
 package org.usfirst.frc.team3630.robot;
 
-import edu.wpi.first.wpilibj.DigitalInput;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -51,7 +51,7 @@ public class Straitarmmanip {
 		}
 		public void ArmUp(){
 			//double rot2 = shaftRotation.fetchDegrees();
-			if (rot2 >= 0){
+			if (rot >= 0){
 			main.set(-.5);
 			}
 		}
@@ -92,31 +92,8 @@ public class Straitarmmanip {
 		
 		
 		
-		public void manipulatorPeriodic(){
-			/*
-			if(shooter1.getRawButton(2)){
-				Lifterdown(); // moves lifter down
-			}
+		public void manipulatorPeriodicbreach(){
 		
-			
-			if(shooter1.getRawButton(3)){
-				LifterUp(); // moves lifter up
-			}
-			
-			
-			
-			if(shooter1.getRawButton(4)){
-				loadBall(); // load ball intake one motors 
-			}
-			
-			if(shooter1.getRawButton(5)){
-				shootBall(); // load ball intake one motors 
-			}
-		
-			
-			if (shooter1.getRawButton(1)){
-				stop(); // kicks ball to shooting mec
-			}*/
 		switch(getJoyStickValue()) {
 			
 			case 1: ArmUp();
@@ -148,10 +125,12 @@ public class Straitarmmanip {
 					break;
 			
 		}
-		SmartDashboard.putNumber("pot degrees", rot);
+		SmartDashboard.putNumber("strait arm endoder degrees degrees", rot);
 	}
 	}
 
+	
+	
 
 
 }
