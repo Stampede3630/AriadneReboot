@@ -50,7 +50,7 @@ public class DriveTrain {
     	
     }
     else{
-    	shooter.getRawButton(7);
+    	shooter2.getRawButton(7);
     	mainDrive.arcadeDrive((shooter1.getY()*-1), (shooter2.getX()*-1));
     }
     }

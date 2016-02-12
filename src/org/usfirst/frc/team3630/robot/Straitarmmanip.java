@@ -7,16 +7,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Straitarmmanip {
 	
-	public class LifterManipulator  {
+	
 	// inisaliose talons 
 		Talon main = new Talon(2);
 
-		Joystick shooter2;// 2 for shooting and driving 
+		Joystick breachLeft;// 2 for shooting and driving 
 
 		ShooterEncoder armrot= new ShooterEncoder(1,2); // encoder to fetch degres of lifter shaft
 		double rot =armrot.degreesRot();
-		public LifterManipulator(){
-			shooter2= new Joystick(2);
+		public Straitarmmanip (){
+			breachLeft= new Joystick(2);
 			
 		}
 	/*	public void degree_corection(){
@@ -62,25 +62,25 @@ public class Straitarmmanip {
 			
 		}
 		public int getJoyStickValue(){
-			if(shooter2.getRawButton(1)){
+			if(breachLeft.getRawButton(1)){
 				return 1 ;
 			}
-			else if(shooter2.getRawButton(2)){
+			else if(breachLeft.getRawButton(2)){
 				return 2;
 			}
-			else if(shooter2.getRawButton(3)){
+			else if(breachLeft.getRawButton(3)){
 				return 3;
 			}
-			else if(shooter2.getRawButton(4)){
+			else if(breachLeft.getRawButton(4)){
 				return  4 ; 
 			}
-			else if(shooter2.getRawButton(5)){
+			else if(breachLeft.getRawButton(5)){
 				return 5;
 			}
-			else if(shooter2.getRawButton(6)){
+			else if(breachLeft.getRawButton(6)){
 				return 6;
 			}
-			else if(shooter2.getRawButton(7)){
+			else if(breachLeft.getRawButton(7)){
 				return  7 ; 
 			}
 			else{
@@ -129,8 +129,3 @@ public class Straitarmmanip {
 	}
 	}
 
-	
-	
-
-
-}
