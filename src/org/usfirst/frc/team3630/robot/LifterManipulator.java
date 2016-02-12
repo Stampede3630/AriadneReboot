@@ -22,9 +22,6 @@ public class LifterManipulator  {
 		//spinLeft.setInverted(true);
 		//spinRight.setInverted(false);
 	}
-	public void publishtodash(){
-	
-	}
 	public void degree_corection(){
 		DigitalInput limitswitch= new  DigitalInput(4);
 		boolean upperbinaryValue= limitswitch.get();
@@ -38,6 +35,10 @@ public class LifterManipulator  {
 			LifterUp();
 		}
 	}
+
+	public void publishtodash(){
+	
+	}
 	
 	
 	
@@ -46,7 +47,6 @@ public class LifterManipulator  {
 	public void Lifterdown(){
 		// double rot = lifterrot.degreesRot();
 		double rot = shaftRotation.fetchDegrees();
-	
 	if (rot <= 100){
 		 Lifter.set(.25);
 	}
