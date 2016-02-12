@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.RobotDrive;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,13 +23,14 @@ public class Robot extends IterativeRobot {
     Joystick defence1; // 2 joystick for defence breaching 
   
     Joystick defence2;
-    Joystick shooter1;// 2 for shooting and driveing 
+    Joystick shooter1;// 2 for shooting and driving 
     Joystick shooter2; 
     int LeftFrontChanel;
     int LeftRearChanel;
     int RightRearChanel;
     int RightFrontChannel;
-    DriveTrain tankDriveTrain;
+    DriveTrain tankDriveTrain = new DriveTrain();
+    LifterManipulator shooter = new LifterManipulator();
     
 	
     /**
@@ -36,8 +38,8 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      * @param DriveTrain 
      */
-    public void robotInit(DriveTrain DriveTrain) {
-    	tankDriveTrain = new DriveTrain();
+    public void robotInit() {
+       tankDriveTrain = new DriveTrain();
        tankDriveTrain.driveTrainInit(); 
         
         chooser = new SendableChooser();
@@ -82,6 +84,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	tankDriveTrain.driveTrainPeriodic();
+    	shooter.manipulatorPeriodic();
     }
     
     /**

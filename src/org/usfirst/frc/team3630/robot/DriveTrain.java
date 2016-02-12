@@ -7,33 +7,41 @@ import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 public class DriveTrain {
 	//Joystick defence1; // 2 joystick for defence breaching 
     //Joystick defence2;
-    Joystick shooter1;// 2 for shooting and driveing 
-    Joystick shooter2;
-    //input ports on roborio are represented by integers left and right
-    final int Left = 0;
-    final int Right = 1;
+    Joystick shooter1;// 2 for shooting and driving 
+    Joystick shooter2; 
     
+    int Left = 0;
+    int Right = 1;
+
+
+    
+    //input ports on roborio are represented by integers left and right
+   // final int Left = 0;
+    //final int Right = 1; // who final them
+
+    // intialsie drives 
     RobotDrive mainDrive;
     
     public DriveTrain(){
-   
+    	shooter1 = new Joystick(1); // joysticks inisalise 
+    	shooter2 = new Joystick(2);
 
     
 
 	//defence1 = new Joystick(1);
 //	defence2 = new Joystick(2);
-	shooter1 = new Joystick(3);
-	shooter2 = new Joystick(4);
     
+    	
     
     	
     }
     public void driveTrainInit(){
-    	mainDrive = new RobotDrive( Right,Left);
+    	mainDrive = new RobotDrive(0,1);
+
     
     }
-    public void driveTrainPeriodic (){
-    	mainDrive.tankDrive(shooter1.getX(), shooter2.getY());
+    public void driveTrainPeriodic(){
+    	mainDrive.arcadeDrive((shooter1.getY()*-1), (shooter2.getX()*-1));
     }
     public double driveTrainAngle(){
     	double X = shooter1.getX();

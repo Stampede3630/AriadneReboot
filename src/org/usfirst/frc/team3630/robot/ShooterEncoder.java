@@ -7,7 +7,7 @@ public class ShooterEncoder {
 	Encoder primenc;
 	
 	//requires the 
-	public ShooterEncoder(byte input, byte output) {
+	public ShooterEncoder(int input, int output) {
 	//Set up of shooter encoder based on standard settings from FRC
 		Encoder primenc = new Encoder(input, output, false, EncodingType.k4X);
 		primenc.setMaxPeriod(.1);
