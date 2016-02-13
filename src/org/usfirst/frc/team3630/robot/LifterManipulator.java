@@ -2,6 +2,7 @@ package org.usfirst.frc.team3630.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj.Talon;
@@ -12,7 +13,7 @@ public class LifterManipulator  {
 	Talon Lifter = new Talon(4);
 	Talon Ballkicker = new Talon(5);
 	Joystick shooter1;// 2 for shooting and driving 
-
+	Servo camera = new Servo(8);
 	
 	Potdegrees  shaftRotation = new Potdegrees(1);
 	public LifterManipulator(){
@@ -71,7 +72,12 @@ public class LifterManipulator  {
 		spinRight.set(1);
 		
 	}
-	
+	public void raiseServo(){
+		camera.set(.5);
+	}
+	public void lowerServo(){
+		camera.set(-.5);
+	}
 	public void kick_ball(){
 		Ballkicker.set(.1);
 		Ballkicker.set(-.1);
@@ -104,6 +110,10 @@ public class LifterManipulator  {
 		else if(shooter1.getRawButton(7)){
 			return  7 ; 
 		}
+		else if(shooter1.getRawButton(8)){
+			return  8; 
+		}
+		
 		else{
 			return 0;
 	}
@@ -159,11 +169,13 @@ public class LifterManipulator  {
 			shootBall();
 			break;
 		case 6:
-			
+			raiseServo();
 			
 			break;
 		case 7:degree_corection();
 			break;
+		case 8 :
+			lowerServo();
 			default:
 				stop();
 				break;
