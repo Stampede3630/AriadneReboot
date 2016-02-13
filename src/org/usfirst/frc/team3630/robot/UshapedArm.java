@@ -1,13 +1,13 @@
 package org.usfirst.frc.team3630.robot;
-
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class UshapedArm {
 
-	import edu.wpi.first.wpilibj.Joystick;
-	import edu.wpi.first.wpilibj.Talon;
-	import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+	
 	Talon UShapedArm = new Talon(3);
  	Joystick breachLeft;
- 	double deg
+ 	double deg;
 			
  	public UshapedArm () {
 		Potdegrees lifterrot= new Potdegrees(2); 

@@ -47,7 +47,7 @@ public class DriveTrain {
     public void driveTrainPeriodic(){
     	mainDrive.arcadeDrive((shooter1.getY()*-1), (shooter2.getX()*-1));
     if (shooter2.getRawButton(6)){ // switch driver controls make o
-    	mainDrive.arcadeDrive((-breachLeft.getY()*-1), (-breachRight.getX()*-1));// invert joyticks for front
+    	mainDrive.arcadeDrive((-breachLeft.getY()*-1), (breachRight.getX()*-1));// invert joyticks for front
     	
     }
     else{

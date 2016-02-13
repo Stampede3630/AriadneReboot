@@ -21,11 +21,9 @@ public class Potdegrees {
 	public double fetchDegrees(){
 		
 		double degrees = pot.get()-initDegrees;
-		DigitalInput limitswitch= new  DigitalInput(4);
-		boolean upperbinaryValue= limitswitch.get();
-		 if (upperbinaryValue == true ){
-			 degrees = 0;
-		 }
+	//	DigitalInput limitswitch= new  DigitalInput(4);
+		
+		
 		return degrees;
 		 
 		

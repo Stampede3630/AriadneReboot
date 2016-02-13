@@ -2,7 +2,6 @@ package org.usfirst.frc.team3630.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj.Talon;
@@ -13,9 +12,9 @@ public class LifterManipulator  {
 	Talon Lifter = new Talon(4);
 	Talon Ballkicker = new Talon(5);
 	Joystick shooter1;// 2 for shooting and driving 
-	Servo camera = new Servo(8);
-	
-	Potdegrees  shaftRotation = new Potdegrees(1);
+
+	//ShooterEncoder lifterrot= new ShooterEncoder(1,2); // encoder to fetch degres of lifter shaft
+	Potdegrees  shaftRotation = new Potdegrees(2);
 	public LifterManipulator(){
 		shooter1= new Joystick(1);
 		//spinLeft.setInverted(spinLeft.equals(true));
@@ -23,6 +22,11 @@ public class LifterManipulator  {
 		//spinLeft.setInverted(true);
 		//spinRight.setInverted(false);
 	}
+	public void publishtodash(){
+	
+		 
+	}
+	
 	public void degree_corection(){
 		DigitalInput limitswitch= new  DigitalInput(4);
 		boolean upperbinaryValue= limitswitch.get();
@@ -35,61 +39,62 @@ public class LifterManipulator  {
 		else if (upperbinaryValue == false && rot>=rotdevation+3){
 			LifterUp();
 		}
+		else if (upperbinaryValue == true ){
+			 rot= 0;
+		 }
 	}
 
-	public void publishtodash(){
-	
-	}
-	
-	
 	
 
 
 	public void Lifterdown(){
 		// double rot = lifterrot.degreesRot();
-		double rot = shaftRotation.fetchDegrees();
-	if (rot <= 100){
+	//	double rot = shaftRotation.fetchDegrees();
+	//if (rot <= 100){
 		 Lifter.set(.25);
 	}
-	}
+	//}
 	public void LifterUp(){
-		double rot2 = shaftRotation.fetchDegrees();
-		if (rot2 >= 0){
+		//double rot2 = shaftRotation.fetchDegrees();
+		//
+		//if (rot2 >= 0){
 		Lifter.set(-.5);
 		}
-	}
+	//}
 	
 	public void loadBall(){
 //	spinLeft.setInvertedMotor(spinLeft.MotorType.kspinLeft,true);// need to fix v
-		spinLeft.set(.25);
-		spinRight.set(-.25);
+		spinLeft.set(-.5);
+		spinRight.set(.5);
 		
 	}
 	
 	public void shootBall(){
 		
-		spinLeft.set(-1);
-		spinRight.set(1);
+		spinLeft.set(1);
+		spinRight.set(-1);
 		
 	}
-	public void raiseServo(){
-		camera.set(.5);
-	}
-	public void lowerServo(){
-		camera.set(-.5);
-	}
-	/*public void kick_ball(){
+	
+	public void kick_ball(){
 		Ballkicker.set(.1);
 		Ballkicker.set(-.1);
 	}
-	*/
-		public void stop(){
+	
+	public void stop(){
 		spinLeft.set(0);
 		spinRight.set(0);
 		Lifter.set(0);
 		Ballkicker.set(0);
-		camera.set(0);
 	}
+	public void out(){
+		Ballkicker.set(.5);
+		
+	}
+	public void in(){
+		Ballkicker.set(-.5);
+	}
+		
 	public int getJoyStickValue(){
 		if(shooter1.getRawButton(1)){
 			return 1;
@@ -112,8 +117,11 @@ public class LifterManipulator  {
 		else if(shooter1.getRawButton(7)){
 			return  7 ; 
 		}
-		else if(shooter1.getRawButton(8)){
-			return  8; 
+		else if(shooter1.getRawButton(10)){
+			return  10 ; 
+		}
+		else if(shooter1.getRawButton(11)){
+			return  11 ; 
 		}
 		
 		else{
@@ -126,30 +134,8 @@ public class LifterManipulator  {
 	
 	
 	public void manipulatorPeriodic(){
-		/*
-		if(shooter1.getRawButton(2)){
-			Lifterdown(); // moves lifter down
-		}
+		
 	
-		
-		if(shooter1.getRawButton(3)){
-			LifterUp(); // moves lifter up
-		}
-		
-		
-		
-		if(shooter1.getRawButton(4)){
-			loadBall(); // load ball intake one motors 
-		}
-		
-		if(shooter1.getRawButton(5)){
-			shootBall(); // load ball intake one motors 
-		}
-	
-		
-		if (shooter1.getRawButton(1)){
-			stop(); // kicks ball to shooting mec
-		}*/
 	switch(getJoyStickValue()) {
 		
 		case 1:
@@ -168,16 +154,20 @@ public class LifterManipulator  {
 			loadBall();
 		break;
 		case 5:
+			
 			shootBall();
-			break;
-		case 6:
-			raiseServo();
 			
 			break;
-		case 7:degree_corection();
+		case 6:
+			
+			
 			break;
-		case 8 :
-			lowerServo();
+		case 7:
+			break;
+		case 10: out();
+		break;
+		case 11: in();
+		break;
 			default:
 				stop();
 				break;
