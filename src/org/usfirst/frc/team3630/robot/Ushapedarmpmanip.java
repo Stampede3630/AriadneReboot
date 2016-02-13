@@ -13,7 +13,7 @@ public class Ushapedarmpmanip {
 			//ShooterEncoder armrot= new ShooterEncoder(1,2); // encoder to fetch degres of lifter shaft
 			//double rot =armrot.degreesRot();
 			public Ushapedarmpmanip  (){
-			 breachLeft= new Joystick(3);
+			 breachLeft= new Joystick(2);
 				
 			}
 		/*	public void degree_corection(){

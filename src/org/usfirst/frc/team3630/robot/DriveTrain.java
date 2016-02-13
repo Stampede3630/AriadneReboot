@@ -27,7 +27,7 @@ public class DriveTrain {
     public DriveTrain(){
     	shooter1 = new Joystick(1); // joysticks inisalise 
     	shooter2 = new Joystick(2);
-    	breachLeft = new Joystick(3);
+    	breachLeft = new Joystick(0);
         breachRight= new Joystick(4);
     
 

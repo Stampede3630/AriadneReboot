@@ -13,8 +13,8 @@ public class LifterManipulator  {
 	Talon Ballkicker = new Talon(5);
 	Joystick shooter1;// 2 for shooting and driving 
 
-	//ShooterEncoder lifterrot= new ShooterEncoder(1,2); // encoder to fetch degres of lifter shaft
-	Potdegrees  shaftRotation = new Potdegrees();
+	
+	Potdegrees  shaftRotation = new Potdegrees(1);
 	public LifterManipulator(){
 		shooter1= new Joystick(1);
 		//spinLeft.setInverted(spinLeft.equals(true));
@@ -76,8 +76,7 @@ public class LifterManipulator  {
 		Ballkicker.set(.1);
 		Ballkicker.set(-.1);
 	}
-	
-	public void stop(){
+		public void stop(){
 		spinLeft.set(0);
 		spinRight.set(0);
 		Lifter.set(0);

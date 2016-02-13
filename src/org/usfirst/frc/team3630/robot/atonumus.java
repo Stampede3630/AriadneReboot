@@ -29,6 +29,7 @@ public void autonmusPeridoic(){
 while (auto<3){	// while elapsed time less than 3 move forward 
 	//drive.drive(0.25, 0.25); // sets motor speeds to .25 
 	forward();
+	
 }
 }
 }

@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public class Potdegrees {
 	Potentiometer pot;
 	double initDegrees ;
-	public Potdegrees(){
+	public Potdegrees(int input){
 		
 		pot = new AnalogPotentiometer(0, 360, 30);
-		AnalogInput ai = new AnalogInput(1);
+		AnalogInput ai = new AnalogInput(input);
 		pot = new AnalogPotentiometer(ai, 360, 30);
 		
 		// double initDegrees= pot.get();
