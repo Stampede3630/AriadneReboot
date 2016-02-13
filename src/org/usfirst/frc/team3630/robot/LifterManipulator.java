@@ -12,6 +12,9 @@ public class LifterManipulator  {
 	Talon spinRight = new Talon(7);
 	Talon Lifter = new Talon(4);
 	Talon Ballkicker = new Talon(5);
+	DigitalInput kickReady = new DigitalInput(5);
+	DigitalInput kickComplete = new DigitalInput(6);
+
 	Joystick shooter1;// 2 for shooting and driving 
 	Servo camera = new Servo(8);
 	
@@ -89,7 +92,29 @@ public class LifterManipulator  {
 		Lifter.set(0);
 		Ballkicker.set(0);
 		camera.set(0);
-	}
+		}
+		/*
+		public void kick_ball(){
+			
+			boolean kickReady = true;
+			boolean kickCompleted = true;
+		
+				while(!kickCompleted == false) {
+					Ballkicker.set(.5);
+				
+				}
+				Ballkicker.set(0);
+			}
+			}
+			public void resetKickBall {
+			
+				while(!kickReady.get()) {
+					Ballkicker.set(-.2);	
+				}
+				Ballkicker.set(0);
+				
+			}
+*/
 	public int getJoyStickValue(){
 		if(shooter1.getRawButton(1)){
 			return 1;
@@ -126,7 +151,7 @@ public class LifterManipulator  {
 	
 	
 	public void manipulatorPeriodic(){
-		/*
+		
 		if(shooter1.getRawButton(2)){
 			Lifterdown(); // moves lifter down
 		}
@@ -149,7 +174,7 @@ public class LifterManipulator  {
 		
 		if (shooter1.getRawButton(1)){
 			stop(); // kicks ball to shooting mec
-		}*/
+		}
 	switch(getJoyStickValue()) {
 		
 		case 1:
