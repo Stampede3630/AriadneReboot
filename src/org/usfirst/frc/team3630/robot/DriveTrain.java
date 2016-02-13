@@ -3,6 +3,7 @@ package org.usfirst.frc.team3630.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveTrain {
 	//Joystick defence1; // 2 joystick for defence breaching 
@@ -53,7 +54,8 @@ public class DriveTrain {
     	shooter2.getRawButton(7);
     	mainDrive.arcadeDrive((shooter1.getY()*-1), (shooter2.getX()*-1));
     }
+   
     }
-    
+   
     
 }

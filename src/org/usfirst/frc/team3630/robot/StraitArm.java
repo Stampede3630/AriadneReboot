@@ -15,8 +15,8 @@ public class StraitArm {
 		ShooterEncoder lifterrot;
 		double rot;
 		public StraitArm() {
-			ShooterEncoder lifterrot= new ShooterEncoder(1,2); 
-			breachLeft= new Joystick(1);
+			ShooterEncoder lifterrot= new ShooterEncoder(7,8); 
+			breachLeft= new Joystick(0);
 		}
 		//spinLeft.setInverted(spinLeft.equals(true));
 		//spinRight.setInverted(spinRight.equals(true));
@@ -41,6 +41,32 @@ public class StraitArm {
 		 arm.set(.25);
 	}
 	}
+/*
+	public void kick_ball(){
+		Ballkicker.set(.1);
+		Ballkicker.set(-.1);
+		//when you kick ball, check limit switch to see if kickReady is true. If it's true, ballkicker.set(1); 
+		int kickReady = 1;
+		int kickCompleted = 1;
+		if(kickReady.get) {
+			while(!kickCompleted.get()) {
+				ballkick.set(.5);
+			
+			}
+			ballkick.stop();
+		}
+		}
+		public void resetKickBall {
+		
+			while(!kickReady.get()) {
+				ballkick.set(-.2);	
+			}
+			ballkick.stop();
+			
+		}
+
+	}
+	*/
 	public void ArmUp(){
 		//double rot2 = shaftRotation.fetchDegrees();
 		if (rot>= 0){

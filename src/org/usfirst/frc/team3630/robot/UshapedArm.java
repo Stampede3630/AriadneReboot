@@ -7,12 +7,14 @@ public class UshapedArm {
 	import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 	Talon UShapedArm = new Talon(3);
  	Joystick breachLeft;
-
+ 	double deg
 			
  	public UshapedArm () {
-		ShooterEncoder lifterrot= new ShooterEncoder(1,2); 
-		breachLeft= new Joystick(1);
+		Potdegrees lifterrot= new Potdegrees(2); 
+		breachLeft= new Joystick(0);
+		 deg = lifterrot.fetchDegrees();
  	}
+
 			//spinLeft.setInverted(spinLeft.equals(true));
 			//spinRight.setInverted(spinRight.equals(true));
 			//spinLeft.setInverted(true);
@@ -27,18 +29,18 @@ public class UshapedArm {
 
 		public void Armdown(){
 			 
-			//double rot = shaftRotation.fetchDegrees();
-			// rot = lifterrot.degreesRot();
-		//if (rot <= 100){
+			
+			
+		if (deg <= 100){
 			 UShapedArm.set(.25);
 		}
-		//}
+		}
 		public void ArmUp(){
-			//double rot2 = shaftRotation.fetchDegrees();
-			//if (rot>= 0){
+			
+			if (deg>= 0){
 			UShapedArm.set(-.5);
 			}
-		//}
+		}
 		
 		/*public void loadBall(){
 //		spinLeft.setInvertedMotor(spinLeft.MotorType.kspinLeft,true);// need to fix v
@@ -133,7 +135,7 @@ public class UshapedArm {
 					break;
 			
 		}
-	//	SmartDashboard.putNumber("straight arm degrees",rot);
+		SmartDashboard.putNumber("deegree of defence manip u shaped arm", deg);
 	}
 	}
 
