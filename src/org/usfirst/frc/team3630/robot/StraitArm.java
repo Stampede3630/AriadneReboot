@@ -73,6 +73,10 @@ public class StraitArm {
 		arm.set(-.5);
 		}
 	}
+	public void stop(){
+		arm.set(0);
+	}
+	
 
 	public int getJoyStickValue(){
 		if(breachLeft.getRawButton(1)){
@@ -134,7 +138,7 @@ public class StraitArm {
 		case 7:
 			break;
 			default:
-				
+				stop();
 				break;
 		
 	}

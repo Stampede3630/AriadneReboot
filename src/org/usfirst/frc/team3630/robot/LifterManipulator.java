@@ -78,15 +78,17 @@ public class LifterManipulator  {
 	public void lowerServo(){
 		camera.set(-.5);
 	}
-	public void kick_ball(){
+	/*public void kick_ball(){
 		Ballkicker.set(.1);
 		Ballkicker.set(-.1);
 	}
+	*/
 		public void stop(){
 		spinLeft.set(0);
 		spinRight.set(0);
 		Lifter.set(0);
 		Ballkicker.set(0);
+		camera.set(0);
 	}
 	public int getJoyStickValue(){
 		if(shooter1.getRawButton(1)){

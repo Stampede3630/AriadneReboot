@@ -41,6 +41,10 @@ public class UshapedArm {
 			UShapedArm.set(-.5);
 			}
 		}
+		public void stop(){
+			UShapedArm.set(0);
+		}
+		
 		
 		/*public void loadBall(){
 //		spinLeft.setInvertedMotor(spinLeft.MotorType.kspinLeft,true);// need to fix v
@@ -131,7 +135,7 @@ public class UshapedArm {
 			case 7:
 				break;
 				default:
-					
+					stop();
 					break;
 			
 		}
