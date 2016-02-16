@@ -11,6 +11,9 @@ public class LifterManipulator  {
 	Talon spinRight = new Talon(7);
 	Talon Lifter = new Talon(4);
 	Talon Ballkicker = new Talon(5);
+	DigitalInput kickReady = new DigitalInput(5);
+	DigitalInput kickComplete = new DigitalInput(6);
+
 	Joystick shooter1;// 2 for shooting and driving 
 
 	//ShooterEncoder lifterrot= new ShooterEncoder(1,2); // encoder to fetch degres of lifter shaft
@@ -86,6 +89,7 @@ public class LifterManipulator  {
 		spinRight.set(0);
 		Lifter.set(0);
 		Ballkicker.set(0);
+<<<<<<< HEAD
 	}
 	public void out(){
 		Ballkicker.set(.5);
@@ -95,6 +99,32 @@ public class LifterManipulator  {
 		Ballkicker.set(-.5);
 	}
 		
+=======
+		camera.set(0);
+		}
+		/*
+		public void kick_ball(){
+			
+			boolean kickReady = true;
+			boolean kickCompleted = true;
+		
+				while(!kickCompleted == false) {
+					Ballkicker.set(.5);
+				
+				}
+				Ballkicker.set(0);
+			}
+			}
+			public void resetKickBall {
+			
+				while(!kickReady.get()) {
+					Ballkicker.set(-.2);	
+				}
+				Ballkicker.set(0);
+				
+			}
+*/
+>>>>>>> origin/Potentiomiter-work
 	public int getJoyStickValue(){
 		if(shooter1.getRawButton(1)){
 			return 1;
@@ -134,8 +164,29 @@ public class LifterManipulator  {
 	
 	
 	public void manipulatorPeriodic(){
+<<<<<<< HEAD
+=======
+		
+		if(shooter1.getRawButton(2)){
+			Lifterdown(); // moves lifter down
+		}
+	
+		
+		if(shooter1.getRawButton(3)){
+			LifterUp(); // moves lifter up
+		}
+		
+		
+>>>>>>> origin/Potentiomiter-work
 		
 	
+<<<<<<< HEAD
+=======
+		
+		if (shooter1.getRawButton(1)){
+			stop(); // kicks ball to shooting mec
+		}
+>>>>>>> origin/Potentiomiter-work
 	switch(getJoyStickValue()) {
 		
 		case 1:

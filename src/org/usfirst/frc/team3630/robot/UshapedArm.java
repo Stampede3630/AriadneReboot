@@ -1,7 +1,13 @@
 package org.usfirst.frc.team3630.robot;
 import edu.wpi.first.wpilibj.Joystick;
+<<<<<<< HEAD
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+=======
+	import edu.wpi.first.wpilibj.Talon;
+	import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+>>>>>>> origin/Potentiomiter-work
 public class UshapedArm {
 
 	
@@ -117,17 +123,16 @@ public class UshapedArm {
 			case 3: 
 				
 			break;
-	
-		
+			
 			case 4: 
 				
 				Armdown();
+				break;
 				
-				
-			break;
 			case 5:
 				ArmUp();
 				break;
+				
 			case 6:
 				
 				
