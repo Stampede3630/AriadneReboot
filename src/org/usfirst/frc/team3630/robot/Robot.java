@@ -31,6 +31,8 @@ public class Robot extends IterativeRobot {
     int RightFrontChannel;
     DriveTrain tankDriveTrain = new DriveTrain();
     LifterManipulator shooter = new LifterManipulator();
+    StraitArm armOne = new  StraitArm();
+    //UshapedArm armTwo = new UshapedArm();
     
 	
     /**
@@ -85,6 +87,9 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
     	tankDriveTrain.driveTrainPeriodic();
     	shooter.manipulatorPeriodic();
+    	armOne.straightArmPeriodic();
+    	//armTwo.UArmPeriodic();
+   // need to fix 	 breach1.manipulatorPeriodicbreach();
     }
     
     /**
