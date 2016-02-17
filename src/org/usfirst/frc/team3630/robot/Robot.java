@@ -49,6 +49,8 @@ public class Robot extends IterativeRobot {
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
         
+       
+        
     }
     
 	/**
