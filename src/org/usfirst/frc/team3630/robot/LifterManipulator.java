@@ -1,9 +1,12 @@
 package org.usfirst.frc.team3630.robot;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Talon;
 public class LifterManipulator  {
 // inisaliose talons 
@@ -11,15 +14,21 @@ public class LifterManipulator  {
 	Talon spinRight = new Talon(7);
 	Talon Lifter = new Talon(4);
 	Talon Ballkicker = new Talon(5);
-	DigitalInput kickReady = new DigitalInput(5);
-	DigitalInput kickComplete = new DigitalInput(6);
+	DigitalInput kickReady = new DigitalInput(6);
+	DigitalInput kickComplete = new DigitalInput(5);
+	DigitalInput limitswitch = new  DigitalInput(4);
 
+
+	
+	
+	
 	Joystick shooter1;// 2 for shooting and driving 
 
 	//ShooterEncoder lifterrot= new ShooterEncoder(1,2); // encoder to fetch degres of lifter shaft
 	Potdegrees  shaftRotation = new Potdegrees(2);
 	public LifterManipulator(){
 		shooter1= new Joystick(1);
+
 		//spinLeft.setInverted(spinLeft.equals(true));
 		//spinRight.setInverted(spinRight.equals(true));
 		//spinLeft.setInverted(true);
@@ -29,21 +38,20 @@ public class LifterManipulator  {
 	
 		 
 	}
-	
-	public void degree_corection(){
-		DigitalInput limitswitch= new  DigitalInput(4);
-		boolean upperbinaryValue= limitswitch.get();
-		double rot = shaftRotation.fetchDegrees();
-		double rotdevation= rot +3;
+		public void degree_corection(){
 		
-		if (upperbinaryValue == false && rot<=rotdevation-3 ){
+		boolean upperbinaryValue= limitswitch.get();
+		double rot = 45;
+		double rotdevation= 5;
+		
+		if (  shaftRotation.fetchDegrees()<=rot-rotdevation ){
 			Lifterdown();
 		}
-		else if (upperbinaryValue == false && rot>=rotdevation+3){
+		else if (upperbinaryValue == true && shaftRotation.fetchDegrees()>=rot+rotdevation){
 			LifterUp();
 		}
-		else if (upperbinaryValue == true ){
-			 rot= 0;
+		else if (upperbinaryValue == false ){
+			 Lifter.set(0);
 		 }
 	}
 
@@ -76,55 +84,55 @@ public class LifterManipulator  {
 		
 		spinLeft.set(1);
 		spinRight.set(-1);
+		Timer.delay(1.5);
+		kick_ball();
+		resetKickBall();
 		
 	}
-	
-	public void kick_ball(){
-		Ballkicker.set(.1);
-		Ballkicker.set(-.1);
+	public void LifterManipulatorinit(){
+		if (limitswitch.get() == true){
+			LifterUp();
+		}
+		else if ((limitswitch.get() == false)){
+			stop();
+		}
 	}
+	
+	//public void kick_ball(){
+		//Ballkicker.set(.1);
+		//Ballkicker.set(-.1);
+	//}
 	
 	public void stop(){
 		spinLeft.set(0);
 		spinRight.set(0);
 		Lifter.set(0);
-		Ballkicker.set(0);
-<<<<<<< HEAD
-	}
-	public void out(){
-		Ballkicker.set(.5);
 		
 	}
-	public void in(){
-		Ballkicker.set(-.5);
-	}
+
+
 		
-=======
-		camera.set(0);
-		}
-		/*
 		public void kick_ball(){
 			
-			boolean kickReady = true;
-			boolean kickCompleted = true;
+	
 		
-				while(!kickCompleted == false) {
-					Ballkicker.set(.5);
+				while(kickComplete.get()) {
+					Ballkicker.set(-.75);
 				
 				}
 				Ballkicker.set(0);
 			}
-			}
-			public void resetKickBall {
 			
-				while(!kickReady.get()) {
-					Ballkicker.set(-.2);	
+			public void resetKickBall() {
+			
+				while(kickReady.get()) {
+					Ballkicker.set(.1);	
 				}
 				Ballkicker.set(0);
 				
 			}
-*/
->>>>>>> origin/Potentiomiter-work
+
+
 	public int getJoyStickValue(){
 		if(shooter1.getRawButton(1)){
 			return 1;
@@ -145,6 +153,7 @@ public class LifterManipulator  {
 			return 6;
 		}
 		else if(shooter1.getRawButton(7)){
+			degree_corection();
 			return  7 ; 
 		}
 		else if(shooter1.getRawButton(10)){
@@ -164,29 +173,11 @@ public class LifterManipulator  {
 	
 	
 	public void manipulatorPeriodic(){
-<<<<<<< HEAD
-=======
-		
-		if(shooter1.getRawButton(2)){
-			Lifterdown(); // moves lifter down
-		}
-	
-		
-		if(shooter1.getRawButton(3)){
-			LifterUp(); // moves lifter up
-		}
+
+
 		
 		
->>>>>>> origin/Potentiomiter-work
-		
-	
-<<<<<<< HEAD
-=======
-		
-		if (shooter1.getRawButton(1)){
-			stop(); // kicks ball to shooting mec
-		}
->>>>>>> origin/Potentiomiter-work
+
 	switch(getJoyStickValue()) {
 		
 		case 1:
@@ -214,10 +205,11 @@ public class LifterManipulator  {
 			
 			break;
 		case 7:
+			//degree_corection();
 			break;
-		case 10: out();
+		case 10: 
 		break;
-		case 11: in();
+		case 11: 
 		break;
 			default:
 				stop();
@@ -225,6 +217,9 @@ public class LifterManipulator  {
 		
 	}
 	SmartDashboard.putNumber("pot degrees",shaftRotation.fetchDegrees());
+	SmartDashboard.putBoolean("Kick completed",kickComplete.get() );
+	SmartDashboard.putBoolean("Kick Ready",kickReady.get() );
+	SmartDashboard.putBoolean("shooter home",limitswitch.get() );
 }
 }
 

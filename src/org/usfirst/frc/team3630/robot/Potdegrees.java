@@ -10,11 +10,10 @@ public class Potdegrees {
 	double initDegrees ;
 	public Potdegrees(int input){
 		
-		pot = new AnalogPotentiometer(0, 360, 30);
 		AnalogInput ai = new AnalogInput(input);
-		pot = new AnalogPotentiometer(ai, 360, 30);
+		pot = new AnalogPotentiometer(ai, 360, 0);
 		
-		// double initDegrees= pot.get();
+		  initDegrees= pot.get();
 	
 		
 	}
@@ -22,7 +21,6 @@ public class Potdegrees {
 		
 		double degrees = pot.get()-initDegrees;
 	//	DigitalInput limitswitch= new  DigitalInput(4);
-		
 		
 		return degrees;
 		 
