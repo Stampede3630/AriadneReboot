@@ -1,6 +1,7 @@
 package org.usfirst.frc.team3630.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 
@@ -12,7 +13,9 @@ public class DriveTrain {
     
     int Left = 0;
     int Right = 1;
-
+    
+    //Made new gyro class
+    AnalogGyro gyro = new AnalogGyro(1);
 
     
     //input ports on roborio are represented by integers left and right
@@ -40,9 +43,7 @@ public class DriveTrain {
 
     
     }
-    public void driveTrainPeriodic(){
-    	mainDrive.arcadeDrive((shooter1.getY()*-1), (shooter2.getX()*-1));
-    }
+
     public double driveTrainAngle(){
     	double X = shooter1.getX();
     	double Y = shooter2.getY();
@@ -82,6 +83,26 @@ public class DriveTrain {
     	else {
     		return 0;
     	}
+    	
+    }
+    
+    public void driveTrainPeriodic(double angle_intended){
+    	double Y = shooter1.getY()*-1;
+    	//gets angles from gyro
+    	double angleCor = gyro.getAngle();
+    	//sets tolerance
+    	double tolerance = 3;
+    	//Sets correction factor
+    	double Kcor = 0.10;
+    	
+    	if (Math.abs(angle_intended - angleCor) < tolerance){
+    		mainDrive.drive(Y, angle_intended);
+    	}
+    	
+    	else{
+    		mainDrive.drive(Y, angle_intended - (angleCor - angle_intended)*Kcor);
+    	}
+    	
     }
     
 }
