@@ -29,10 +29,8 @@ public class Robot extends IterativeRobot {
     int LeftRearChanel;
     int RightRearChanel;
     int RightFrontChannel;
-    DriveTrain tankDriveTrain = new DriveTrain();
-    LifterManipulator shooter = new LifterManipulator();
-    StraitArm armOne = new  StraitArm();
-    UshapedArm armTwo = new UshapedArm();
+    DriveTrain tankDriveTrain;
+    LifterManipulator shooter;
     
 	
     /**
@@ -42,12 +40,14 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
        tankDriveTrain = new DriveTrain();
+       shooter = new LifterManipulator();
        tankDriveTrain.driveTrainInit(); 
-        
+       
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
+        
     }
     
 	/**
@@ -85,10 +85,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	tankDriveTrain.driveTrainPeriodic();
-    	shooter.manipulatorPeriodic();
-    	armOne.straightArmPeriodic();
-    	armTwo.UArmPeriodic();
-   // need to fix 	 breach1.manipulatorPeriodicbreach();
+    	//shooter.manipulatorPeriodic();
     }
     
     /**

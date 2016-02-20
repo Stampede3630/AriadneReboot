@@ -1,24 +1,28 @@
 package org.usfirst.frc.team3630.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
 
 public class DriveTrain {
-	//Joystick defence1; // 2 joystick for defence breaching 
-    //Joystick defence2;
-    Joystick shooter1;// 2 for shooting and driving 
-    Joystick shooter2; 
-    Joystick breachLeft;
+    Joystick shootLeft;// 2 for shooting and driving 
+    Joystick shootRight; 
     Joystick breachRight;
-    
+    Joystick breachLeft;
+    AnalogInput ai0;
     int Left = 0;
     int Right = 1;
+    boolean driveAutoCorrect;
     
     //Made new gyro class
-    AnalogGyro gyro = new AnalogGyro(1);
+    AnalogGyro gyro;
+    //NAVX
+    AHRS ahrs;
 
     
     //input ports on roborio are represented by integers left and right
@@ -29,24 +33,50 @@ public class DriveTrain {
     RobotDrive mainDrive;
     
     public DriveTrain(){
-    	shooter1 = new Joystick(1); // joysticks inisalise 
-    	shooter2 = new Joystick(2);
+    	shootLeft = new Joystick(1); // joysticks inisalise 
+    	shootRight = new Joystick(2);
     	breachLeft = new Joystick(0);
         breachRight= new Joystick(4);
- 
-	// defence1 = new Joystick(1);
-    // defence2 = new Joystick(2);
+        driveAutoCorrect = false;
     }
+    
+    public void updateSmartDB() {
+        SmartDashboard.putNumber("DriveTrainAngle",driveTrainAngle());
+        SmartDashboard.putNumber("GyroAngle",gyro.getAngle());
+        SmartDashboard.putBoolean("DriveCorrectionEnabled?", driveAutoCorrect);
+        //navx commands
+        SmartDashboard.putBoolean(  "IMU_Connected",        ahrs.isConnected());
+        SmartDashboard.putBoolean(  "IMU_IsCalibrating",    ahrs.isCalibrating());
+        SmartDashboard.putNumber(   "IMU_CompassHeading",   ahrs.getCompassHeading());
+        
+        /* Display 9-axis Heading (requires magnetometer calibration to be useful)  */
+        SmartDashboard.putNumber(   "IMU_FusedHeading",     ahrs.getFusedHeading());
 
+        /* These functions are compatible w/the WPI Gyro Class, providing a simple  */
+        /* path for upgrading from the Kit-of-Parts gyro to the navx-MXP            */
+        
+        SmartDashboard.putNumber(   "IMU_TotalYaw",         ahrs.getAngle());
+        
+    }
     public void driveTrainInit(){
     	mainDrive = new RobotDrive(0,1);
+        ai0 = new AnalogInput(1);
+        gyro = new AnalogGyro(ai0);
+        ahrs = new AHRS(SPI.Port.kMXP); 
+        updateSmartDB();
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
 
+    public void setDriveMode() {
+    	if (driveAutoCorrect) {
+    		driveAutoCorrect = false;
+    	} else {
+    		driveAutoCorrect = true;
+    	}
+    }
+    
     public double driveTrainAngle(){
-    	double X = shooter1.getX();
-    	double Y = shooter2.getY();
+    	double X = shootLeft.getX();
+    	double Y = shootRight.getY();
     	
     	//checks for first quadrant angles and returns angle in degrees
     	if (Math.signum(X) == X && Math.signum(Y) == Y) {
@@ -86,8 +116,8 @@ public class DriveTrain {
     	
     }
     
-    public void driveTrainPeriodic(double angle_intended){
-    	double Y = shooter1.getY()*-1;
+    public void driveTrainCorrect(double angle_intended){
+    	double Y = shootLeft.getY()*-1;
     	//gets angles from gyro
     	double angleCor = gyro.getAngle();
     	//sets tolerance
@@ -102,33 +132,26 @@ public class DriveTrain {
     	else{
     		mainDrive.drive(Y, angle_intended - (angleCor - angle_intended)*Kcor);
     	}
-    	
     }
-=======
-=======
-
->>>>>>> master
+    	
+        
     public void driveTrainPeriodic(){
-    	mainDrive.arcadeDrive((shooter1.getY()*-1), (shooter2.getX()*-1));
-	    if (shooter2.getRawButton(6)){ // switch driver controls make o
-	    	mainDrive.arcadeDrive((-breachLeft.getY()*-1), (breachRight.getX()*-1));// invert joyticks for front
+        if (!driveAutoCorrect) {
+    	//mainDrive.arcadeDrive((shootLeft.getY()*-1), (shootRight.getX()*-1));
+    	    if (shootRight.getRawButton(6)){ // switch driver controls make o
+    	    	mainDrive.arcadeDrive((-breachLeft.getY()*-1), (breachRight.getX()*-1));// invert joyticks for front
+        	
+    	    }
+    	    else {
+    	    	//shootLeft.getRawButton(1);
+    	    	mainDrive.arcadeDrive((shootLeft.getY()*-1), (shootRight.getX()*-1));
+    	    }
+    	} else {
+    		driveTrainCorrect(driveTrainAngle());
+    	}
+        updateSmartDB();
+    }
     	
-	    }
-	    else {
-	    	shooter1.getRawButton(1);
-	    	mainDrive.arcadeDrive((shooter1.getY()*-1), (shooter2.getX()*-1));
-	    }
-    }
-<<<<<<< HEAD
-    else{
-    	shooter2.getRawButton(7);
-    	mainDrive.arcadeDrive((shooter1.getY()*-1), (shooter2.getX()*-1));
-    }
-   
-    }
-   
->>>>>>> master
-=======
->>>>>>> master
+    
     
 }
