@@ -31,7 +31,8 @@ public class Robot extends IterativeRobot {
     int RightFrontChannel;
     DriveTrain tankDriveTrain;
     LifterManipulator shooter;
-    
+    UshapedArm hook;
+   
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -42,7 +43,7 @@ public class Robot extends IterativeRobot {
        tankDriveTrain = new DriveTrain();
        shooter = new LifterManipulator();
        tankDriveTrain.driveTrainInit(); 
-       
+       hook = new  UshapedArm();
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
@@ -86,6 +87,7 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
     	tankDriveTrain.driveTrainPeriodic();
     	//shooter.manipulatorPeriodic();
+    	hook.UArmPeriodic();
     }
     
     /**

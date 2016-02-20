@@ -255,5 +255,11 @@ public void degree_drive(){
 	SmartDashboard.putBoolean("Kick completed",kickComplete.get() );
 	SmartDashboard.putBoolean("Kick Ready",kickReady.get() );
 	SmartDashboard.putBoolean("shooter home",limitswitch.get() );
-	SmartDashboard.putNumber("time", Timer.getMatchTime() );
-
+	SmartDashboard.putNumber("time", Timer.getMatchTime());
+	
+	
+	
+	
+	}
+}
+	

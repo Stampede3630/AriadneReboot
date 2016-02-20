@@ -11,14 +11,14 @@ public class UshapedArm {
  	Joystick breachRight;
 
 	DigitalInput limitswitch = new  DigitalInput(10);
-	ShooterEncoder uarmrrot= new ShooterEncoder(9,10); // encoder to fetch degrees of lifter shaft
+//	ShooterEncoder uarmrrot= new ShooterEncoder(9,10); // encoder to fetch degrees of lifter shaft
  	
- double deg;
+// double deg;
 			
  	public UshapedArm () {
 	//	Potdegrees lifterrot= new Potdegrees(2); 
 		breachRight= new Joystick(4);
-	deg =  uarmrrot.degreesRot();
+	//deg =  uarmrrot.degreesRot();
  	}
 
 	//spinLeft.setInverted(spinLeft.equals(true));
@@ -52,14 +52,14 @@ public class UshapedArm {
 			stop();
 		}
 	}
-	public void autoDown(){
-		if(deg<=100){
-			Armdown();
-		}
-		else{
-			stop();
-		}
-	}
+	//public void autoDown(){
+		//if(deg<=100){
+		//	Armdown();
+		//}
+		//else{
+		//	stop();
+		//}
+	//}
 
 	public int getJoyStickValue(){
 		if (breachRight.getRawButton(1)){
