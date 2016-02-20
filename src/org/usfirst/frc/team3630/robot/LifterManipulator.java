@@ -25,23 +25,20 @@ public class LifterManipulator  {
 	
 	}
 	
-	
-	
-
 
 	public void Lifterdown(){
 		// double rot = lifterrot.degreesRot();
-		double rot = shaftRotation.fetchDegrees();
-	if (rot <= 100){
+//		double rot = shaftRotation.fetchDegrees();
+//	if (rot <= 100){
 		 Lifter.set(.25);
 	}
-	}
+//	}
 	public void LifterUp(){
-		double rot2 = shaftRotation.fetchDegrees();
-		if (rot2 >= 0){
+//		double rot2 = shaftRotation.fetchDegrees();
+//		if (rot2 >= 0){
 		Lifter.set(-.5);
 		}
-	}
+//	}
 	
 	public void loadBall(){
 //	spinLeft.setInvertedMotor(spinLeft.MotorType.kspinLeft,true);// need to fix v
