@@ -1,7 +1,7 @@
 package org.usfirst.frc.team3630.robot;
 
-import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.Encoder;
 
 public class ShooterEncoder {
 	Encoder primenc;

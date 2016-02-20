@@ -32,7 +32,7 @@ public class Robot extends IterativeRobot {
     DriveTrain tankDriveTrain = new DriveTrain();
     LifterManipulator shooter = new LifterManipulator();
     StraitArm armOne = new  StraitArm();
-    //UshapedArm armTwo = new UshapedArm();
+    UshapedArm armTwo = new UshapedArm();
     
 	
     /**
@@ -48,9 +48,6 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
-        
-       
-        
     }
     
 	/**
@@ -90,7 +87,7 @@ public class Robot extends IterativeRobot {
     	tankDriveTrain.driveTrainPeriodic();
     	shooter.manipulatorPeriodic();
     	armOne.straightArmPeriodic();
-    	//armTwo.UArmPeriodic();
+    	armTwo.UArmPeriodic();
    // need to fix 	 breach1.manipulatorPeriodicbreach();
     }
     
