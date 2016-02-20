@@ -92,8 +92,8 @@ public class DriveTrain {
     	double angleCor = gyro.getAngle();
     	//sets tolerance
     	double tolerance = 3;
-    	//Sets correction factor
-    	double Kcor = 0.10;
+    	//Sets correction factor (I would set this up from 80-90 percent) Adjust as needed
+    	double Kcor = 0.97;
     	
     	if (Math.abs(angle_intended - angleCor) < tolerance){
     		mainDrive.drive(Y, angle_intended);
