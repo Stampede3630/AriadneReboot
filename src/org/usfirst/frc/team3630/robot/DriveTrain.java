@@ -33,20 +33,15 @@ public class DriveTrain {
     	shooter2 = new Joystick(2);
     	breachLeft = new Joystick(0);
         breachRight= new Joystick(4);
-    
-
-	//defence1 = new Joystick(1);
-//	defence2 = new Joystick(2);
-    
-    	
-    
-    	
+ 
+	// defence1 = new Joystick(1);
+    // defence2 = new Joystick(2);
     }
+
     public void driveTrainInit(){
     	mainDrive = new RobotDrive(0,1);
-
-    
     }
+<<<<<<< HEAD
 <<<<<<< HEAD
 
     public double driveTrainAngle(){
@@ -110,12 +105,21 @@ public class DriveTrain {
     	
     }
 =======
+=======
+
+>>>>>>> master
     public void driveTrainPeriodic(){
     	mainDrive.arcadeDrive((shooter1.getY()*-1), (shooter2.getX()*-1));
-    if (shooter2.getRawButton(6)){ // switch driver controls make o
-    	mainDrive.arcadeDrive((-breachLeft.getY()*-1), (breachRight.getX()*-1));// invert joyticks for front
+	    if (shooter2.getRawButton(6)){ // switch driver controls make o
+	    	mainDrive.arcadeDrive((-breachLeft.getY()*-1), (breachRight.getX()*-1));// invert joyticks for front
     	
+	    }
+	    else {
+	    	shooter1.getRawButton(1);
+	    	mainDrive.arcadeDrive((shooter1.getY()*-1), (shooter2.getX()*-1));
+	    }
     }
+<<<<<<< HEAD
     else{
     	shooter2.getRawButton(7);
     	mainDrive.arcadeDrive((shooter1.getY()*-1), (shooter2.getX()*-1));
@@ -123,6 +127,8 @@ public class DriveTrain {
    
     }
    
+>>>>>>> master
+=======
 >>>>>>> master
     
 }
