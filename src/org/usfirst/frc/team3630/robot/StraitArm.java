@@ -120,7 +120,7 @@ public class StraitArm {
 			break;
 
 		case 6:
-	//		autodown();
+		autodown();
 			break;
 
 		case 7:

@@ -11,7 +11,7 @@ public class UshapedArm {
  	Joystick breachRight;
 
 	DigitalInput limitswitch = new  DigitalInput(10);
-	ShooterEncoder uarmrrot= new ShooterEncoder(7,8); // encoder to fetch degrees of lifter shaft
+	ShooterEncoder uarmrrot= new ShooterEncoder(10,11); // encoder to fetch degrees of lifter shaft
  	
  double deg;
 			
