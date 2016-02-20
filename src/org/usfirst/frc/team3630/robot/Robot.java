@@ -32,6 +32,7 @@ public class Robot extends IterativeRobot {
     DriveTrain tankDriveTrain;
     LifterManipulator shooter;
     UshapedArm hook;
+    StraitArm arm2;
    
 	
     /**
@@ -44,6 +45,7 @@ public class Robot extends IterativeRobot {
        shooter = new LifterManipulator();
        tankDriveTrain.driveTrainInit(); 
        hook = new  UshapedArm();
+       arm2= new StraitArm();
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
@@ -88,6 +90,7 @@ public class Robot extends IterativeRobot {
     	tankDriveTrain.driveTrainPeriodic();
     	//shooter.manipulatorPeriodic();
     	hook.UArmPeriodic();
+    	arm2.straightArmPeriodic();
     }
     
     /**
