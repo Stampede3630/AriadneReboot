@@ -1,6 +1,6 @@
 package org.usfirst.frc.team3630.robot;
 
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 
 public class ShooterEncoder {
@@ -9,7 +9,7 @@ public class ShooterEncoder {
 	//requires the 
 	public ShooterEncoder(int input, int output) {
 	//Set up of shooter encoder based on standard settings from FRC
-		Encoder primenc = new Encoder(input, output, false, EncodingType.k4X);
+		primenc = new Encoder(input, output, false, EncodingType.k4X);
 		primenc.setMaxPeriod(.1);
 		primenc.setMinRate(10);
 		primenc.setDistancePerPulse(235);

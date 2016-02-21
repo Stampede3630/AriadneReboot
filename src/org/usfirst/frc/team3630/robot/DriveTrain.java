@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
@@ -138,12 +137,12 @@ public class DriveTrain {
     public void driveTrainPeriodic(){
         if (!driveAutoCorrect) {
     	//mainDrive.arcadeDrive((shootLeft.getY()*-1), (shootRight.getX()*-1));
-    	    if (shootRight.getRawButton(6)){ // switch driver controls make o
+    	    if (shootLeft.getRawButton(1)){ // switch driver controls make o
     	    	mainDrive.arcadeDrive((-breachLeft.getY()*-1), (breachRight.getX()*-1));// invert joyticks for front
         	
     	    }
     	    else {
-    	    	//shootLeft.getRawButton(1);
+    	  //  	shootLeft.getRawButton(1);
     	    	mainDrive.arcadeDrive((shootLeft.getY()*-1), (shootRight.getX()*-1));
     	    }
     	} else {

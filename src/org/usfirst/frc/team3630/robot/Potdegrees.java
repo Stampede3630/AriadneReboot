@@ -3,7 +3,6 @@ package org.usfirst.frc.team3630.robot;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.DigitalInput;
 
 public class Potdegrees {
 	Potentiometer pot;
@@ -23,6 +22,10 @@ public class Potdegrees {
 	//	DigitalInput limitswitch= new  DigitalInput(4);
 		
 		return degrees;
+	}
+	
+	public void reset() {
+		initDegrees = pot.get();
 	}
 	
 	

@@ -1,8 +1,5 @@
 package org.usfirst.frc.team3630.robot;
 
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -38,7 +35,7 @@ public class LifterManipulator  {
 	public void publishtodash(){
 		 
 	}
-
+	
 	public void degree_corection(){
 		
 		boolean upperbinaryValue= limitswitch.get();
@@ -46,15 +43,18 @@ public class LifterManipulator  {
 		double rotdevation= 5;
 		
 		if (shaftRotation.fetchDegrees() <= rot-rotdevation ){
-			Lifterdown();
+			Lifter.set(0.3);
+			//Lifterdown();
 		}
 		else if (upperbinaryValue == true && shaftRotation.fetchDegrees()>=rot+rotdevation){
-			LifterUp();
+			Lifter.set(-0.15);
+			//LifterUp();
 		}
 		else if (upperbinaryValue == false ){
 			 Lifter.set(0);
 		 }
 	}
+
 
 	public void degree_pickup(){
 		
@@ -63,27 +63,29 @@ public class LifterManipulator  {
 		double rotdevation = 5;
 		
 		if (shaftRotation.fetchDegrees() <= rot-rotdevation ){
-			Lifterdown();
+			Lifter.set(0.3);
+			//	Lifterdown();
 		}
 		else if (upperbinaryValue == true && shaftRotation.fetchDegrees()>=rot+rotdevation){
-			LifterUp();
+			 Lifter.set(-0.15);
+			//LifterUp();
 		}
 		else if (upperbinaryValue == false ){
 			 Lifter.set(0);
 		 }
 	}
 
-public void degree_drive(){
+	public void degree_drive(){
 		
 		boolean upperbinaryValue= limitswitch.get();
 		double rot = 103;
 		double rotdevation = 5;
 		
 		if (shaftRotation.fetchDegrees() <= rot-rotdevation ){
-			Lifterdown();
+			Lifter.set(0.3);
 		}
 		else if (upperbinaryValue == true && shaftRotation.fetchDegrees()>=rot+rotdevation){
-			LifterUp();
+			Lifter.set(-0.15);
 		}
 		else if (upperbinaryValue == false ){
 			 Lifter.set(0);
@@ -94,7 +96,7 @@ public void degree_drive(){
 		// double rot = lifterrot.degreesRot();
 	//	double rot = shaftRotation.fetchDegrees();
 	//if (rot <= 100){
-		 Lifter.set(.5);
+		 Lifter.set(.3);
 	}
 	//}
 
@@ -136,6 +138,7 @@ public void degree_drive(){
 		}
 		else if ((limitswitch.get() == false)){
 			stop();
+			shaftRotation.reset();
 		}
 	}
 	
@@ -150,7 +153,6 @@ public void degree_drive(){
 		Lifter.set(0);
 		resetKickBall();
 	}
-
 
 		
 	public void kick_ball(){
@@ -230,15 +232,15 @@ public void degree_drive(){
 			shootBall();
 			break;
 
-		case 6:
+		case 6: // This is for picking up. WE are going to a 115 deg pick up angle.
 			degree_pickup();
 			break;
 
-		case 7:
+		case 7: // This is for shooting. We are going to a 45 deg shooting angle.
 			degree_corection();
 			break;
 
-		case 10: 
+		case 10: // This is for driving. WE are going to a 103 deg pick up angle.
 			degree_drive();
 			break;
 		
@@ -251,11 +253,11 @@ public void degree_drive(){
 			break;
 	}
 
-	SmartDashboard.putNumber("pot degrees",shaftRotation.fetchDegrees());
+	SmartDashboard.putNumber("Shooter Pot Degrees",shaftRotation.fetchDegrees());
 	SmartDashboard.putBoolean("Kick completed",kickComplete.get() );
 	SmartDashboard.putBoolean("Kick Ready",kickReady.get() );
-	SmartDashboard.putBoolean("shooter home",limitswitch.get() );
-	SmartDashboard.putNumber("time", Timer.getMatchTime());
+	SmartDashboard.putBoolean("Shooter Home",limitswitch.get() );
+	SmartDashboard.putNumber("Time", Timer.getMatchTime());
 	
 	
 	

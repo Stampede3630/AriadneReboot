@@ -3,10 +3,8 @@ package org.usfirst.frc.team3630.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.RobotDrive;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -88,7 +86,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	tankDriveTrain.driveTrainPeriodic();
-    	//shooter.manipulatorPeriodic();
+    	shooter.manipulatorPeriodic();
     	hook.UArmPeriodic();
     	arm2.straightArmPeriodic();
     }

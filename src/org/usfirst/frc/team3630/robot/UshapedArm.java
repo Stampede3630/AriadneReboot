@@ -7,18 +7,18 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class UshapedArm {
 	
-	Talon UShapedArm = new Talon(3);
+	Talon UShapedArm;
  	Joystick breachRight;
-
-	DigitalInput limitswitch = new  DigitalInput(10);
-	ShooterEncoder uarmrrot= new ShooterEncoder(10,11); // encoder to fetch degrees of lifter shaft
+	DigitalInput limitswitch;
+	Encoder Urot; // encoder to fetch degrees of lifter shaft
  	
- double deg;
 			
  	public UshapedArm () {
 	//	Potdegrees lifterrot= new Potdegrees(2); 
 		breachRight= new Joystick(4);
-	deg =  uarmrrot.degreesRot();
+		Urot = new Encoder(10,11);
+		limitswitch = new  DigitalInput(9);
+		UShapedArm = new Talon(3);
  	}
 
 	//spinLeft.setInverted(spinLeft.equals(true));
@@ -46,14 +46,15 @@ public class UshapedArm {
 		
 	public void armReset(){
 		if (limitswitch.get() == true){
-			ArmUp();
+			UShapedArm.set(-.25);
 		}
 		else if ((limitswitch.get() == false)){
 			stop();
+			Urot.reset();
 		}
 	}
 	public void autoDown(){
-		if(deg<=100){
+		if(Urot.getRaw() < 715){
 			Armdown();
 		}
 		else{
@@ -123,7 +124,7 @@ public class UshapedArm {
 				stop();
 				break;
 		}
-	SmartDashboard.putNumber("deegree of defence manip u shaped arm", deg);
+	SmartDashboard.putNumber("U Shaped Arm Raw", Urot.getRaw());
 	}
 
 }

@@ -14,7 +14,7 @@ public class StraitArm {
 	Encoder lifterrot;
 	double deg; 
 
-	DigitalInput limitswitch = new  DigitalInput(9);
+	DigitalInput limitswitch = new  DigitalInput(12);
 	
 	public StraitArm() {
 			lifterrot= new Encoder(7,8); 
@@ -34,36 +34,40 @@ public class StraitArm {
 	public void Armdown(){
 
 	//if (rot <= 100){
-		 arm.set(-.25);
+		 arm.set(-.5);
 
 	}
 
 	//}
 
+	public void AutoDown(){
+		if(lifterrot.getRaw() < 330){
+			arm.set(.5
+					);
+		}
+		else{
+			stop();
+		}
+	}
+	
 	public void ArmUp(){
 		//double rot2 = shaftRotation.fetchDegrees();
 		//if (rot>= 0){
-		arm.set(.25);
+		arm.set(.5);
 		}
 	//}
 	
 	public void stop(){
 		arm.set(0);
 	}
-	public void autodown(){
-		if(deg<=100){
-			Armdown();
-		}
-		else{
-			stop();
-	}
-	}
+
 	public void armReset(){
 		if (limitswitch.get() == true){
 			Armdown();
 		}
 		else if ((limitswitch.get() == false)){
 			stop();
+			lifterrot.reset();
 		}
 	}
 
@@ -120,7 +124,7 @@ public class StraitArm {
 			break;
 
 		case 6:
-		autodown();
+			AutoDown();
 			break;
 
 		case 7:
@@ -131,8 +135,8 @@ public class StraitArm {
 			break;
 		}
 
-	SmartDashboard.putNumber("straight arm degrees",lifterrot.getDistance());
-	SmartDashboard.putNumber("straight arm raw",lifterrot.getRaw());
+	// SmartDashboard.putNumber("Straight Arm Degrees (Dist)",lifterrot.getDistance());
+	SmartDashboard.putNumber("Straight Arm Raw", lifterrot.getRaw());
 	}
 }
 
