@@ -16,15 +16,15 @@ public class LifterManipulator  {
 	DigitalInput kickComplete = new DigitalInput(5);
 	DigitalInput limitswitch = new  DigitalInput(4);
 
-	Joystick shooter1;// 2 for shooting and driving 
-	Joystick shooter2;
+	Joystick shootLeft;// 2 for shooting and driving 
+	Joystick shootRight;
 	
 	
 	Potdegrees shaftRotation = new Potdegrees(2);
 	
 	public LifterManipulator(){
-		shooter1= new Joystick(1);
-		shooter2= new Joystick(2);
+		shootLeft= new Joystick(1);
+		shootRight= new Joystick(2);
 		
 		//spinLeft.setInverted(spinLeft.equals(true));
 		//spinRight.setInverted(spinRight.equals(true));
@@ -151,6 +151,7 @@ public class LifterManipulator  {
 		spinLeft.set(0);
 		spinRight.set(0);
 		Lifter.set(0);
+		Ballkicker.set(0);
 		resetKickBall();
 	}
 
@@ -158,7 +159,7 @@ public class LifterManipulator  {
 	public void kick_ball(){
 
 		while (kickComplete.get()) {
-			Ballkicker.set(-.75);
+			Ballkicker.set(-1);
 		
 		}
 		Ballkicker.set(0);
@@ -167,38 +168,38 @@ public class LifterManipulator  {
 	public void resetKickBall() {
 	
 		while (kickReady.get()) {
-			Ballkicker.set(.1);	
+			Ballkicker.set(0.25);	
 		}
 		Ballkicker.set(0);
 	}
 
 
 	public int getJoyStickValue(){
-		if (shooter1.getRawButton(1)){
+		if (shootLeft.getRawButton(1)){
 			return 1;
 		}
-		else if (shooter1.getRawButton(2)){
+		else if (shootLeft.getRawButton(2)){
 			return 2;
 		}
-		else if (shooter1.getRawButton(3)){
+		else if (shootLeft.getRawButton(3)){
 			return 3;
 		}
-		else if (shooter2.getRawButton(2)){
+		else if (shootRight.getRawButton(2)){
 			return  4 ; 
 		}
-		else if (shooter2.getRawButton(1)){
+		else if (shootRight.getRawButton(1)){
 			return 5;
 		}
-		else if (shooter2.getRawButton(3)){
+		else if (shootRight.getRawButton(3)){
 			return 6;
 		}
-		else if (shooter2.getRawButton(5)){
+		else if (shootRight.getRawButton(5)){
 			return  7; 
 		}
-		else if (shooter2.getRawButton(4)){
+		else if (shootRight.getRawButton(4)){
 			return  10; 
 		}
-		else if (shooter2.getRawButton(6)){
+		else if (shootRight.getRawButton(6)){
 			return  11; 
 		}
 		else{
