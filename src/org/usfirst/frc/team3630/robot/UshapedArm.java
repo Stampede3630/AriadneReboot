@@ -63,29 +63,29 @@ public class UshapedArm {
 	}
 
 	public int getJoyStickValue(){
-		if (breachRight.getRawButton(1)){
-			return 1;
+		if (breachRight.getRawButton(Consts.BREACH_RIGHT_BTN_ARMDOWN)){
+			return Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_ARMDOWN;
 		}
-		else if (breachRight.getRawButton(2)){
-			return 2;
+		else if (breachRight.getRawButton(Consts.BREACH_RIGHT_BTN_ARMUP)){
+			return Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_ARMUP;
 		}
-		else if (breachRight.getRawButton(11)){
-			return 3;
+		else if (breachRight.getRawButton(Consts.BREACH_RIGHT_BTN_ARMRESET)){
+			return Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_ARMRESET;
 		}
-		else if (breachRight.getRawButton(3)){
-			return  4 ; 
+		else if (breachRight.getRawButton(Consts.BREACH_RIGHT_BTN_AUTODOWN)){
+			return  Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_AUTODOWN ; 
 		}
-		else if (breachRight.getRawButton(5)){
-			return 5;
+		else if (breachRight.getRawButton(Consts.BREACH_RIGHT_BTN_5)){
+			return Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_5;
 		}
-		else if (breachRight.getRawButton(6)){
-			return 6;
+		else if (breachRight.getRawButton(Consts.BREACH_RIGHT_BTN_6)){
+			return Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_6;
 		}
-		else if (breachRight.getRawButton(7)){
-			return  7 ; 
+		else if (breachRight.getRawButton(Consts.BREACH_RIGHT_BTN_7)){
+			return  Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_7 ; 
 		}
 		else{
-			return 0;
+			return Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_STOP;
 		}
 	}
 			
@@ -95,32 +95,32 @@ public class UshapedArm {
 
 		switch(getJoyStickValue()) {
 			
-			case 1:
+			case Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_ARMDOWN:
 				Armdown();
 				break;
 			
-			case 2: 
+			case Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_ARMUP: 
 				ArmUp();
 				break;
 			
-			case 3: 
+			case Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_ARMRESET: 
 				armReset();
 				break;
 			
-			case 4: 
+			case Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_AUTODOWN: 
 				autoDown();
 				break;
 				
-			case 5:
+			case Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_5:
 				break;
 				
-			case 6:
+			case Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_6:
 				break;
 
-			case 7:
+			case Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_7:
 				break;
 			
-			default:
+			default: // i.e. Consts.BREACH_JOYSTICK_CODE_STOP
 				stop();
 				break;
 		}

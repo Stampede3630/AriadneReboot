@@ -17,6 +17,7 @@ public class DriveTrain {
     int Left = 0;
     int Right = 1;
     boolean driveAutoCorrect;
+    double driveStrength;
     
     //Made new gyro class
     AnalogGyro gyro;
@@ -37,6 +38,7 @@ public class DriveTrain {
     	breachLeft = new Joystick(0);
         breachRight= new Joystick(4);
         driveAutoCorrect = false;
+        driveStrength = 1;
     }
     
     public void updateSmartDB() {
@@ -133,23 +135,38 @@ public class DriveTrain {
     	}
     }
     	
-        
-    public void driveTrainPeriodic(){
-        if (!driveAutoCorrect) {
-    	//mainDrive.arcadeDrive((shootLeft.getY()*-1), (shootRight.getX()*-1));
-    	    if (shootLeft.getRawButton(1)){ // switch driver controls make o
-    	    	mainDrive.arcadeDrive((-breachLeft.getY()*-1), (breachRight.getX()*-1));// invert joyticks for front
-        	
-    	    }
-    	    else {
-    	  //  	shootLeft.getRawButton(1);
-    	    	mainDrive.arcadeDrive((shootLeft.getY()*-1), (shootRight.getX()*-1));
-    	    }
-    	} else {
-    		driveTrainCorrect(driveTrainAngle());
-    	}
-        updateSmartDB();
+    public void driveShooter(){
+    	mainDrive.arcadeDrive((shootLeft.getY()*-1), (shootRight.getX()*-1));
     }
+    
+    public void driveBreach() {
+    	if (breachLeft.getRawButton(Consts.BREACH_LEFT_BTN_DRIVE_STRENGTH)) { // Button serviced here instead of in StraitArm.
+    		driveStrength = 0.25;
+    	}
+    	else
+    	{
+        	driveStrength = 1;
+    	}
+    		
+    	mainDrive.arcadeDrive((-breachLeft.getY()*-1 * driveStrength), (breachRight.getX()*-1 * driveStrength));
+    }
+    
+//    public void driveTrainPeriodic(){
+//        if (!driveAutoCorrect) {
+//    	//mainDrive.arcadeDrive((shootLeft.getY()*-1), (shootRight.getX()*-1));
+//    	    if (shootLeft.getRawButton(1)){ // switch driver controls make o
+//    	    	mainDrive.arcadeDrive((-breachLeft.getY()*-1), (breachRight.getX()*-1));// invert joyticks for front
+//        	
+//    	    }
+//    	    else {
+//    	  //  	shootLeft.getRawButton(1);
+//    	    	mainDrive.arcadeDrive((shootLeft.getY()*-1), (shootRight.getX()*-1));
+//    	    }
+//    	} else {
+//    		driveTrainCorrect(driveTrainAngle());
+//    	}
+//        updateSmartDB();
+//    }
     	
     
     

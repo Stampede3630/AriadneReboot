@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Talon;
 public class LifterManipulator  {
-
+	
 	// initialize talons 
 	Talon spinLeft = new Talon(6);
 	Talon spinRight = new Talon(7);
@@ -120,6 +120,7 @@ public class LifterManipulator  {
 		spinRight.set(-1);
 		Timer.delay(1.5);
 		kick_ball();
+		
 		resetKickBall();
 	}
 
@@ -158,9 +159,13 @@ public class LifterManipulator  {
 		
 	public void kick_ball(){
 
-		while (kickComplete.get()) {
+		final int maxTimeDelaySec = 5;
+		final int loopsPerSec = 10;
+		int kickLoops = 0;
+ 		while (kickComplete.get() && (kickLoops < (maxTimeDelaySec * loopsPerSec)) && !shootLeft.getRawButton(Consts.SHOOTER_LEFT_BTN_STOP)) {
 			Ballkicker.set(-1);
-		
+			Timer.delay(1.0 / loopsPerSec);
+			kickLoops++;
 		}
 		Ballkicker.set(0);
 	}
@@ -175,35 +180,35 @@ public class LifterManipulator  {
 
 
 	public int getJoyStickValue(){
-		if (shootLeft.getRawButton(1)){
-			return 1;
+		if (shootLeft.getRawButton(Consts.SHOOTER_LEFT_BTN_STOP)){
+			return Consts.SHOOTER_JOYSTICK_CODE_STOP;
 		}
-		else if (shootLeft.getRawButton(2)){
-			return 2;
+		else if (shootLeft.getRawButton(Consts.SHOOTER_LEFT_BTN_LIFTERDOWN)){
+			return Consts.SHOOTER_JOYSTICK_CODE_LIFTERDOWN;
 		}
-		else if (shootLeft.getRawButton(3)){
-			return 3;
+		else if (shootLeft.getRawButton(Consts.SHOOTER_LEFT_BTN_LIFTERUP)){
+			return Consts.SHOOTER_JOYSTICK_CODE_LIFTERUP;
 		}
-		else if (shootRight.getRawButton(2)){
-			return  4 ; 
+		else if (shootRight.getRawButton(Consts.SHOOTER_RIGHT_BTN_LOADBALL)){
+			return  Consts.SHOOTER_JOYSTICK_CODE_LOADBALL ; 
 		}
-		else if (shootRight.getRawButton(1)){
-			return 5;
+		else if (shootRight.getRawButton(Consts.SHOOTER_RIGHT_BTN_SHOOTBALL)){
+			return Consts.SHOOTER_JOYSTICK_CODE_SHOOTBALL;
 		}
-		else if (shootRight.getRawButton(3)){
-			return 6;
+		else if (shootRight.getRawButton(Consts.SHOOTER_RIGHT_BTN_DEGREE_PICKUP)){
+			return Consts.SHOOTER_JOYSTICK_CODE_DEGREE_PICKUP;
 		}
-		else if (shootRight.getRawButton(5)){
-			return  7; 
+		else if (shootRight.getRawButton(Consts.SHOOTER_RIGHT_BTN_DEGREE_CORRECTION)){
+			return  Consts.SHOOTER_JOYSTICK_CODE_DEGREE_CORRECTION; 
 		}
-		else if (shootRight.getRawButton(4)){
-			return  10; 
+		else if (shootRight.getRawButton(Consts.SHOOTER_RIGHT_BTN_DEGREE_DRIVE)){
+			return  Consts.SHOOTER_JOYSTICK_CODE_DEGREE_DRIVE; 
 		}
-		else if (shootRight.getRawButton(6)){
-			return  11; 
+		else if (shootRight.getRawButton(Consts.SHOOTER_RIGHT_BTN_ARM_RESET)){
+			return  Consts.SHOOTER_JOYSTICK_CODE_ARM_RESET; 
 		}
 		else{
-			return 0;
+			return Consts.SHOOTER_JOYSTICK_CODE_DEFAULT;
 		}
 	}
 		
@@ -214,42 +219,43 @@ public class LifterManipulator  {
 
 	switch(getJoyStickValue()) {
 		
-		case 1:
+		case Consts.SHOOTER_JOYSTICK_CODE_STOP:
+			stop();
 			break;
 		
-		case 2: 
+		case Consts.SHOOTER_JOYSTICK_CODE_LIFTERDOWN: 
 			Lifterdown();
 			break;
 		
-		case 3: 
+		case Consts.SHOOTER_JOYSTICK_CODE_LIFTERUP: 
 			LifterUp();
 			break;
 		
-		case 4: 
+		case Consts.SHOOTER_JOYSTICK_CODE_LOADBALL: 
 			loadBall();
 			break;
 		
-		case 5:
+		case Consts.SHOOTER_JOYSTICK_CODE_SHOOTBALL:
 			shootBall();
 			break;
 
-		case 6: // This is for picking up. WE are going to a 115 deg pick up angle.
+		case Consts.SHOOTER_JOYSTICK_CODE_DEGREE_PICKUP: // This is for picking up. WE are going to a 115 deg pick up angle.
 			degree_pickup();
 			break;
 
-		case 7: // This is for shooting. We are going to a 45 deg shooting angle.
+		case Consts.SHOOTER_JOYSTICK_CODE_DEGREE_CORRECTION: // This is for shooting. We are going to a 45 deg shooting angle.
 			degree_corection();
 			break;
 
-		case 10: // This is for driving. WE are going to a 103 deg pick up angle.
+		case Consts.SHOOTER_JOYSTICK_CODE_DEGREE_DRIVE: // This is for driving. WE are going to a 103 deg pick up angle.
 			degree_drive();
 			break;
 		
-		case 11: 
+		case Consts.SHOOTER_JOYSTICK_CODE_ARM_RESET: 
 			armReset();
 			break;
 
-		default:
+		default: // i.e. Consts.SHOOTER_JOYSTICK_CODE_DEFAULT:
 			stop();
 			break;
 	}
