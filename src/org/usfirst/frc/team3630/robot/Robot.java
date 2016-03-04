@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+
 /**   
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -32,6 +33,7 @@ public class Robot extends IterativeRobot {
     LifterManipulator shooter;
     UshapedArm hook;
     StraitArm arm2;
+ 
    
 	
     /**
@@ -45,7 +47,9 @@ public class Robot extends IterativeRobot {
        tankDriveTrain.driveTrainInit(); 
        hook = new  UshapedArm();
        arm2= new StraitArm();
-        chooser = new SendableChooser();
+
+   		
+       chooser = new SendableChooser();
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
@@ -91,12 +95,12 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	
-    	 if (breachLeft.getRawButton(6)){ // switch driver controls.	
+    	if (breachLeft.getRawButton(6)){ // switch driver controls.	
     	// The shooter person controls driving and also the manipulator and never controls the UArm and Straight arm..
     		tankDriveTrain.driveShooter(); 
     	 }
  	    else {
- 	    // The breach person controls driving and never controls the shooter(manipulator) but always controls the UArm and Straight arm.
+ 	     //The breach person controls driving and never controls the shooter(manipulator) but always controls the UArm and Straight arm.
  	    	tankDriveTrain.driveBreach(); 
  	    }
     	

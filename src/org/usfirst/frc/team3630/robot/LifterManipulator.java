@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Encoder;
+
 public class LifterManipulator  {
 	
 	// initialize talons 
@@ -19,12 +21,12 @@ public class LifterManipulator  {
 	Joystick shootLeft;// 2 for shooting and driving 
 	Joystick shootRight;
 	
-	
-	Potdegrees shaftRotation = new Potdegrees(2);
+	Encoder shooterrot;
 	
 	public LifterManipulator(){
 		shootLeft= new Joystick(1);
 		shootRight= new Joystick(2);
+		shooterrot = new Encoder(13,14);
 		
 		//spinLeft.setInverted(spinLeft.equals(true));
 		//spinRight.setInverted(spinRight.equals(true));
@@ -36,80 +38,68 @@ public class LifterManipulator  {
 		 
 	}
 	
-	public void degree_corection(){
-		
+	public void degree_shoot(){
 		boolean upperbinaryValue= limitswitch.get();
-		double rot = 45;
-		double rotdevation= 5;
+		double rot = 330;
+		double rotdeviation= 5;
 		
-		if (shaftRotation.fetchDegrees() <= rot-rotdevation ){
-			Lifter.set(0.3);
-			//Lifterdown();
+		if(shooterrot.getRaw() <= rot-rotdeviation){
+			Lifter.set(.3);
 		}
-		else if (upperbinaryValue == true && shaftRotation.fetchDegrees()>=rot+rotdevation){
+		
+		else if(upperbinaryValue == true && shooterrot.getRaw()>=rot+rotdeviation)
 			Lifter.set(-0.15);
-			//LifterUp();
+		
+		else if (upperbinaryValue == false)
+			stop();
 		}
-		else if (upperbinaryValue == false ){
-			 Lifter.set(0);
-		 }
-	}
 
 
 	public void degree_pickup(){
 		
 		boolean upperbinaryValue= limitswitch.get();
 		double rot = 115;
-		double rotdevation = 5;
+		double rotdeviation = 5;
 		
-		if (shaftRotation.fetchDegrees() <= rot-rotdevation ){
-			Lifter.set(0.3);
-			//	Lifterdown();
+		if(shooterrot.getRaw() <= rot-rotdeviation){
+			Lifter.set(.3);
 		}
-		else if (upperbinaryValue == true && shaftRotation.fetchDegrees()>=rot+rotdevation){
-			 Lifter.set(-0.15);
-			//LifterUp();
+		
+		else if(upperbinaryValue == true && shooterrot.getRaw()>=rot+rotdeviation)
+			Lifter.set(-0.15);
+		
+		else if (upperbinaryValue == false)
+			stop();
 		}
-		else if (upperbinaryValue == false ){
-			 Lifter.set(0);
-		 }
-	}
+
 
 	public void degree_drive(){
 		
 		boolean upperbinaryValue= limitswitch.get();
 		double rot = 103;
-		double rotdevation = 5;
+		double rotdeviation = 5;
 		
-		if (shaftRotation.fetchDegrees() <= rot-rotdevation ){
-			Lifter.set(0.3);
+		if(shooterrot.getRaw() <= rot-rotdeviation){
+			Lifter.set(.3);
 		}
-		else if (upperbinaryValue == true && shaftRotation.fetchDegrees()>=rot+rotdevation){
+		
+		else if(upperbinaryValue == true && shooterrot.getRaw()>=rot+rotdeviation)
 			Lifter.set(-0.15);
+		
+		else if (upperbinaryValue == false)
+			stop();
 		}
-		else if (upperbinaryValue == false ){
-			 Lifter.set(0);
-		 }
-	}
 
 	public void Lifterdown(){
-		// double rot = lifterrot.degreesRot();
-	//	double rot = shaftRotation.fetchDegrees();
-	//if (rot <= 100){
 		 Lifter.set(.3);
 	}
-	//}
 
 	public void LifterUp(){
-		//double rot2 = shaftRotation.fetchDegrees();
-		//
-		//if (rot2 >= 0){
+
 		Lifter.set(-.5);
 		}
-	//}
 	
 	public void loadBall(){
-//	spinLeft.setInvertedMotor(spinLeft.MotorType.kspinLeft,true);// need to fix v
 		spinLeft.set(-.5);
 		spinRight.set(.5);
 	}
@@ -133,20 +123,14 @@ public class LifterManipulator  {
 		}
 	}
 	
-	public void armReset(){
+	public void armIn(){
 		if (limitswitch.get() == true){
 			LifterUp();
 		}
 		else if ((limitswitch.get() == false)){
 			stop();
-			shaftRotation.reset();
 		}
 	}
-	
-	//public void kick_ball(){
-		//Ballkicker.set(.1);
-		//Ballkicker.set(-.1);
-	//}
 	
 	public void stop(){
 		spinLeft.set(0);
@@ -244,7 +228,7 @@ public class LifterManipulator  {
 			break;
 
 		case Consts.SHOOTER_JOYSTICK_CODE_DEGREE_CORRECTION: // This is for shooting. We are going to a 45 deg shooting angle.
-			degree_corection();
+			degree_shoot();
 			break;
 
 		case Consts.SHOOTER_JOYSTICK_CODE_DEGREE_DRIVE: // This is for driving. WE are going to a 103 deg pick up angle.
@@ -252,22 +236,16 @@ public class LifterManipulator  {
 			break;
 		
 		case Consts.SHOOTER_JOYSTICK_CODE_ARM_RESET: 
-			armReset();
-			break;
-
 		default: // i.e. Consts.SHOOTER_JOYSTICK_CODE_DEFAULT:
 			stop();
 			break;
 	}
 
-	SmartDashboard.putNumber("Shooter Pot Degrees",shaftRotation.fetchDegrees());
 	SmartDashboard.putBoolean("Kick completed",kickComplete.get() );
 	SmartDashboard.putBoolean("Kick Ready",kickReady.get() );
 	SmartDashboard.putBoolean("Shooter Home",limitswitch.get() );
 	SmartDashboard.putNumber("Time", Timer.getMatchTime());
-	
-	
-	
+	SmartDashboard.putNumber("Straight Arm Raw", shooterrot.getRaw());
 	
 	}
 }

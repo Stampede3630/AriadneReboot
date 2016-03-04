@@ -3,71 +3,53 @@ package org.usfirst.frc.team3630.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class StraitArm {
 	
 	Talon arm = new Talon(2);
 	Joystick breachLeft;
-		
-	Encoder lifterrot;
+
 	double deg; 
 
-	DigitalInput limitswitch = new  DigitalInput(12);
+	DigitalInput limitswitch1 = new  DigitalInput(12);
+	DigitalInput limitswitch2 = new  DigitalInput(15);
 	
 	public StraitArm() {
-			lifterrot= new Encoder(7,8); 
-	//		deg =  lifterrot.degreesRot();
 			breachLeft= new Joystick(0);
 	}
 	
-		//spinLeft.setInverted(spinLeft.equals(true));
-		//spinRight.setInverted(spinRight.equals(true));
-		//spinLeft.setInverted(true);
-		//spinRight.setInverted(false);
-
 	public void publishtodash(){
 	
 	}
 
 	public void Armdown(){
-
-	//if (rot <= 100){
 		 arm.set(-.5);
-
-	}
-
-	//}
-
-	public void AutoDown(){
-		if(lifterrot.getRaw() < 330){
-			arm.set(.5
-					);
-		}
-		else{
-			stop();
-		}
 	}
 	
 	public void ArmUp(){
-		//double rot2 = shaftRotation.fetchDegrees();
-		//if (rot>= 0){
 		arm.set(.5);
 		}
-	//}
-	
+
 	public void stop(){
 		arm.set(0);
 	}
 
 	public void armReset(){
-		if (limitswitch.get() == true){
+		if (limitswitch1.get() == true){
 			Armdown();
 		}
-		else if ((limitswitch.get() == false)){
+		else if ((limitswitch1.get() == false)){
 			stop();
-			lifterrot.reset();
+		}
+	}
+	
+	public void armOut(){
+		if (limitswitch2.get() == true){
+			ArmUp();
+		}
+		else if ((limitswitch2.get() == false)){
+			stop();
 		}
 	}
 
@@ -108,7 +90,7 @@ public class StraitArm {
 			break;
 		
 		case Consts.BREACH_LEFT_JOYSTICK_STRAITARM_CODE_ARMUP: 
-			ArmUp();
+			armOut();
 			break;
 		
 		case Consts.BREACH_LEFT_JOYSTICK_STRAITARM_CODE_ARMDOWN: // armReset
@@ -122,7 +104,6 @@ public class StraitArm {
 			break;
 
 		case Consts.BREACH_LEFT_JOYSTICK_STRAITARM_CODE_AUTODOWN:
-			AutoDown();
 			break;
 
 		case Consts.BREACH_LEFT_JOYSTICK_STRAITARM_CODE_7:
@@ -134,7 +115,6 @@ public class StraitArm {
 		}
 
 	// SmartDashboard.putNumber("Straight Arm Degrees (Dist)",lifterrot.getDistance());
-	SmartDashboard.putNumber("Straight Arm Raw", lifterrot.getRaw());
 	}
 }
 

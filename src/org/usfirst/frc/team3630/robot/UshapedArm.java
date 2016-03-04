@@ -85,7 +85,7 @@ public class UshapedArm {
 			return  Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_7 ; 
 		}
 		else{
-			return Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_STOP;
+			return Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_DEFAULT;
 		}
 	}
 			
@@ -120,7 +120,7 @@ public class UshapedArm {
 			case Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_7:
 				break;
 			
-			default: // i.e. Consts.BREACH_JOYSTICK_CODE_STOP
+			default: // i.e. Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_DEFAULT
 				stop();
 				break;
 		}

@@ -3,12 +3,12 @@ package org.usfirst.frc.team3630.robot;
 public final class Consts {
 
 	// Put all the Shooter Left Joystick BUTTON definitions here:
-	public static final int SHOOTER_LEFT_BTN_LIFTERDOWN = 2; // TODO: Rename this button name to what it means - not a number.
-	public static final int SHOOTER_LEFT_BTN_LIFTERUP = 3; // TODO: Rename this button name to what it means - not a number.
+	public static final int SHOOTER_LEFT_BTN_LIFTERDOWN = 2;
+	public static final int SHOOTER_LEFT_BTN_LIFTERUP = 3;
 	public static final int SHOOTER_LEFT_BTN_STOP = 7;
 
 	// Put all the Shooter Right Joystick BUTTON definitions here:
-	public static final int SHOOTER_RIGHT_BTN_SHOOTBALL = 1; // TODO: Rename this button name to what it means - not a number etc for all the lines below.
+	public static final int SHOOTER_RIGHT_BTN_SHOOTBALL = 1;
 	public static final int SHOOTER_RIGHT_BTN_LOADBALL = 2;
 	public static final int SHOOTER_RIGHT_BTN_DEGREE_PICKUP = 3;
 	public static final int SHOOTER_RIGHT_BTN_DEGREE_DRIVE = 4;
@@ -58,7 +58,7 @@ public final class Consts {
 	public static final int BREACH_RIGHT_BTN_ARMRESET = 11;
 	
 	// Put Breach Right UARM Joystick codes here:
-	public static final int BREACH_RIGHT_JOYSTICK_UARM_CODE_STOP = 0;
+	public static final int BREACH_RIGHT_JOYSTICK_UARM_CODE_DEFAULT = 0;
 	public static final int BREACH_RIGHT_JOYSTICK_UARM_CODE_ARMDOWN = 1;
 	public static final int BREACH_RIGHT_JOYSTICK_UARM_CODE_ARMUP = 2;
 	public static final int BREACH_RIGHT_JOYSTICK_UARM_CODE_ARMRESET = 3;
@@ -67,7 +67,18 @@ public final class Consts {
 	public static final int BREACH_RIGHT_JOYSTICK_UARM_CODE_6 = 6;
 	public static final int BREACH_RIGHT_JOYSTICK_UARM_CODE_7 = 7;
 
+	// camera buttons 
+	public static final int SHOOTER_LEFT_JOYSTICK_PANLEFT = 4;
+	public static final int SHOOTER_LEFT_JOYSTICK_PANRIGHT = 5;
+	public static final int SHOOTER_LEFT_JOYSTICK_lIFTUP = 8;
+	public static final int SHOOTER_LEFT_JOYSTICK_LIFTDOWN = 7;
 	
+	// return camera values
+	public static final int SHOOTER_LEFT_JOYSTICK_PANLEFT_CONSTANT = 1;
+	public static final int SHOOTER_LEFT_JOYSTICK_PANRIGHT_CONSTANT = 2;
+	public static final int SHOOTER_LEFT_JOYSTICK_lIFTUP_CONSTANT = 3;
+	public static final int SHOOTER_LEFT_JOYSTICK_LIFTDOWN_CONSTANT = 4;
+	public static final int SHOOTER_LEFT_JOYSTICK_CAMERA_DEFAULT = 0;
 	/**
 	   The caller references the constants using <tt>Consts.EMPTY_STRING</tt>, 
 	   and so on. Thus, the caller should be prevented from constructing objects of 
