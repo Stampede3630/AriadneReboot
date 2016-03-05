@@ -1,5 +1,6 @@
 package org.usfirst.frc.team3630.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -24,6 +25,19 @@ public class LifterManipulator  {
 	public void publishtodash(){
 	
 	}
+	public void degree_corection(){
+		DigitalInput limitswitch= new  DigitalInput(4);
+		boolean upperbinaryValue= limitswitch.get();
+		double rot = shaftRotation.fetchDegrees();
+		double rotdevation= rot +3;
+		
+		if (upperbinaryValue == false && rot<=rotdevation-3 ){
+			Lifterdown();
+		}
+		else if (upperbinaryValue == false && rot>=rotdevation+3){
+			LifterUp();
+		}
+	}
 	
 	
 	
@@ -32,6 +46,7 @@ public class LifterManipulator  {
 	public void Lifterdown(){
 		// double rot = lifterrot.degreesRot();
 		double rot = shaftRotation.fetchDegrees();
+	
 	if (rot <= 100){
 		 Lifter.set(.25);
 	}
@@ -148,7 +163,7 @@ public class LifterManipulator  {
 			
 			
 			break;
-		case 7:
+		case 7:degree_corection();
 			break;
 			default:
 				stop();

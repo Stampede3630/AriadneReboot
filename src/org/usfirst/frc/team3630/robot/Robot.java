@@ -29,8 +29,9 @@ public class Robot extends IterativeRobot {
     int LeftRearChanel;
     int RightRearChanel;
     int RightFrontChannel;
-    DriveTrain tankDriveTrain = new DriveTrain();
-    LifterManipulator shooter = new LifterManipulator();
+    //DriveTrain tankDriveTrain = new DriveTrain();
+    //LifterManipulator shooter = new LifterManipulator();
+    Network_table_com test = new Network_table_com(); 
     
 	
     /**
@@ -39,9 +40,9 @@ public class Robot extends IterativeRobot {
      * @param DriveTrain 
      */
     public void robotInit() {
-       tankDriveTrain = new DriveTrain();
-       tankDriveTrain.driveTrainInit(); 
-        
+      // tankDriveTrain = new DriveTrain();
+       //tankDriveTrain.driveTrainInit(); 
+       test.Network_table_init();
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
@@ -83,8 +84,9 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	tankDriveTrain.driveTrainPeriodic();
-    	shooter.manipulatorPeriodic();
+    //	tankDriveTrain.driveTrainPeriodic();
+    	//shooter.manipulatorPeriodic();
+    	test.Test();
     }
     
     /**
