@@ -35,7 +35,7 @@ public final class Consts {
 	public static final int BREACH_LEFT_BTN_4 = 4;
 	public static final int BREACH_LEFT_BTN_5 = 5;
 	public static final int BREACH_LEFT_BTN_AUTODOWN = 6;
-	public static final int BREACH_LEFT_BTN_7 = 7;
+	public static final int BREACH_LEFT_BTN_SWITCH_DRIVERS = 7;
 
 	// Put Breach Left StraitArm Joystick codes here:
 	public static final int BREACH_LEFT_JOYSTICK_STRAITARM_CODE_DEFAULT = 0;
@@ -45,7 +45,7 @@ public final class Consts {
 	public static final int BREACH_LEFT_JOYSTICK_STRAITARM_CODE_4 = 4;
 	public static final int BREACH_LEFT_JOYSTICK_STRAITARM_CODE_5 = 5;
 	public static final int BREACH_LEFT_JOYSTICK_STRAITARM_CODE_AUTODOWN = 6;
-	public static final int BREACH_LEFT_JOYSTICK_STRAITARM_CODE_7 = 7;
+	public static final int BREACH_LEFT_JOYSTICK_STRAITARM_CODE_SWITCH_DRIVERS = 7;
 	
 	// Put all the Breach Right Joystick BUTTON definitions here:
 	public static final int BREACH_RIGHT_BTN_ARMDOWN = 1;

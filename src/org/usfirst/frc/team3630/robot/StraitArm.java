@@ -73,8 +73,9 @@ public class StraitArm {
 		else if (breachLeft.getRawButton(Consts.BREACH_LEFT_BTN_AUTODOWN)){
 			return Consts.BREACH_LEFT_JOYSTICK_STRAITARM_CODE_AUTODOWN;
 		}
-		else if (breachLeft.getRawButton(Consts.BREACH_LEFT_BTN_7)){
-			return  Consts.BREACH_LEFT_JOYSTICK_STRAITARM_CODE_7 ; 
+		// Actually implemented in Robot.java teleopPeriodic().
+		else if (breachLeft.getRawButton(Consts.BREACH_LEFT_BTN_SWITCH_DRIVERS)){
+			return  Consts.BREACH_LEFT_JOYSTICK_STRAITARM_CODE_SWITCH_DRIVERS ; 
 		}
 		else {
 			return Consts.BREACH_LEFT_JOYSTICK_STRAITARM_CODE_DEFAULT;
@@ -106,7 +107,8 @@ public class StraitArm {
 		case Consts.BREACH_LEFT_JOYSTICK_STRAITARM_CODE_AUTODOWN:
 			break;
 
-		case Consts.BREACH_LEFT_JOYSTICK_STRAITARM_CODE_7:
+		// Actually implemented in Robot.java teleopPeriodic().
+		case Consts.BREACH_LEFT_JOYSTICK_STRAITARM_CODE_SWITCH_DRIVERS:
 			break;
 		
 		default: // i.e. Consts.BREACH_LEFT_JOYSTICK_STRAITARM_CODE_DEFAULT

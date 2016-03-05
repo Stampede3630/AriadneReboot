@@ -95,7 +95,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	
-    	if (breachLeft.getRawButton(6)){ // switch driver controls.	
+    	if (breachLeft.getRawButton(Consts.BREACH_LEFT_BTN_SWITCH_DRIVERS)){ // switch driver controls.	
     	// The shooter person controls driving and also the manipulator and never controls the UArm and Straight arm..
     		tankDriveTrain.driveShooter(); 
     	 }
