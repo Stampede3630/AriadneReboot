@@ -22,7 +22,7 @@ public class DriveTrain {
     //Made new gyro class
     AnalogGyro gyro;
     //NAVX
-    AHRS ahrs;
+    // AHRS ahrs;
 
     
     //input ports on roborio are represented by integers left and right
@@ -46,24 +46,24 @@ public class DriveTrain {
         SmartDashboard.putNumber("GyroAngle",gyro.getAngle());
         SmartDashboard.putBoolean("DriveCorrectionEnabled?", driveAutoCorrect);
         //navx commands
-        SmartDashboard.putBoolean(  "IMU_Connected",        ahrs.isConnected());
-        SmartDashboard.putBoolean(  "IMU_IsCalibrating",    ahrs.isCalibrating());
-        SmartDashboard.putNumber(   "IMU_CompassHeading",   ahrs.getCompassHeading());
-        
-        /* Display 9-axis Heading (requires magnetometer calibration to be useful)  */
-        SmartDashboard.putNumber(   "IMU_FusedHeading",     ahrs.getFusedHeading());
-
-        /* These functions are compatible w/the WPI Gyro Class, providing a simple  */
-        /* path for upgrading from the Kit-of-Parts gyro to the navx-MXP            */
-        
-        SmartDashboard.putNumber(   "IMU_TotalYaw",         ahrs.getAngle());
+//        SmartDashboard.putBoolean(  "IMU_Connected",        ahrs.isConnected());
+//        SmartDashboard.putBoolean(  "IMU_IsCalibrating",    ahrs.isCalibrating());
+//        SmartDashboard.putNumber(   "IMU_CompassHeading",   ahrs.getCompassHeading());
+//        
+//        /* Display 9-axis Heading (requires magnetometer calibration to be useful)  */
+//        SmartDashboard.putNumber(   "IMU_FusedHeading",     ahrs.getFusedHeading());
+//
+//        /* These functions are compatible w/the WPI Gyro Class, providing a simple  */
+//        /* path for upgrading from the Kit-of-Parts gyro to the navx-MXP            */
+//        
+//        SmartDashboard.putNumber(   "IMU_TotalYaw",         ahrs.getAngle());
         
     }
     public void driveTrainInit(){
     	mainDrive = new RobotDrive(0,1);
         ai0 = new AnalogInput(1);
         gyro = new AnalogGyro(ai0);
-        ahrs = new AHRS(SPI.Port.kMXP); 
+        // ahrs = new AHRS(SPI.Port.kMXP); 
         updateSmartDB();
     }
 

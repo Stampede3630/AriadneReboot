@@ -14,6 +14,7 @@ public final class Consts {
 	public static final int SHOOTER_RIGHT_BTN_DEGREE_DRIVE = 4;
 	public static final int SHOOTER_RIGHT_BTN_DEGREE_CORRECTION = 5;
 	public static final int SHOOTER_RIGHT_BTN_ARM_RESET = 6;
+//	public static final int SHOOTER_RIGHT_BTN_KICK_TEST = 7;
 
 	// Put all COMBINED (left and right) Shooter Joystick codes here:
 	public static final int SHOOTER_JOYSTICK_CODE_DEFAULT = 0;
@@ -24,6 +25,7 @@ public final class Consts {
 	public static final int SHOOTER_JOYSTICK_CODE_SHOOTBALL = 5;
 	public static final int SHOOTER_JOYSTICK_CODE_DEGREE_PICKUP = 6;
 	public static final int SHOOTER_JOYSTICK_CODE_DEGREE_CORRECTION = 7;
+//	public static final int SHOOTER_JOYSTICK_CODE_KICK_TEST = 8;
 	public static final int SHOOTER_JOYSTICK_CODE_DEGREE_DRIVE = 10;
 	public static final int SHOOTER_JOYSTICK_CODE_ARM_RESET = 11;
 	

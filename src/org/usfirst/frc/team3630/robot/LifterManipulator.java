@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Encoder;
 
+
 public class LifterManipulator  {
 	
 	// initialize talons 
@@ -21,12 +22,12 @@ public class LifterManipulator  {
 	Joystick shootLeft;// 2 for shooting and driving 
 	Joystick shootRight;
 	
-	Encoder shooterrot;
+	Encoder shooterrotation;
 	
 	public LifterManipulator(){
 		shootLeft= new Joystick(1);
 		shootRight= new Joystick(2);
-		shooterrot = new Encoder(13,14);
+		shooterrotation = new Encoder(13,14);
 		
 		//spinLeft.setInverted(spinLeft.equals(true));
 		//spinRight.setInverted(spinRight.equals(true));
@@ -43,11 +44,11 @@ public class LifterManipulator  {
 		double rot = 330;
 		double rotdeviation= 5;
 		
-		if(shooterrot.getRaw() <= rot-rotdeviation){
+		if(shooterrotation.getRaw() <= rot-rotdeviation){
 			Lifter.set(.3);
 		}
 		
-		else if(upperbinaryValue == true && shooterrot.getRaw()>=rot+rotdeviation)
+		else if(upperbinaryValue == true && shooterrotation.getRaw()>=rot+rotdeviation)
 			Lifter.set(-0.15);
 		
 		else if (upperbinaryValue == false)
@@ -61,11 +62,11 @@ public class LifterManipulator  {
 		double rot = 115;
 		double rotdeviation = 5;
 		
-		if(shooterrot.getRaw() <= rot-rotdeviation){
+		if(shooterrotation.getRaw() <= rot-rotdeviation){
 			Lifter.set(.3);
 		}
 		
-		else if(upperbinaryValue == true && shooterrot.getRaw()>=rot+rotdeviation)
+		else if(upperbinaryValue == true && shooterrotation.getRaw()>=rot+rotdeviation)
 			Lifter.set(-0.15);
 		
 		else if (upperbinaryValue == false)
@@ -79,11 +80,11 @@ public class LifterManipulator  {
 		double rot = 103;
 		double rotdeviation = 5;
 		
-		if(shooterrot.getRaw() <= rot-rotdeviation){
+		if(shooterrotation.getRaw() <= rot-rotdeviation){
 			Lifter.set(.3);
 		}
 		
-		else if(upperbinaryValue == true && shooterrot.getRaw()>=rot+rotdeviation)
+		else if(upperbinaryValue == true && shooterrotation.getRaw()>=rot+rotdeviation)
 			Lifter.set(-0.15);
 		
 		else if (upperbinaryValue == false)
@@ -113,6 +114,10 @@ public class LifterManipulator  {
 		
 		resetKickBall();
 	}
+	
+//	public void kickTest() {
+//		Ballkicker.set(-0.1);
+//	}
 
 	public void LifterManipulatorinit(){
 		if (limitswitch.get() == true){
@@ -143,7 +148,7 @@ public class LifterManipulator  {
 		
 	public void kick_ball(){
 
-		final int maxTimeDelaySec = 5;
+		final int maxTimeDelaySec = 2;
 		final int loopsPerSec = 10;
 		int kickLoops = 0;
  		while (kickComplete.get() && (kickLoops < (maxTimeDelaySec * loopsPerSec)) && !shootLeft.getRawButton(Consts.SHOOTER_LEFT_BTN_STOP)) {
@@ -179,6 +184,9 @@ public class LifterManipulator  {
 		else if (shootRight.getRawButton(Consts.SHOOTER_RIGHT_BTN_SHOOTBALL)){
 			return Consts.SHOOTER_JOYSTICK_CODE_SHOOTBALL;
 		}
+//		else if (shootRight.getRawButton(Consts.SHOOTER_RIGHT_BTN_KICK_TEST)){
+//			return Consts.SHOOTER_JOYSTICK_CODE_KICK_TEST;
+//		}
 		else if (shootRight.getRawButton(Consts.SHOOTER_RIGHT_BTN_DEGREE_PICKUP)){
 			return Consts.SHOOTER_JOYSTICK_CODE_DEGREE_PICKUP;
 		}
@@ -223,6 +231,10 @@ public class LifterManipulator  {
 			shootBall();
 			break;
 
+//		case Consts.SHOOTER_JOYSTICK_CODE_KICK_TEST:
+//			kickTest();
+//			break;
+
 		case Consts.SHOOTER_JOYSTICK_CODE_DEGREE_PICKUP: // This is for picking up. WE are going to a 115 deg pick up angle.
 			degree_pickup();
 			break;
@@ -243,10 +255,9 @@ public class LifterManipulator  {
 
 	SmartDashboard.putBoolean("Kick completed",kickComplete.get() );
 	SmartDashboard.putBoolean("Kick Ready",kickReady.get() );
-	SmartDashboard.putBoolean("Shooter Home",limitswitch.get() );
+	SmartDashboard.putBoolean("Shooter Home",limitswitch.get());
 	SmartDashboard.putNumber("Time", Timer.getMatchTime());
-	SmartDashboard.putNumber("Straight Arm Raw", shooterrot.getRaw());
-	
+	SmartDashboard.putNumber("Shooter Angle",shooterrotation.getDistance());
 	}
 }
 	
