@@ -6,7 +6,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
+
+/**   
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
  * documentation. If you change the name of this class or the package after
@@ -18,11 +19,12 @@ public class Robot extends IterativeRobot {
     final String customAuto = "My Auto";
     String autoSelected;
     SendableChooser chooser;
-    Joystick defence1; // 2 joystick for defence breaching 
-  
-    Joystick defence2;
-    Joystick shooter1;// 2 for shooting and driving 
-    Joystick shooter2; 
+    
+    Joystick breachLeft; // 2 joystick for defence breaching 
+    Joystick breachRight;
+    Joystick shootLeft;// 2 for shooting and driving 
+    Joystick shootRight; 
+    
     int LeftFrontChanel;
     int LeftRearChanel;
     int RightRearChanel;
@@ -31,6 +33,7 @@ public class Robot extends IterativeRobot {
     LifterManipulator shooter;
     UshapedArm hook;
     StraitArm arm2;
+ 
    
 	
     /**
@@ -44,11 +47,17 @@ public class Robot extends IterativeRobot {
        tankDriveTrain.driveTrainInit(); 
        hook = new  UshapedArm();
        arm2= new StraitArm();
-        chooser = new SendableChooser();
+
+   		
+       chooser = new SendableChooser();
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
         
+        shootLeft= new Joystick(1);
+		shootRight= new Joystick(2);
+		breachLeft= new Joystick(0);
+		breachRight= new Joystick(4);
     }
     
 	/**
@@ -85,10 +94,21 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	tankDriveTrain.driveTrainPeriodic();
-    	shooter.manipulatorPeriodic();
-    	hook.UArmPeriodic();
-    	arm2.straightArmPeriodic();
+    	
+    	if (breachLeft.getRawButton(Consts.BREACH_LEFT_BTN_SWITCH_DRIVERS)){ // switch driver controls.	
+    	// The shooter person controls driving and also the manipulator and never controls the UArm and Straight arm..
+    		tankDriveTrain.driveShooter(); 
+    	 }
+ 	    else {
+ 	     //The breach person controls driving and never controls the shooter(manipulator) but always controls the UArm and Straight arm.
+ 	    	tankDriveTrain.driveBreach(); 
+ 	    }
+    	
+    	shooter.manipulatorPeriodic(); // Obviously only controlled by the shooter person.
+    	hook.UArmPeriodic(); // Only controlled by the breach person.
+    	arm2.straightArmPeriodic(); // Only controlled by the breach person.
+    	
+    	tankDriveTrain.updateSmartDB();
     }
     
     /**

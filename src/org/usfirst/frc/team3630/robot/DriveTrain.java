@@ -17,11 +17,12 @@ public class DriveTrain {
     int Left = 0;
     int Right = 1;
     boolean driveAutoCorrect;
+    double driveStrength;
     
     //Made new gyro class
     AnalogGyro gyro;
     //NAVX
-    AHRS ahrs;
+    // AHRS ahrs;
 
     
     //input ports on roborio are represented by integers left and right
@@ -37,6 +38,7 @@ public class DriveTrain {
     	breachLeft = new Joystick(0);
         breachRight= new Joystick(4);
         driveAutoCorrect = false;
+        driveStrength = 1;
     }
     
     public void updateSmartDB() {
@@ -44,24 +46,24 @@ public class DriveTrain {
         SmartDashboard.putNumber("GyroAngle",gyro.getAngle());
         SmartDashboard.putBoolean("DriveCorrectionEnabled?", driveAutoCorrect);
         //navx commands
-        SmartDashboard.putBoolean(  "IMU_Connected",        ahrs.isConnected());
-        SmartDashboard.putBoolean(  "IMU_IsCalibrating",    ahrs.isCalibrating());
-        SmartDashboard.putNumber(   "IMU_CompassHeading",   ahrs.getCompassHeading());
-        
-        /* Display 9-axis Heading (requires magnetometer calibration to be useful)  */
-        SmartDashboard.putNumber(   "IMU_FusedHeading",     ahrs.getFusedHeading());
-
-        /* These functions are compatible w/the WPI Gyro Class, providing a simple  */
-        /* path for upgrading from the Kit-of-Parts gyro to the navx-MXP            */
-        
-        SmartDashboard.putNumber(   "IMU_TotalYaw",         ahrs.getAngle());
+//        SmartDashboard.putBoolean(  "IMU_Connected",        ahrs.isConnected());
+//        SmartDashboard.putBoolean(  "IMU_IsCalibrating",    ahrs.isCalibrating());
+//        SmartDashboard.putNumber(   "IMU_CompassHeading",   ahrs.getCompassHeading());
+//        
+//        /* Display 9-axis Heading (requires magnetometer calibration to be useful)  */
+//        SmartDashboard.putNumber(   "IMU_FusedHeading",     ahrs.getFusedHeading());
+//
+//        /* These functions are compatible w/the WPI Gyro Class, providing a simple  */
+//        /* path for upgrading from the Kit-of-Parts gyro to the navx-MXP            */
+//        
+//        SmartDashboard.putNumber(   "IMU_TotalYaw",         ahrs.getAngle());
         
     }
     public void driveTrainInit(){
     	mainDrive = new RobotDrive(0,1);
         ai0 = new AnalogInput(1);
         gyro = new AnalogGyro(ai0);
-        ahrs = new AHRS(SPI.Port.kMXP); 
+        // ahrs = new AHRS(SPI.Port.kMXP); 
         updateSmartDB();
     }
 
@@ -133,23 +135,38 @@ public class DriveTrain {
     	}
     }
     	
-        
-    public void driveTrainPeriodic(){
-        if (!driveAutoCorrect) {
-    	//mainDrive.arcadeDrive((shootLeft.getY()*-1), (shootRight.getX()*-1));
-    	    if (shootLeft.getRawButton(1)){ // switch driver controls make o
-    	    	mainDrive.arcadeDrive((-breachLeft.getY()*-1), (breachRight.getX()*-1));// invert joyticks for front
-        	
-    	    }
-    	    else {
-    	  //  	shootLeft.getRawButton(1);
-    	    	mainDrive.arcadeDrive((shootLeft.getY()*-1), (shootRight.getX()*-1));
-    	    }
-    	} else {
-    		driveTrainCorrect(driveTrainAngle());
-    	}
-        updateSmartDB();
+    public void driveShooter(){
+    	mainDrive.arcadeDrive((shootLeft.getY()*-1), (shootRight.getX()*-1));
     }
+    
+    public void driveBreach() {
+    	if (breachLeft.getRawButton(Consts.BREACH_LEFT_BTN_DRIVE_STRENGTH)) { // Button serviced here instead of in StraitArm.
+    		driveStrength = 0.25;
+    	}
+    	else
+    	{
+        	driveStrength = 1;
+    	}
+    		
+    	mainDrive.arcadeDrive((-breachLeft.getY()*-1 * driveStrength), (breachRight.getX()*-1 * driveStrength));
+    }
+    
+//    public void driveTrainPeriodic(){
+//        if (!driveAutoCorrect) {
+//    	//mainDrive.arcadeDrive((shootLeft.getY()*-1), (shootRight.getX()*-1));
+//    	    if (shootLeft.getRawButton(1)){ // switch driver controls make o
+//    	    	mainDrive.arcadeDrive((-breachLeft.getY()*-1), (breachRight.getX()*-1));// invert joyticks for front
+//        	
+//    	    }
+//    	    else {
+//    	  //  	shootLeft.getRawButton(1);
+//    	    	mainDrive.arcadeDrive((shootLeft.getY()*-1), (shootRight.getX()*-1));
+//    	    }
+//    	} else {
+//    		driveTrainCorrect(driveTrainAngle());
+//    	}
+//        updateSmartDB();
+//    }
     	
     
     
