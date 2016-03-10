@@ -77,6 +77,12 @@ public class LifterManipulator  {
 		Ballkicker.set(-.1);
 	}
 	
+	public void (){
+		if( 110<= targetDistance  >= 158){
+			
+		}
+	}
+	
 	public void stop(){
 		spinLeft.set(0);
 		spinRight.set(0);
