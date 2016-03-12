@@ -6,17 +6,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class StraitArm {
-	
-	Talon arm = new Talon(2);
+	DigitalInput limitswitch2;
+	DigitalInput limitswitch1;
 	Joystick breachLeft;
-
+	Talon arm;
 	double deg; 
 
-	DigitalInput limitswitch1 = new  DigitalInput(12);
-	DigitalInput limitswitch2 = new  DigitalInput(15);
 	
 	public StraitArm() {
 			breachLeft= new Joystick(0);
+			 limitswitch1 = new  DigitalInput(12);
+			 limitswitch2 = new  DigitalInput(15);
+			 arm = new Talon(2);
 	}
 	
 	public void publishtodash(){
