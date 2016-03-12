@@ -168,41 +168,54 @@ public class LifterManipulator  {
 		Ballkicker.set(0);
 		resetKickBall();
 	}
+	
+	public void set_shooter_pos(double pos)
+	{
+		final double margin = 0.01;
+		double curPos = shooterrotation.getDistance();
+		double magnitudeDif = Math.abs(pos - curPos);
+		if (magnitudeDif > margin)
+		{
+			// Shooter position: further down has more negative (lesser number)
+			if (pos > curPos) // desired position is less negative, lower angle
+			{
+				Lifterdown();
+			}
+			else
+			{
+				LifterUp();
+			}
+		}
+		else
+		{
+			Lifter.set(0);
+		}
+	}
+	
 	public void auto_adjust(){
 	ImageMath	math = new ImageMath();
 		double distence= math.math_periodic();
 		SmartDashboard.putNumber("Distance Away", math.math_periodic());
-		if(121 > distence && distence<158 && shooterrotation.getDistance() != -11.74){
-
-		Lifterdown();
-
+		if (121 >= distence ){
+			set_shooter_pos(-11.74);
 		}
 
-		else if(-100 > distence && distence >  120 && (shooterrotation.getDistance() != -11.25)){
-
-		Lifterdown();
-
+		else if(-100 >= distence && distence >=  120 ){
+			set_shooter_pos(-11.25);
+		}
+		else if(85 >= distence && distence<=94 ){
+			set_shooter_pos(-10.25);
+		}
+		else if(77 <= distence && distence<=86 ){
+			set_shooter_pos(-9.25);
 		}
 
-		else if(85 > distence && distence<94 && shooterrotation.getDistance()!= -10.25){
-			Lifterdown();
-
+		else if(70 <= distence &&  distence<=80 ){
+			set_shooter_pos(-8.5);
 		}
-
-		else if(77 < distence && distence<86 &&shooterrotation.getDistance()!= -9.25){
-			Lifterdown();
-
-		}
-
-		else	if(70 < distence &&  distence<80 && shooterrotation.getDistance()!= -8.5){
-			Lifterdown();
-
-		}
-		
-
 		
 		else {
-			stop();
+			Lifter.set(0);
 		}
 
 		}	
