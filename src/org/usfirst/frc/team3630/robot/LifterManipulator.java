@@ -99,7 +99,7 @@ public class LifterManipulator  {
 		}
 
 	public void Lifterdown(){
-		 Lifter.set(.4);
+		 Lifter.set(.4 );
 	}
 
 	public void LifterUp(){
@@ -179,11 +179,11 @@ public class LifterManipulator  {
 			// Shooter position: further down has more negative (lesser number)
 			if (pos > curPos) // desired position is less negative, lower angle
 			{
-				Lifterdown();
+				Lifter.set(.2); // go down
 			}
 			else
 			{
-				LifterUp();
+				Lifter.set(-.2); // go up
 			}
 		}
 		else
@@ -196,22 +196,29 @@ public class LifterManipulator  {
 	ImageMath	math = new ImageMath();
 		double distence= math.math_periodic();
 		SmartDashboard.putNumber("Distance Away", math.math_periodic());
-		if (121 >= distence ){
+		
+		if (180 <= distence  ){
+			; // do nothing
+		}
+		else if (115 <= distence  ){
 			set_shooter_pos(-11.74);
 		}
 
-		else if(-100 >= distence && distence >=  120 ){
+		else if(105 <= distence  ){
 			set_shooter_pos(-11.25);
 		}
-		else if(85 >= distence && distence<=94 ){
+		else if(97 <= distence){
 			set_shooter_pos(-10.25);
 		}
-		else if(77 <= distence && distence<=86 ){
+		else if( 89 <= distence ){
 			set_shooter_pos(-9.25);
 		}
 
-		else if(70 <= distence &&  distence<=80 ){
+		else if( 81 <= distence  ){
 			set_shooter_pos(-8.5);
+		}
+		else if( 77  <= distence ){
+			set_shooter_pos(-7);
 		}
 		
 		else {
