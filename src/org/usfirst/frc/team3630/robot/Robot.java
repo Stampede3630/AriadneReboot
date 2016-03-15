@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.I2C;
-
+import edu.wpi.first.wpilibj.SerialPort;
 
 /**   
  * The VM is configured to automatically run this class, and to call the
@@ -35,7 +35,7 @@ public class Robot extends IterativeRobot {
     LifterManipulator shooter;
     UshapedArm hook;
     StraitArm arm2;
-//    public AHRS ahrs = null;
+    //public AHRS ahrs = null;
 //    I2C bob;
     
     int SonarChannelIn; 
@@ -57,7 +57,8 @@ public class Robot extends IterativeRobot {
        hook = new  UshapedArm();
        arm2= new StraitArm();
  //      if (ahrs == null)
- //      ahrs = new AHRS(I2C.Port.kOnboard); 
+       	//ahrs = new AHRS(SerialPort.Port.kUSB); 
+       	//ahrs = new AHRS(I2C.Port.kOnboard);
    		
        chooser = new SendableChooser();
         chooser.addDefault("Default Auto", defaultAuto);
@@ -124,14 +125,14 @@ public class Robot extends IterativeRobot {
     	arm2.straightArmPeriodic(); // Only controlled by the breach person.
     	
     	tankDriveTrain.updateSmartDB();
-        
+
     }
     
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-    
+
     }
     
 }

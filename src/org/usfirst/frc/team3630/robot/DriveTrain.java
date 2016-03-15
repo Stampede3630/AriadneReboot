@@ -1,11 +1,15 @@
 package org.usfirst.frc.team3630.robot;
 
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Ultrasonic;
 
@@ -40,21 +44,23 @@ public class DriveTrain {
     RobotDrive mainDrive;
     
     public DriveTrain(int sonarChIn, int sonarChOut){
+    	
     	shootLeft = new Joystick(1); // joysticks inisalise 
     	shootRight = new Joystick(2);
     	breachLeft = new Joystick(0);
         breachRight= new Joystick(4);
         driveAutoCorrect = false;
         driveStrength = 1;
-      //  ahrs = new AHRS(SPI.Port.kMXP); 
-        
+        //  ahrs = new AHRS(SPI.Port.kMXP);  // Not using SPI - it was for the original Nav Mxp that doesn't work.
+        ahrs = new AHRS(I2C.Port.kOnboard); // Have to use the I2C bus, not USB.
+        //ahrs = new AHRS(SerialPort.Port.kUSB); // Note that USB is not supported by the FRC Roborio board.
         sonarChannelIn = sonarChIn;
         sonarChannelOut = sonarChOut;
         Sonar = new Ultrasonic(19,20);
     }
     
     public void updateSmartDB() {
-/*       SmartDashboard.putNumber("DriveTrainAngle",driveTrainAngle());
+       SmartDashboard.putNumber("DriveTrainAngle",driveTrainAngle());
        //SmartDashboard.putNumber("GyroAngle",gyro.getAngle());
        SmartDashboard.putBoolean("DriveCorrectionEnabled?", driveAutoCorrect);
        SmartDashboard.putNumber("Sonar Range", Sonar.getRangeInches());
@@ -62,14 +68,14 @@ public class DriveTrain {
        SmartDashboard.putBoolean(  "IMU_Connected",        ahrs.isConnected());
        SmartDashboard.putBoolean(  "IMU_IsCalibrating",    ahrs.isCalibrating());
        SmartDashboard.putNumber(   "IMU_CompassHeading",   ahrs.getCompassHeading());
-//        
+        
 //        Display 9-axis Heading (requires magnetometer calibration to be useful) 
         SmartDashboard.putNumber(   "IMU_FusedHeading",     ahrs.getFusedHeading());
-*/
+
         /* These functions are compatible w/the WPI Gyro Class, providing a simple  */
         /* path for upgrading from the Kit-of-Parts gyro to the navx-MXP             */
         
-  //      SmartDashboard.putNumber("IMU_TotalYaw", ahrs.getAngle());
+        SmartDashboard.putNumber("IMU_TotalYaw", ahrs.getAngle());
         
     }
     public void driveTrainInit(){
@@ -77,7 +83,8 @@ public class DriveTrain {
         //ai0 = new AnalogInput(1);
         //gyro = new AnalogGyro(ai0);
 //        updateSmartDB();
-        Sonar.setEnabled(true);
+     
+    	Sonar.setEnabled(true);
 		Sonar.setAutomaticMode(true);
     }
 

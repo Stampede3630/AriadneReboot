@@ -23,6 +23,7 @@ public class LifterManipulator  {
 	Joystick shootRight;
 	
 	Encoder shooterrotation;
+	boolean evenPos = false;
 	
 	public LifterManipulator(){
 		spinLeft = new Talon(6);
@@ -162,7 +163,7 @@ public class LifterManipulator  {
  		while (kickComplete.get() && (kickLoops < (maxTimeDelaySec * loopsPerSec)) && !shootLeft.getRawButton(Consts.SHOOTER_LEFT_BTN_STOP)) {
  			SmartDashboard.putBoolean("Kick completed",kickComplete.get());
  			Ballkicker.set(-1);
-			Timer.delay(1.0 / loopsPerSec);
+			Timer.delay(1.5 / loopsPerSec);
 			kickLoops++;
 		}
 		Ballkicker.set(0);
@@ -171,53 +172,63 @@ public class LifterManipulator  {
 	
 	public void set_shooter_pos(double pos)
 	{
-		final double margin = 0.01;
+		final double margin = 0.2;
+		final double offset = 0.25;
 		double curPos = shooterrotation.getDistance();
+		
+		// adjust desire position - we want it a bit higher than requested.
+		pos = pos + offset; // a positive offset adjustment will make it higher.
+		
+		SmartDashboard.putNumber("Goto Lifter Pos", pos);
+		SmartDashboard.putNumber("Cur Lifter Pos", curPos);
+
 		double magnitudeDif = Math.abs(pos - curPos);
-		if (magnitudeDif > margin)
+		if ((magnitudeDif > margin) && evenPos)
 		{
+
 			// Shooter position: further down has more negative (lesser number)
 			if (pos > curPos) // desired position is less negative, lower angle
 			{
-				Lifter.set(.2); // go down
+				Lifter.set(-0.35); // go up
 			}
 			else
 			{
-				Lifter.set(-.2); // go up
+				Lifter.set(0.1); // go down
 			}
 		}
 		else
 		{
 			Lifter.set(0);
 		}
+		evenPos = !evenPos;
 	}
 	
 	public void auto_adjust(){
 	ImageMath	math = new ImageMath();
-		double distence= math.math_periodic();
-		SmartDashboard.putNumber("Distance Away", math.math_periodic());
+		double distance= math.math_periodic();
+		SmartDashboard.putNumber("Distance Away", distance);
 		
-		if (180 <= distence  ){
-			; // do nothing
+		if (180 <= distance  ){
+			Lifter.set(0);
 		}
-		else if (115 <= distence  ){
+		else if (115 <= distance  ){
 			set_shooter_pos(-11.74);
 		}
 
-		else if(105 <= distence  ){
+		else if(105 <= distance  ){
 			set_shooter_pos(-11.25);
 		}
-		else if(97 <= distence){
+		else if(97 <= distance){
 			set_shooter_pos(-10.25);
 		}
-		else if( 89 <= distence ){
+		else if( 89 <= distance ){
 			set_shooter_pos(-9.25);
 		}
 
-		else if( 81 <= distence  ){
+		else if( 81 <= distance  ){
 			set_shooter_pos(-8.5);
 		}
-		else if( 77  <= distence ){
+		else if( 77  <= distance ){
 			set_shooter_pos(-7);
 		}
 		
