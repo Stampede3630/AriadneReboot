@@ -58,6 +58,12 @@ public class DriveTrain {
         sonarChannelOut = sonarChOut;
         Sonar = new Ultrasonic(19,20);
     }
+
+    // Will turn left if amount is positive (else will turn right).
+	public void turnLeft(double amount){
+		mainDrive.tankDrive(-amount, amount);
+	}
+	
     
     public void updateSmartDB() {
        SmartDashboard.putNumber("DriveTrainAngle",driveTrainAngle());

@@ -26,20 +26,18 @@ public class LifterManipulator  {
 	Encoder shooterrotation;
 	boolean evenPos = false;
 	
-	// Robot Drive for rotating shooter left/right for good shot.
-	RobotDrive mainDrive = new RobotDrive(0,1);// new robot drive
+	DriveTrain tankDriveTrain;
 	
-	// Will turn left if amount is positive (else will turn right).
-	public void turnLeft(double amount){
-		mainDrive.tankDrive(-amount, amount);
-	}
+	// Robot Drive for rotating shooter left/right for good shot.
+	//RobotDrive mainDrive = new RobotDrive(0,1);// new robot drive
 	
 	// Will turn right if amount is positive (else will turn left).
-	public void turnRight(double amount){
-		mainDrive.tankDrive(amount, -amount);
-	}
+	//public void turnRight(double amount){
+		//mainDrive.tankDrive(amount, -amount);
+	//}
 	
-	public LifterManipulator(){
+	public LifterManipulator(DriveTrain myTankDriveTrain){
+		tankDriveTrain = myTankDriveTrain;
 		spinLeft = new Talon(6);
 		 spinRight = new Talon(7);
 		 Lifter = new Talon(4);
@@ -226,24 +224,24 @@ public class LifterManipulator  {
 			Lifter.set(0);
 		}
 		else if (115 <= distance  ){
-			set_shooter_pos(-12);
+			set_shooter_pos(-12.25);
 		}
 
 		else if(105 <= distance  ){
-			set_shooter_pos(-12);
+			set_shooter_pos(-12.25);
 		}
 		else if(97 <= distance){
-			set_shooter_pos(-11.25);
+			set_shooter_pos(-11.5);
 		}
 		else if( 89 <= distance ){
-			set_shooter_pos(-10.75);
+			set_shooter_pos(-11);
 		}
 
 		else if( 81 <= distance  ){
-			set_shooter_pos(-10);
+			set_shooter_pos(-10.25);
 		}
 		else if( 77  <= distance ){
-			set_shooter_pos(-9);
+			set_shooter_pos(-9.25);
 		}
 		
 		else {
@@ -271,7 +269,7 @@ public class LifterManipulator  {
 		double desired_rotation_deg = Consts.imageWidthDeg * desired_rotation_px / Consts.imageWidthPx;
 		final double rot_margin_deg = 1.0;
 		if (Math.abs(desired_rotation_deg) > rot_margin_deg) {
-			turnLeft(0.1 * desired_rotation_deg); // Need to figure out the constant.
+			tankDriveTrain.turnLeft(0.08 * desired_rotation_deg); // Need to figure out the constant.
 		}
 	}
 

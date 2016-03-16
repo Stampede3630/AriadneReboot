@@ -52,7 +52,7 @@ public class Robot extends IterativeRobot {
     	SonarChannelOut = 20;	
     	
        tankDriveTrain = new DriveTrain(SonarChannelIn, SonarChannelOut);
-       shooter = new LifterManipulator();
+       shooter = new LifterManipulator(tankDriveTrain);
        tankDriveTrain.driveTrainInit(); 
        hook = new  UshapedArm();
        arm2= new StraitArm();
