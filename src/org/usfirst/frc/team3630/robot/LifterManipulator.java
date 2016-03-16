@@ -2,6 +2,7 @@ package org.usfirst.frc.team3630.robot;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Talon;
@@ -24,6 +25,19 @@ public class LifterManipulator  {
 	
 	Encoder shooterrotation;
 	boolean evenPos = false;
+	
+	// Robot Drive for rotating shooter left/right for good shot.
+	RobotDrive mainDrive = new RobotDrive(0,1);// new robot drive
+	
+	// Will turn left if amount is positive (else will turn right).
+	public void turnLeft(double amount){
+		mainDrive.tankDrive(-amount, amount);
+	}
+	
+	// Will turn right if amount is positive (else will turn left).
+	public void turnRight(double amount){
+		mainDrive.tankDrive(amount, -amount);
+	}
 	
 	public LifterManipulator(){
 		spinLeft = new Talon(6);
@@ -100,7 +114,7 @@ public class LifterManipulator  {
 		}
 
 	public void Lifterdown(){
-		 Lifter.set(.4);
+		 Lifter.set(.4 );
 	}
 
 	public void LifterUp(){
@@ -117,7 +131,7 @@ public class LifterManipulator  {
 		
 		spinLeft.set(1);
 		spinRight.set(-1);
-		Timer.delay(1.7);
+		Timer.delay(1.5);
 		kick_ball();
 		
 	//	resetKickBall();
@@ -162,8 +176,8 @@ public class LifterManipulator  {
 		int kickLoops = 0;
  		while (kickComplete.get() && (kickLoops < (maxTimeDelaySec * loopsPerSec)) && !shootLeft.getRawButton(Consts.SHOOTER_LEFT_BTN_STOP)) {
  			SmartDashboard.putBoolean("Kick completed",kickComplete.get());
- 			Ballkicker.set(-0.5);
-			Timer.delay(1.0 / loopsPerSec);
+ 			Ballkicker.set(-1);
+			Timer.delay(1.5 / loopsPerSec);
 			kickLoops++;
 		}
 		Ballkicker.set(0);
@@ -172,7 +186,7 @@ public class LifterManipulator  {
 	
 	public void set_shooter_pos(double pos)
 	{
-		final double margin = 0.25;
+		final double margin = 0.2;
 		final double offset = 0.25;
 		double curPos = shooterrotation.getDistance();
 		
@@ -203,40 +217,64 @@ public class LifterManipulator  {
 		evenPos = !evenPos;
 	}
 	
-	public void auto_adjust(){
-	ImageMath	math = new ImageMath();
-		double distance= math.math_periodic();
+	public void auto_adjust() {
+		ImageMath	math = new ImageMath();
+		double distance= math.get_dist_from_image();
 		SmartDashboard.putNumber("Distance Away", distance);
 		
 		if (180 <= distance  ){
 			Lifter.set(0);
 		}
 		else if (115 <= distance  ){
-			set_shooter_pos(-12.25);
+			set_shooter_pos(-12);
 		}
 
 		else if(105 <= distance  ){
-			set_shooter_pos(-12.25);
+			set_shooter_pos(-12);
 		}
 		else if(97 <= distance){
-			set_shooter_pos(-11.5);
+			set_shooter_pos(-11.25);
 		}
 		else if( 89 <= distance ){
-			set_shooter_pos(-11);
+			set_shooter_pos(-10.75);
 		}
 
 		else if( 81 <= distance  ){
-			set_shooter_pos(-10.25);
+			set_shooter_pos(-10);
 		}
 		else if( 77  <= distance ){
-			set_shooter_pos(-9.25);
+			set_shooter_pos(-9);
 		}
 		
 		else {
 			Lifter.set(0);
 		}
+		
+		// Determine left/right robot orientation.
+		double actual_right_of_center_px = math.get_target_right_of_center_px();
+		double desired_right_of_center_px = actual_right_of_center_px; // Will do nothing if not in range.
+		if (100 <= distance) {
+			desired_right_of_center_px = 40;
+		} 
+		else if (91 <= distance) {
+			desired_right_of_center_px = 44;
+		}
+		else if (81 <= distance) {
+			desired_right_of_center_px = 51;
+		}
+		else if (77 <= distance) {
+			desired_right_of_center_px = 55;
+		}
+		
+		// Desired rotation will be positive if we need to rotate left.
+		double desired_rotation_px = desired_right_of_center_px - actual_right_of_center_px;
+		double desired_rotation_deg = Consts.imageWidthDeg * desired_rotation_px / Consts.imageWidthPx;
+		final double rot_margin_deg = 1.0;
+		if (Math.abs(desired_rotation_deg) > rot_margin_deg) {
+			turnLeft(0.1 * desired_rotation_deg); // Need to figure out the constant.
+		}
+	}
 
-		}	
 	public void resetKickBall() {
 	
 		while (kickReady.get()) {
@@ -244,7 +282,6 @@ public class LifterManipulator  {
 		}
 		Ballkicker.set(0);
 	}
-
 
 	public int getJoyStickValue(){
 		if (shootLeft.getRawButton(Consts.SHOOTER_LEFT_BTN_STOP)){
