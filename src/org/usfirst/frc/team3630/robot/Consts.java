@@ -80,6 +80,10 @@ public final class Consts {
 	public static final int SHOOTER_LEFT_JOYSTICK_lIFTUP_CONSTANT = 3;
 	public static final int SHOOTER_LEFT_JOYSTICK_LIFTDOWN_CONSTANT = 4;
 	public static final int SHOOTER_LEFT_JOYSTICK_CAMERA_DEFAULT = 0;
+	
+	public static final int imageWidthPx = 320;
+	public static final double imageWidthDeg = 47.0;
+
 	/**
 	   The caller references the constants using <tt>Consts.EMPTY_STRING</tt>, 
 	   and so on. Thus, the caller should be prevented from constructing objects of 
