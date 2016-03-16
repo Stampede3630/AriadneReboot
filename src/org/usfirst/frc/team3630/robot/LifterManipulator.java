@@ -100,7 +100,7 @@ public class LifterManipulator  {
 		}
 
 	public void Lifterdown(){
-		 Lifter.set(.4 );
+		 Lifter.set(.4);
 	}
 
 	public void LifterUp(){
@@ -117,7 +117,7 @@ public class LifterManipulator  {
 		
 		spinLeft.set(1);
 		spinRight.set(-1);
-		Timer.delay(1.5);
+		Timer.delay(1.7);
 		kick_ball();
 		
 	//	resetKickBall();
@@ -162,8 +162,8 @@ public class LifterManipulator  {
 		int kickLoops = 0;
  		while (kickComplete.get() && (kickLoops < (maxTimeDelaySec * loopsPerSec)) && !shootLeft.getRawButton(Consts.SHOOTER_LEFT_BTN_STOP)) {
  			SmartDashboard.putBoolean("Kick completed",kickComplete.get());
- 			Ballkicker.set(-1);
-			Timer.delay(1.5 / loopsPerSec);
+ 			Ballkicker.set(-0.5);
+			Timer.delay(1.0 / loopsPerSec);
 			kickLoops++;
 		}
 		Ballkicker.set(0);
@@ -172,7 +172,7 @@ public class LifterManipulator  {
 	
 	public void set_shooter_pos(double pos)
 	{
-		final double margin = 0.2;
+		final double margin = 0.3;
 		final double offset = 0.25;
 		double curPos = shooterrotation.getDistance();
 		
@@ -212,24 +212,24 @@ public class LifterManipulator  {
 			Lifter.set(0);
 		}
 		else if (115 <= distance  ){
-			set_shooter_pos(-11.74);
+			set_shooter_pos(-12);
 		}
 
 		else if(105 <= distance  ){
-			set_shooter_pos(-11.25);
+			set_shooter_pos(-12);
 		}
 		else if(97 <= distance){
-			set_shooter_pos(-10.25);
+			set_shooter_pos(-11.25);
 		}
 		else if( 89 <= distance ){
-			set_shooter_pos(-9.25);
+			set_shooter_pos(-10.75);
 		}
 
 		else if( 81 <= distance  ){
-			set_shooter_pos(-8.5);
+			set_shooter_pos(-10);
 		}
 		else if( 77  <= distance ){
-			set_shooter_pos(-7);
+			set_shooter_pos(-9);
 		}
 		
 		else {
