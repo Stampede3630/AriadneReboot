@@ -1,1 +1,4 @@
 /bin/
+src/org/usfirst/frc/team3630/robot/LifterManipulator2.java
+src/org/usfirst/frc/team3630/robot/LifterManipulator3.java
+*.jar

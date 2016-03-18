@@ -24,39 +24,39 @@ public class CameraServo {
 		pan.set(-1);
 	}
 	public int buttonReturn(){
-		if (shootLeft.getRawButton(Consts.SHOOTER_LEFT_JOYSTICK_PANLEFT)) { // Note: this button is serviced in DriveTrain.driveBreach() - not here.
-			return Consts.SHOOTER_LEFT_JOYSTICK_PANLEFT_CONSTANT;
+		if (shootLeft.getRawButton(Consts.SHOOTER_LEFT_BTN_PANLEFT)) { // Note: this button is serviced in DriveTrain.driveBreach() - not here.
+			return Consts.SHOOTER_JOYSTICK_CODE_PANLEFT;
 		}
-		else if (shootLeft.getRawButton(Consts.SHOOTER_LEFT_JOYSTICK_PANRIGHT)){
-			return Consts.SHOOTER_LEFT_JOYSTICK_PANRIGHT_CONSTANT;
+		else if (shootLeft.getRawButton(Consts.SHOOTER_LEFT_BTN_PANRIGHT)){
+			return Consts.SHOOTER_JOYSTICK_CODE_PANRIGHT;
 		}
-		else if (shootLeft.getRawButton(Consts.SHOOTER_LEFT_JOYSTICK_lIFTUP)){
-				return Consts.SHOOTER_LEFT_JOYSTICK_lIFTUP_CONSTANT;
+		else if (shootLeft.getRawButton(Consts.SHOOTER_LEFT_BTN_LIFTUP)){
+				return Consts.SHOOTER_JOYSTICK_CODE_LIFTUP;
 		}
-		else if (shootLeft.getRawButton(Consts.SHOOTER_LEFT_JOYSTICK_LIFTDOWN)){
-			return Consts.SHOOTER_LEFT_JOYSTICK_LIFTDOWN_CONSTANT;
+		else if (shootLeft.getRawButton(Consts.SHOOTER_LEFT_BTN_LIFTDOWN)){
+			return Consts.SHOOTER_JOYSTICK_CODE_LIFTDOWN;
 		}
 		else{
-			return Consts.SHOOTER_LEFT_JOYSTICK_CAMERA_DEFAULT;
+			return Consts.SHOOTER_JOYSTICK_CODE_CAMERA_DEFAULT;
 		}
 	}
 	
 	public void cameraPeriodic(){
 		switch (buttonReturn()) {
 		
-		case Consts.SHOOTER_LEFT_JOYSTICK_PANLEFT_CONSTANT:
+		case Consts.SHOOTER_JOYSTICK_CODE_PANLEFT:
 			panLeft();
 			break;
 		
-		case Consts.SHOOTER_LEFT_JOYSTICK_PANRIGHT_CONSTANT: 
+		case Consts.SHOOTER_JOYSTICK_CODE_PANRIGHT: 
 			panRight();
 			break;
 		
-		case Consts.SHOOTER_LEFT_JOYSTICK_lIFTUP_CONSTANT:
+		case Consts.SHOOTER_JOYSTICK_CODE_LIFTUP:
 			tiltUp();
 			break;
 		
-		case Consts.SHOOTER_LEFT_JOYSTICK_LIFTDOWN_CONSTANT:
+		case Consts.SHOOTER_JOYSTICK_CODE_LIFTDOWN:
 			tiltDown();
 			break;
 		}

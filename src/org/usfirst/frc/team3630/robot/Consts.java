@@ -6,6 +6,12 @@ public final class Consts {
 	public static final int SHOOTER_LEFT_BTN_LIFTERDOWN = 2;
 	public static final int SHOOTER_LEFT_BTN_LIFTERUP = 3;
 	public static final int SHOOTER_LEFT_BTN_STOP = 7;
+	// camera buttons 
+	public static final int SHOOTER_LEFT_BTN_PANLEFT = 4;
+	public static final int SHOOTER_LEFT_BTN_PANRIGHT = 5;
+	public static final int SHOOTER_LEFT_BTN_LIFTDOWN = 7;
+	public static final int SHOOTER_LEFT_BTN_LIFTUP = 8;
+	
 
 	// Put all the Shooter Right Joystick BUTTON definitions here:
 	public static final int SHOOTER_RIGHT_BTN_SHOOTBALL = 1;
@@ -28,6 +34,12 @@ public final class Consts {
 //	public static final int SHOOTER_JOYSTICK_CODE_KICK_TEST = 8;
 	public static final int SHOOTER_JOYSTICK_CODE_DEGREE_DRIVE = 10;
 	public static final int SHOOTER_JOYSTICK_CODE_ARM_RESET = 11;
+	// return camera values
+	public static final int SHOOTER_JOYSTICK_CODE_CAMERA_DEFAULT = 20;
+	public static final int SHOOTER_JOYSTICK_CODE_PANLEFT = 21;
+	public static final int SHOOTER_JOYSTICK_CODE_PANRIGHT = 22;
+	public static final int SHOOTER_JOYSTICK_CODE_LIFTUP = 23;
+	public static final int SHOOTER_JOYSTICK_CODE_LIFTDOWN = 24;
 
 	// Put all the Breach Left Joystick BUTTON definitions here:
 	public static final int BREACH_LEFT_BTN_DRIVE_STRENGTH = 1;
@@ -68,19 +80,6 @@ public final class Consts {
 	public static final int BREACH_RIGHT_JOYSTICK_UARM_CODE_6 = 6;
 	public static final int BREACH_RIGHT_JOYSTICK_UARM_CODE_7 = 7;
 
-	// camera buttons 
-	public static final int SHOOTER_LEFT_JOYSTICK_PANLEFT = 4;
-	public static final int SHOOTER_LEFT_JOYSTICK_PANRIGHT = 5;
-	public static final int SHOOTER_LEFT_JOYSTICK_lIFTUP = 8;
-	public static final int SHOOTER_LEFT_JOYSTICK_LIFTDOWN = 7;
-	
-	// return camera values
-	public static final int SHOOTER_LEFT_JOYSTICK_PANLEFT_CONSTANT = 1;
-	public static final int SHOOTER_LEFT_JOYSTICK_PANRIGHT_CONSTANT = 2;
-	public static final int SHOOTER_LEFT_JOYSTICK_lIFTUP_CONSTANT = 3;
-	public static final int SHOOTER_LEFT_JOYSTICK_LIFTDOWN_CONSTANT = 4;
-	public static final int SHOOTER_LEFT_JOYSTICK_CAMERA_DEFAULT = 0;
-	
 	public static final int imageWidthPx = 320;
 	public static final double imageWidthDeg = 47.0;
 
