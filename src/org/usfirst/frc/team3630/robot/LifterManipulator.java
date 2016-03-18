@@ -22,6 +22,7 @@ public class LifterManipulator  {
 
 	Joystick shootLeft;// 2 for shooting and driving 
 	Joystick shootRight;
+	Joystick breachRight;
 	
 	Encoder shooterrotation;
 	boolean evenPos = false;
@@ -47,6 +48,7 @@ public class LifterManipulator  {
 		 limitswitch = new  DigitalInput(4);
 		shootLeft= new Joystick(1);
 		shootRight= new Joystick(2);
+		breachRight= new Joystick(4);
 		shooterrotation = new Encoder(13,14, false);
 		shooterrotation.setDistancePerPulse(1);
 		//spinLeft.setInverted(spinLeft.equals(true));
@@ -185,7 +187,7 @@ public class LifterManipulator  {
 	public void set_shooter_pos(double pos)
 	{
 		final double margin = 0.2;
-		final double offset = 0.25;
+		final double offset = 0.3;
 		double curPos = shooterrotation.getDistance();
 		
 		// adjust desire position - we want it a bit higher than requested.
@@ -224,30 +226,34 @@ public class LifterManipulator  {
 			Lifter.set(0);
 		}
 		else if (115 <= distance  ){
-			set_shooter_pos(-12.25);
+			set_shooter_pos(-12.5);
 		}
 
 		else if(105 <= distance  ){
-			set_shooter_pos(-12.25);
+			set_shooter_pos(-12.5);
 		}
 		else if(97 <= distance){
-			set_shooter_pos(-11.5);
+			set_shooter_pos(-11.75);
 		}
 		else if( 89 <= distance ){
-			set_shooter_pos(-11);
+			set_shooter_pos(-11.25);
 		}
 
 		else if( 81 <= distance  ){
-			set_shooter_pos(-10.25);
+			set_shooter_pos(-10.5);
 		}
 		else if( 77  <= distance ){
-			set_shooter_pos(-9.25);
+			set_shooter_pos(-9.5);
 		}
 		
 		else {
 			Lifter.set(0);
 		}
-		
+	}
+		public void driveAdjust(){
+			ImageMath	math = new ImageMath();
+			double distance= math.get_dist_from_image();
+			
 		// Determine left/right robot orientation.
 		double actual_right_of_center_px = math.get_target_right_of_center_px();
 		double desired_right_of_center_px = actual_right_of_center_px; // Will do nothing if not in range.
@@ -269,9 +275,10 @@ public class LifterManipulator  {
 		double desired_rotation_deg = Consts.imageWidthDeg * desired_rotation_px / Consts.imageWidthPx;
 		final double rot_margin_deg = 1.0;
 		if (Math.abs(desired_rotation_deg) > rot_margin_deg) {
-			tankDriveTrain.turnLeft(0.08 * desired_rotation_deg); // Need to figure out the constant.
+			tankDriveTrain.turnLeft(0.2 * desired_rotation_deg); // Need to figure out the constant.
 		}
 	}
+	
 
 	public void resetKickBall() {
 	
@@ -297,10 +304,10 @@ public class LifterManipulator  {
 		else if (shootRight.getRawButton(Consts.SHOOTER_RIGHT_BTN_SHOOTBALL)){
 			return Consts.SHOOTER_JOYSTICK_CODE_SHOOTBALL;
 		}
-		else if (shootRight.getRawButton(6)){
+		else if (breachRight.getRawButton(3)){
 			return 8;
 		}
-		else if (shootRight.getRawButton(Consts.SHOOTER_RIGHT_BTN_DEGREE_PICKUP)){
+		else if (shootRight.getRawButton(4)){
 			return Consts.SHOOTER_JOYSTICK_CODE_DEGREE_PICKUP;
 		}
 		else if (shootRight.getRawButton(Consts.SHOOTER_RIGHT_BTN_DEGREE_CORRECTION)){
@@ -345,11 +352,11 @@ public class LifterManipulator  {
 			break;
 
 		case 8:
-			auto_adjust();
+			driveAdjust();
 			break;
 
 		case Consts.SHOOTER_JOYSTICK_CODE_DEGREE_PICKUP: // This is for picking up. WE are going to a 115 deg pick up angle.
-			degree_pickup();
+			auto_adjust();
 			break;
 
 		case Consts.SHOOTER_JOYSTICK_CODE_DEGREE_CORRECTION: // This is for shooting. We are going to a 45 deg shooting angle.

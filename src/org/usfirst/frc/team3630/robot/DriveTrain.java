@@ -56,7 +56,7 @@ public class DriveTrain {
         //ahrs = new AHRS(SerialPort.Port.kUSB); // Note that USB is not supported by the FRC Roborio board.
         sonarChannelIn = sonarChIn;
         sonarChannelOut = sonarChOut;
-        Sonar = new Ultrasonic(19,20);
+        Sonar = new Ultrasonic(16,17);
     }
 
     // Will turn left if amount is positive (else will turn right).

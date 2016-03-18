@@ -25,11 +25,11 @@ public class StraitArm {
 	}
 
 	public void Armdown(){
-		 arm.set(-.5);
+		 arm.set(-0.3);
 	}
 	
 	public void ArmUp(){
-		arm.set(.5);
+		arm.set(1);
 		}
 
 	public void stop(){

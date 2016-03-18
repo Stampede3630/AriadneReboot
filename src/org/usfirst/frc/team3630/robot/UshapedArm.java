@@ -29,7 +29,7 @@ public class UshapedArm {
 	public void Armdown(){
 			
 	//	if (deg <= 100){
-			 UShapedArm.set(.5);
+			 UShapedArm.set(1);
 	//	}
 	}
 
@@ -46,7 +46,7 @@ public class UshapedArm {
 		
 	public void armReset(){
 		if (limitswitch.get() == true){
-			UShapedArm.set(-.25);
+			UShapedArm.set(-1);
 		}
 		else if ((limitswitch.get() == false)){
 			stop();
@@ -100,15 +100,15 @@ public class UshapedArm {
 				break;
 			
 			case Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_ARMUP: 
-				ArmUp();
-				break;
-			
-			case Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_ARMRESET: 
 				armReset();
 				break;
 			
+			case Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_ARMRESET: 
+				
+				break;
+			
 			case Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_AUTODOWN: 
-				autoDown();
+				
 				break;
 				
 			case Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_5:
