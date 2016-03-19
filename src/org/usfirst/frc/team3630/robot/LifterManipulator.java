@@ -185,8 +185,8 @@ public class LifterManipulator  {
 	
 	public void set_shooter_pos(double pos)
 	{
-		final double margin = 0.2;
-		final double offset = 0.3;
+		final double margin = 0.25;
+		final double offset = 0.2;
 		double curPos = shooterrotation.getDistance();
 		
 		// adjust desire position - we want it a bit higher than requested.
@@ -225,24 +225,24 @@ public class LifterManipulator  {
 			lifterTalon.set(0);
 		}
 		else if (115 <= distance  ){
-			set_shooter_pos(-12.5);
+			set_shooter_pos(-12.75);
 		}
 
 		else if(105 <= distance  ){
-			set_shooter_pos(-12.5);
+			set_shooter_pos(-12.75);
 		}
 		else if(97 <= distance){
-			set_shooter_pos(-11.75);
+			set_shooter_pos(-12);
 		}
 		else if( 89 <= distance ){
-			set_shooter_pos(-11.25);
+			set_shooter_pos(-11.5);
 		}
 
 		else if( 81 <= distance  ){
-			set_shooter_pos(-10.5);
+			set_shooter_pos(-10.75);
 		}
 		else if( 77  <= distance ){
-			set_shooter_pos(-9.5);
+			set_shooter_pos(-10);
 		}
 		
 		else {
