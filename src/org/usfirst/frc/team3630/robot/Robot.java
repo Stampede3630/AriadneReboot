@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj.Timer;
 /**   
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -32,6 +32,12 @@ public class Robot extends IterativeRobot {
     LifterManipulator shooter;
     UshapedArm hook;
     StraitArm arm2;
+    
+    Sensors sensors;
+    Autonomous autonomous;
+    
+    Timer timer;
+   
     //public AHRS ahrs = null;
 //    I2C bob;
     
@@ -42,24 +48,29 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
     	
-    	int SonarChannelIn = 16; 
-    	int SonarChannelOut = 17;
+    	timer = new Timer();
     	
-       tankDriveTrain = new DriveTrain(SonarChannelIn, SonarChannelOut);
-       shooter = new LifterManipulator(tankDriveTrain);
-       tankDriveTrain.driveTrainInit(); 
-       hook = new  UshapedArm();
-       arm2= new StraitArm();
- //      if (ahrs == null)
-       	//ahrs = new AHRS(SerialPort.Port.kUSB); 
-       	//ahrs = new AHRS(I2C.Port.kOnboard);
-   		
-       chooser = new SendableChooser();
-        chooser.addDefault("Default Auto", defaultAuto);
-        chooser.addObject("My Auto", customAuto);
-        SmartDashboard.putData("Auto choices", chooser);
+    	sensors = new Sensors();
+    	sensors.sensorInit();
         
-        shootLeftJoy = new Joystick(Consts.SHOOTER_LEFT_JOYSTICK_CHAN);
+    	tankDriveTrain = new DriveTrain(sensors);
+		shooter = new LifterManipulator(tankDriveTrain);
+		tankDriveTrain.driveTrainInit(); 
+		hook = new  UshapedArm();
+		arm2= new StraitArm();
+		
+		autonomous = new Autonomous();
+		
+		//if (ahrs == null)
+		//ahrs = new AHRS(SerialPort.Port.kUSB); 
+		//ahrs = new AHRS(I2C.Port.kOnboard);
+			
+		chooser = new SendableChooser();
+		chooser.addDefault("Default Auto", defaultAuto);
+		chooser.addObject("My Auto", customAuto);
+		SmartDashboard.putData("Auto choices", chooser);
+		
+		shootLeftJoy = new Joystick(Consts.SHOOTER_LEFT_JOYSTICK_CHAN);
 		shootRightJoy = new Joystick(Consts.SHOOTER_RIGHT_JOYSTICK_CHAN);
 		breachLeftJoy = new Joystick(Consts.BREACH_LEFT_JOYSTICK_CHAN);
 		breachRightJoy = new Joystick(Consts.BREACH_RIGHT_JOYSTICK_CHAN);
@@ -76,29 +87,22 @@ public class Robot extends IterativeRobot {
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
 	 */
     public void autonomousInit() {
-     //   if (ahrs == null)
-     	 //  ahrs = new AHRS(SPI.Port.kMXP); 
-
-        autoSelected = (String) chooser.getSelected();
-//		autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
-		System.out.println("Auto selected: " + autoSelected);
-		
+		autonomous.autonomousInit(sensors);
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    	//switch(autoSelected) {
-    	//case customAuto:
-        //Put custom auto code here   
-           // break;
-    //	case defaultAuto:
-    	//default:
-    	//Put default auto code here
-            //break;
+    	double curTime = timer.getMatchTime();
+    	
+    	if (curTime < 4)
+    	{
+    		autonomous.lowbarPeriodic();
     	}
-    //}
+    	tankDriveTrain.mainDrive.tankDrive(0,0);
+    	sensors.updateSmartDB();
+    }
 
     /**s
      * This function is called periodically during operator control
@@ -114,12 +118,11 @@ public class Robot extends IterativeRobot {
  	    	tankDriveTrain.driveBreach(); 
  	    }
     	
-    	shooter.manipulatorPeriodic(); // Obviously only controlled by the shooter person.
+    //	shooter.manipulatorPeriodic(); // Obviously only controlled by the shooter person.
     	hook.UArmPeriodic(); // Only controlled by the breach person.
     	arm2.straightArmPeriodic(); // Only controlled by the breach person.
     	
     	tankDriveTrain.updateSmartDB();
-
     }
     
     /**
