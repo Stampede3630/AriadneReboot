@@ -1,6 +1,31 @@
 package org.usfirst.frc.team3630.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Talon;
+
 public final class Consts {
+	
+	// Joystick channel numbers
+	public static final int BREACH_LEFT_JOYSTICK_CHAN = 0;
+	public static final int SHOOTER_LEFT_JOYSTICK_CHAN = 1;
+	public static final int SHOOTER_RIGHT_JOYSTICK_CHAN = 2;
+	public static final int BREACH_RIGHT_JOYSTICK_CHAN = 4;
+	
+	// Talon channel numbers
+	public static final int STRAIT_ARM_TALON_CHAN = 2;
+	public static final int UARM_TALON_CHAN = 3;
+	public static final int LIFTER_TALON_CHAN = 4;
+	public static final int BALL_KICKER_TALON_CHAN = 5;
+	public static final int SPIN_LEFT_TALON_CHAN = 6;
+	public static final int SPIN_RIGHT_TALON_CHAN = 7;
+	
+	// Digital input channel numbers
+	public static final int LIFTER_LIMIT_DIGITAL_INPUT_CHAN = 4;
+	public static final int KICK_COMPLETE_DIGITAL_INPUT_CHAN = 5;
+	public static final int KICK_READY_DIGITAL_INPUT_CHAN = 6;
+	public static final int UARM_LIMIT_DIGITAL_INPUT_CHAN = 9;
+	public static final int STRAIT_ARM_DOWN_LIMIT_DIGITAL_INPUT_CHAN = 12;
+	public static final int STRAIT_ARM_UP_LIMIT_DIGITAL_INPUT_CHAN = 15;
 
 	// Put all the Shooter Left Joystick BUTTON definitions here:
 	public static final int SHOOTER_LEFT_BTN_LIFTERDOWN = 2;

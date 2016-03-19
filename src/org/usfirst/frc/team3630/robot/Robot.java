@@ -19,10 +19,10 @@ public class Robot extends IterativeRobot {
     String autoSelected;
     SendableChooser chooser;
     
-    Joystick breachLeft; // 2 joystick for defence breaching 
-    Joystick breachRight;
-    Joystick shootLeft;// 2 for shooting and driving 
-    Joystick shootRight; 
+    Joystick breachLeftJoy; // 2 joystick for defence breaching 
+    Joystick breachRightJoy;
+    Joystick shootLeftJoy;// 2 for shooting and driving 
+    Joystick shootRightJoy; 
     
     int LeftFrontChanel;
     int LeftRearChanel;
@@ -35,9 +35,6 @@ public class Robot extends IterativeRobot {
     //public AHRS ahrs = null;
 //    I2C bob;
     
-    int SonarChannelIn; 
-   	int SonarChannelOut;
-	
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -45,8 +42,8 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
     	
-    	SonarChannelIn = 19; 
-    	SonarChannelOut = 20;	
+    	int SonarChannelIn = 16; 
+    	int SonarChannelOut = 17;
     	
        tankDriveTrain = new DriveTrain(SonarChannelIn, SonarChannelOut);
        shooter = new LifterManipulator(tankDriveTrain);
@@ -62,10 +59,10 @@ public class Robot extends IterativeRobot {
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
         
-        shootLeft= new Joystick(1);
-		shootRight= new Joystick(2);
-		breachLeft= new Joystick(0);
-		breachRight= new Joystick(4);
+        shootLeftJoy = new Joystick(Consts.SHOOTER_LEFT_JOYSTICK_CHAN);
+		shootRightJoy = new Joystick(Consts.SHOOTER_RIGHT_JOYSTICK_CHAN);
+		breachLeftJoy = new Joystick(Consts.BREACH_LEFT_JOYSTICK_CHAN);
+		breachRightJoy = new Joystick(Consts.BREACH_RIGHT_JOYSTICK_CHAN);
 
     }
     
@@ -108,7 +105,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	
-    	if (breachLeft.getRawButton(Consts.BREACH_LEFT_BTN_SWITCH_DRIVERS)){ // switch driver controls.	
+    	if (breachLeftJoy.getRawButton(Consts.BREACH_LEFT_BTN_SWITCH_DRIVERS)){ // switch driver controls.	
     	// The shooter person controls driving and also the manipulator and never controls the UArm and Straight arm..
     		tankDriveTrain.driveShooter(); 
     	 }
