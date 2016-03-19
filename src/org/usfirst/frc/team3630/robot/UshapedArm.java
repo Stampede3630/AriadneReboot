@@ -7,18 +7,17 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class UshapedArm {
 	
-	Talon UShapedArm;
- 	Joystick breachRight;
-	DigitalInput limitswitch;
+	Talon uShapedArmTalon;
+ 	Joystick breachRightJoy;
+	DigitalInput uarmLimit;
 	Encoder Urot; // encoder to fetch degrees of lifter shaft
- 	
 			
  	public UshapedArm () {
 	//	Potdegrees lifterrot= new Potdegrees(2); 
-		breachRight= new Joystick(4);
-		Urot = new Encoder(10,11);
-		limitswitch = new  DigitalInput(9);
-		UShapedArm = new Talon(3);
+		breachRightJoy = new Joystick(Consts.SHOOTER_RIGHT_JOYSTICK_CHAN);
+		Urot = new Encoder(10, 11);
+		uarmLimit = new  DigitalInput(Consts.UARM_LIMIT_DIGITAL_INPUT_CHAN);
+		uShapedArmTalon = new Talon(Consts.UARM_TALON_CHAN);
  	}
 
 	//spinLeft.setInverted(spinLeft.equals(true));
@@ -29,26 +28,26 @@ public class UshapedArm {
 	public void Armdown(){
 			
 	//	if (deg <= 100){
-			 UShapedArm.set(1);
+			 uShapedArmTalon.set(1);
 	//	}
 	}
 
 	public void ArmUp(){
 			
 		//if (deg>= 0){
-			UShapedArm.set(-1);
+			uShapedArmTalon.set(-1);
 	//	}
 	}
 
 	public void stop(){
-		UShapedArm.set(0);
+		uShapedArmTalon.set(0);
 	}
 		
 	public void armReset(){
-		if (limitswitch.get() == true){
-			UShapedArm.set(-1);
+		if (uarmLimit.get() == true){
+			uShapedArmTalon.set(-1);
 		}
-		else if ((limitswitch.get() == false)){
+		else if ((uarmLimit.get() == false)){
 			stop();
 			Urot.reset();
 		}
@@ -63,25 +62,25 @@ public class UshapedArm {
 	}
 
 	public int getJoyStickValue(){
-		if (breachRight.getRawButton(Consts.BREACH_RIGHT_BTN_ARMDOWN)){
+		if (breachRightJoy.getRawButton(Consts.BREACH_RIGHT_BTN_ARMDOWN)){
 			return Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_ARMDOWN;
 		}
-		else if (breachRight.getRawButton(Consts.BREACH_RIGHT_BTN_ARMUP)){
+		else if (breachRightJoy.getRawButton(Consts.BREACH_RIGHT_BTN_ARMUP)){
 			return Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_ARMUP;
 		}
-		else if (breachRight.getRawButton(Consts.BREACH_RIGHT_BTN_ARMRESET)){
+		else if (breachRightJoy.getRawButton(Consts.BREACH_RIGHT_BTN_ARMRESET)){
 			return Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_ARMRESET;
 		}
-		else if (breachRight.getRawButton(Consts.BREACH_RIGHT_BTN_AUTODOWN)){
+		else if (breachRightJoy.getRawButton(Consts.BREACH_RIGHT_BTN_AUTODOWN)){
 			return  Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_AUTODOWN ; 
 		}
-		else if (breachRight.getRawButton(Consts.BREACH_RIGHT_BTN_5)){
+		else if (breachRightJoy.getRawButton(Consts.BREACH_RIGHT_BTN_5)){
 			return Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_5;
 		}
-		else if (breachRight.getRawButton(Consts.BREACH_RIGHT_BTN_6)){
+		else if (breachRightJoy.getRawButton(Consts.BREACH_RIGHT_BTN_6)){
 			return Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_6;
 		}
-		else if (breachRight.getRawButton(Consts.BREACH_RIGHT_BTN_7)){
+		else if (breachRightJoy.getRawButton(Consts.BREACH_RIGHT_BTN_7)){
 			return  Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_7 ; 
 		}
 		else{

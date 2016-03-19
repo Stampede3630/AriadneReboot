@@ -2,22 +2,21 @@ package org.usfirst.frc.team3630.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 public class StraitArm {
-	DigitalInput limitswitch2;
-	DigitalInput limitswitch1;
-	Joystick breachLeft;
-	Talon arm;
+	DigitalInput armUpLimit;
+	DigitalInput armDownLimit;
+	Joystick breachLeftJoy;
+	Talon straitArmTalon;
 	double deg; 
 
 	
 	public StraitArm() {
-			breachLeft= new Joystick(0);
-			 limitswitch1 = new  DigitalInput(12);
-			 limitswitch2 = new  DigitalInput(15);
-			 arm = new Talon(2);
+	breachLeftJoy = new Joystick(Consts.BREACH_LEFT_JOYSTICK_CHAN);
+	armDownLimit = new  DigitalInput(Consts.STRAIT_ARM_DOWN_LIMIT_DIGITAL_INPUT_CHAN);
+	armUpLimit = new  DigitalInput(Consts.STRAIT_ARM_UP_LIMIT_DIGITAL_INPUT_CHAN);
+	straitArmTalon = new Talon(Consts.STRAIT_ARM_TALON_CHAN );
 	}
 	
 	public void publishtodash(){
@@ -25,57 +24,57 @@ public class StraitArm {
 	}
 
 	public void Armdown(){
-		 arm.set(-0.3);
+		 straitArmTalon.set(-0.3);
 	}
 	
 	public void ArmUp(){
-		arm.set(1);
+		straitArmTalon.set(1);
 		}
 
 	public void stop(){
-		arm.set(0);
+		straitArmTalon.set(0);
 	}
 
 	public void armReset(){
-		if (limitswitch1.get() == true){
+		if (armDownLimit.get() == true){
 			Armdown();
 		}
-		else if ((limitswitch1.get() == false)){
+		else if ((armDownLimit.get() == false)){
 			stop();
 		}
 	}
 	
 	public void armOut(){
-		if (limitswitch2.get() == true){
+		if (armUpLimit.get() == true){
 			ArmUp();
 		}
-		else if ((limitswitch2.get() == false)){
+		else if ((armUpLimit.get() == false)){
 			stop();
 		}
 	}
 
 
 	public int getJoyStickValue(){
-		if (breachLeft.getRawButton(Consts.BREACH_LEFT_BTN_DRIVE_STRENGTH)) { // Note: this button is serviced in DriveTrain.driveBreach() - not here.
+		if (breachLeftJoy.getRawButton(Consts.BREACH_LEFT_BTN_DRIVE_STRENGTH)) { // Note: this button is serviced in DriveTrain.driveBreach() - not here.
 			return Consts.BREACH_LEFT_JOYSTICK_STRAITARM_CODE_NOP;
 		}
-		else if (breachLeft.getRawButton(Consts.BREACH_LEFT_BTN_ARMUP)){
+		else if (breachLeftJoy.getRawButton(Consts.BREACH_LEFT_BTN_ARMUP)){
 			return Consts.BREACH_LEFT_JOYSTICK_STRAITARM_CODE_ARMUP;
 		}
-		else if (breachLeft.getRawButton(Consts.BREACH_LEFT_BTN_ARMDOWN)){  // armReset
+		else if (breachLeftJoy.getRawButton(Consts.BREACH_LEFT_BTN_ARMDOWN)){  // armReset
 			return Consts.BREACH_LEFT_JOYSTICK_STRAITARM_CODE_ARMDOWN;  // armReset
 		}
-		else if (breachLeft.getRawButton(Consts.BREACH_LEFT_BTN_4)){
+		else if (breachLeftJoy.getRawButton(Consts.BREACH_LEFT_BTN_4)){
 			return  Consts.BREACH_LEFT_JOYSTICK_STRAITARM_CODE_4 ; 
 		}
-		else if (breachLeft.getRawButton(Consts.BREACH_LEFT_BTN_5)){
+		else if (breachLeftJoy.getRawButton(Consts.BREACH_LEFT_BTN_5)){
 			return Consts.BREACH_LEFT_JOYSTICK_STRAITARM_CODE_5;
 		}
-		else if (breachLeft.getRawButton(Consts.BREACH_LEFT_BTN_AUTODOWN)){
+		else if (breachLeftJoy.getRawButton(Consts.BREACH_LEFT_BTN_AUTODOWN)){
 			return Consts.BREACH_LEFT_JOYSTICK_STRAITARM_CODE_AUTODOWN;
 		}
 		// Actually implemented in Robot.java teleopPeriodic().
-		else if (breachLeft.getRawButton(Consts.BREACH_LEFT_BTN_SWITCH_DRIVERS)){
+		else if (breachLeftJoy.getRawButton(Consts.BREACH_LEFT_BTN_SWITCH_DRIVERS)){
 			return  Consts.BREACH_LEFT_JOYSTICK_STRAITARM_CODE_SWITCH_DRIVERS ; 
 		}
 		else {
