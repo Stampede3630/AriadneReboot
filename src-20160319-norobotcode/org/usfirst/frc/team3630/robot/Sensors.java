@@ -12,15 +12,15 @@ public class Sensors {
 	Ultrasonic sideSonar;
 	int FrontSonarChannelIn = 19;
 	int FrontSonarChannelOut = 20;
-	int SideSonarChannelIn = 17;
-	int SideSonarChannelOut = 18;
+	int SideSonarChannelIn = 16;
+	int SideSonarChannelOut = 27;
 	
 	//Gyro
 	AHRS ahrs;
 	
 	public Sensors(){
 		frontSonar = new Ultrasonic(FrontSonarChannelIn, FrontSonarChannelOut);
-		sideSonar = new Ultrasonic(SideSonarChannelIn, SideSonarChannelOut);
+		sideSonar = new Ultrasonic(SideSonarChannelIn, SideSonarChannelIn);
 		
 		ahrs = new AHRS(I2C.Port.kOnboard);
 	}

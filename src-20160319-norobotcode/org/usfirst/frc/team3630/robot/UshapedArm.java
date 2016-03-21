@@ -10,21 +10,33 @@ public class UshapedArm {
 	Talon uShapedArmTalon;
  	Joystick breachRightJoy;
 	DigitalInput uarmLimit;
-	//Encoder Urot; // encoder to fetch degrees of lifter shaft
+	Encoder Urot; // encoder to fetch degrees of lifter shaft
 			
  	public UshapedArm () {
-		breachRightJoy = new Joystick(Consts.BREACH_RIGHT_JOYSTICK_CHAN);
-		//Urot = new Encoder(10, 11);
+	//	Potdegrees lifterrot= new Potdegrees(2); 
+		breachRightJoy = new Joystick(Consts.SHOOTER_RIGHT_JOYSTICK_CHAN);
+		Urot = new Encoder(10, 11);
 		uarmLimit = new  DigitalInput(Consts.UARM_LIMIT_DIGITAL_INPUT_CHAN);
 		uShapedArmTalon = new Talon(Consts.UARM_TALON_CHAN);
  	}
 
+	//spinLeft.setInverted(spinLeft.equals(true));
+	//spinRight.setInverted(spinRight.equals(true));
+	//spinLeft.setInverted(true);
+	//spinRight.setInverted(false);
+		
 	public void Armdown(){
-		uShapedArmTalon.set(1);
+			
+	//	if (deg <= 100){
+			 uShapedArmTalon.set(1);
+	//	}
 	}
 
 	public void ArmUp(){
-		uShapedArmTalon.set(-1);
+			
+		//if (deg>= 0){
+			uShapedArmTalon.set(-1);
+	//	}
 	}
 
 	public void stop(){
@@ -33,14 +45,14 @@ public class UshapedArm {
 		
 	public void armReset(){
 		if (uarmLimit.get() == true){
-			ArmUp();
+			uShapedArmTalon.set(-1);
 		}
 		else if ((uarmLimit.get() == false)){
 			stop();
-			//Urot.reset();
+			Urot.reset();
 		}
 	}
-/*	public void autoDown(){
+	public void autoDown(){
 		if(Urot.getRaw() < 715){
 			Armdown();
 		}
@@ -48,7 +60,7 @@ public class UshapedArm {
 		stop();
 		}
 	}
-*/
+
 	public int getJoyStickValue(){
 		if (breachRightJoy.getRawButton(Consts.BREACH_RIGHT_BTN_ARMDOWN)){
 			return Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_ARMDOWN;
@@ -75,6 +87,8 @@ public class UshapedArm {
 			return Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_DEFAULT;
 		}
 	}
+			
+		
 
 	public void UArmPeriodic(){
 
@@ -109,7 +123,9 @@ public class UshapedArm {
 				stop();
 				break;
 		}
-		//SmartDashboard.putNumber("U Shaped Arm Raw", Urot.getRaw());
+	SmartDashboard.putNumber("U Shaped Arm Raw", Urot.getRaw());
 	}
+
 }
+
 

@@ -1,5 +1,8 @@
 package org.usfirst.frc.team3630.robot;
 
+//import edu.wpi.first.wpilibj.DigitalInput;
+//import edu.wpi.first.wpilibj.Talon;
+
 public final class Consts {
 	
 	// Joystick channel numbers
@@ -9,8 +12,8 @@ public final class Consts {
 	public static final int BREACH_RIGHT_JOYSTICK_CHAN = 4;
 	
 	// Talon channel numbers
-	public static final int STRAIT_ARM_TALON_CHAN = 3;
-	public static final int UARM_TALON_CHAN = 2;
+	public static final int STRAIT_ARM_TALON_CHAN = 2;
+	public static final int UARM_TALON_CHAN = 3;
 	public static final int LIFTER_TALON_CHAN = 4;
 	public static final int BALL_KICKER_TALON_CHAN = 5;
 	public static final int SPIN_LEFT_TALON_CHAN = 6;
@@ -53,7 +56,7 @@ public final class Consts {
 	public static final int SHOOTER_JOYSTICK_CODE_SHOOTBALL = 5;
 	public static final int SHOOTER_JOYSTICK_CODE_DEGREE_PICKUP = 6;
 	public static final int SHOOTER_JOYSTICK_CODE_DEGREE_CORRECTION = 7;
-//	public static final int SHOOTER_JOYSTICK_CODE_AUTODRIVEADJUST = 8;
+//	public static final int SHOOTER_JOYSTICK_CODE_KICK_TEST = 8;
 	public static final int SHOOTER_JOYSTICK_CODE_DEGREE_DRIVE = 10;
 	public static final int SHOOTER_JOYSTICK_CODE_ARM_RESET = 11;
 	// return camera values

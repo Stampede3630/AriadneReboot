@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Encoder;
 
+
 public class LifterManipulator  {
 	
 	// initialize talons 
@@ -17,9 +18,8 @@ public class LifterManipulator  {
 	DigitalInput kickReady;
 	DigitalInput kickComplete;
 	DigitalInput lifterLimit;
-	
-	// 2 for shooting and driving 
-	Joystick shootLeftJoy;
+
+	Joystick shootLeftJoy;// 2 for shooting and driving 
 	Joystick shootRightJoy;
 	Joystick breachRightJoy;
 	
@@ -27,6 +27,14 @@ public class LifterManipulator  {
 	boolean evenPos = false;
 	
 	DriveTrain tankDriveTrain;
+	
+	// Robot Drive for rotating shooter left/right for good shot.
+	//RobotDrive mainDrive = new RobotDrive(0,1);// new robot drive
+	
+	// Will turn right if amount is positive (else will turn left).
+	//public void turnRight(double amount){
+		//mainDrive.tankDrive(amount, -amount);
+	//}
 	
 	public LifterManipulator(DriveTrain myTankDriveTrain){
 		tankDriveTrain = myTankDriveTrain;
@@ -42,6 +50,14 @@ public class LifterManipulator  {
 		breachRightJoy = new Joystick(Consts.BREACH_RIGHT_JOYSTICK_CHAN);
 		shooterrotation = new Encoder(13,14, false);
 		shooterrotation.setDistancePerPulse(1);
+		//spinLeftTalon.setInverted(spinLeft.equals(true));
+		//spinRightTalon.setInverted(spinRight.equals(true));
+		//spinLeftTalon.setInverted(true);
+		//spinRightTalon.setInverted(false);
+	}
+
+	public void publishtodash(){
+		 
 	}
 	
 	public void degree_shoot(){
@@ -98,16 +114,17 @@ public class LifterManipulator  {
 
 	public void Lifterdown(){
 		 lifterTalon.set(.4 );
-		}
+	}
 
 	public void LifterUp(){
+
 		lifterTalon.set(-.75);
 		}
 	
 	public void loadBall(){
 		spinLeftTalon.set(-.5);
 		spinRightTalon.set(.5);
-		}
+	}
 	
 	public void shootBall(){
 		
@@ -115,26 +132,32 @@ public class LifterManipulator  {
 		spinRightTalon.set(-1);
 		Timer.delay(1.5);
 		kick_ball();
-		}
+		
+	//	resetKickBall();
+	}
+	
+//	public void kickTest() {
+//		Ballkicker.set(-0.1);
+//	}
 
 	public void LifterManipulatorinit(){
 		if (lifterLimit.get() == true){
 			LifterUp();
-			}
+		}
 		else if ((lifterLimit.get() == false)){
 			stop();
 			shooterrotation.reset();
-			}
 		}
+	}
 	
 	public void armIn(){
 		if (lifterLimit.get() == true){
 			LifterUp();
-			}
+		}
 		else if ((lifterLimit.get() == false)){
 			stop();
-			}
 		}
+	}
 	
 	public void stop(){
 		spinLeftTalon.set(0);
@@ -142,7 +165,7 @@ public class LifterManipulator  {
 		lifterTalon.set(0);
 		ballKickerTalon.set(0);
 		resetKickBall();
-		}
+	}
 
 		
 	public void kick_ball(){
@@ -155,12 +178,13 @@ public class LifterManipulator  {
  			ballKickerTalon.set(-1);
 			Timer.delay(1.5 / loopsPerSec);
 			kickLoops++;
- 			}
+		}
 		ballKickerTalon.set(0);
 		resetKickBall();
-		}
+	}
 	
-	public void set_shooter_pos(double pos){
+	public void set_shooter_pos(double pos)
+	{
 		final double margin = 0.25;
 		final double offset = 0.2;
 		double curPos = shooterrotation.getDistance();
@@ -172,53 +196,59 @@ public class LifterManipulator  {
 		SmartDashboard.putNumber("Cur Lifter Pos", curPos);
 
 		double magnitudeDif = Math.abs(pos - curPos);
-		if ((magnitudeDif > margin) && evenPos){
+		if ((magnitudeDif > margin) && evenPos)
+		{
 
 			// Shooter position: further down has more negative (lesser number)
-			if (pos > curPos){ // desired position is less negative, lower angle
+			if (pos > curPos) // desired position is less negative, lower angle
+			{
 				lifterTalon.set(-0.35); // go up
-			}else{
+			}
+			else
+			{
 				lifterTalon.set(0.1); // go down
-				}
-			}else{
-			lifterTalon.set(0);
-				}
-			evenPos = !evenPos;
+			}
 		}
+		else
+		{
+			lifterTalon.set(0);
+		}
+		evenPos = !evenPos;
+	}
 	
 	public void auto_adjust() {
 		ImageMath	math = new ImageMath();
 		double distance= math.get_dist_from_image();
 		SmartDashboard.putNumber("Distance Away", distance);
 		
-		if (180 <= distance){
+		if (180 <= distance  ){
 			lifterTalon.set(0);
 		}
-		else if (115 <= distance){
+		else if (115 <= distance  ){
 			set_shooter_pos(-12.75);
 		}
 
-		else if(105 <= distance){
+		else if(105 <= distance  ){
 			set_shooter_pos(-12.75);
 		}
 		else if(97 <= distance){
 			set_shooter_pos(-12);
 		}
-		else if( 89 <= distance){
+		else if( 89 <= distance ){
 			set_shooter_pos(-11.5);
 		}
 
-		else if( 81 <= distance){
+		else if( 81 <= distance  ){
 			set_shooter_pos(-10.75);
 		}
-		else if( 77  <= distance){
+		else if( 77  <= distance ){
 			set_shooter_pos(-10);
 		}
+		
 		else {
 			lifterTalon.set(0);
 		}
 	}
-	
 		public void driveAdjust(){
 			ImageMath	math = new ImageMath();
 			double distance= math.get_dist_from_image();
@@ -250,6 +280,7 @@ public class LifterManipulator  {
 	
 
 	public void resetKickBall() {
+	
 		while (kickReady.get()) {
 			ballKickerTalon.set(0.25);	
 		}
@@ -291,6 +322,9 @@ public class LifterManipulator  {
 			return Consts.SHOOTER_JOYSTICK_CODE_DEFAULT;
 		}
 	}
+		
+	
+	
 	
 	public void manipulatorPeriodic(){
 
@@ -333,7 +367,7 @@ public class LifterManipulator  {
 			break;
 		
 		case Consts.SHOOTER_JOYSTICK_CODE_ARM_RESET: 
-			default: // i.e. Consts.SHOOTER_JOYSTICK_CODE_DEFAULT:
+		default: // i.e. Consts.SHOOTER_JOYSTICK_CODE_DEFAULT:
 			stop();
 			break;
 	}
@@ -344,6 +378,7 @@ public class LifterManipulator  {
 	SmartDashboard.putNumber("Time", Timer.getMatchTime());
 	SmartDashboard.putNumber("Shooter Angle",shooterrotation.getDistance());
 	SmartDashboard.putNumber("Shooter Angle RAW",shooterrotation.getRaw());
+
 	}
 }
 	

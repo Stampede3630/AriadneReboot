@@ -18,6 +18,10 @@ public class StraitArm {
 	armUpLimit = new  DigitalInput(Consts.STRAIT_ARM_UP_LIMIT_DIGITAL_INPUT_CHAN);
 	straitArmTalon = new Talon(Consts.STRAIT_ARM_TALON_CHAN );
 	}
+	
+	public void publishtodash(){
+	
+	}
 
 	public void Armdown(){
 		 straitArmTalon.set(-0.3);
@@ -25,7 +29,7 @@ public class StraitArm {
 	
 	public void ArmUp(){
 		straitArmTalon.set(1);
-	}
+		}
 
 	public void stop(){
 		straitArmTalon.set(0);

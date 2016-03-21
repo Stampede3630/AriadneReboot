@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot {
     UshapedArm hook;
     StraitArm arm2;
     
-    Sensors sensors;
+//    Sensors sensors;
     Autonomous autonomous;
     
     //public AHRS ahrs = null;
@@ -46,13 +46,13 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
     	
-    	sensors = new Sensors();
-    	sensors.sensorInit();
+//    	sensors = new Sensors();
+//    	sensors.sensorInit();
         
-    	tankDriveTrain = new DriveTrain(sensors);
+//    	tankDriveTrain = new DriveTrain(sensors);
 		shooter = new LifterManipulator(tankDriveTrain);
 		tankDriveTrain.driveTrainInit(); 
-		hook = new UshapedArm();
+		hook = new  UshapedArm();
 		arm2= new StraitArm();
 		
 		autonomous = new Autonomous();
@@ -83,23 +83,23 @@ public class Robot extends IterativeRobot {
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
 	 */
     public void autonomousInit() {
-		autonomous.autonomousInit(tankDriveTrain, sensors);
+//		autonomous.autonomousInit(sensors);
   }
 
     /**
      * This function is called periodically during autonomous
      */
-    public void autonomousPeriodic(){
+    public void autonomousPeriodic() {
     	double curTime = Timer.getMatchTime();
     	
     	if (curTime < 4)
     	{
-    	autonomous.lowbarPeriodic();
-    	}else{
-    	tankDriveTrain.mainDrive.tankDrive(0,0);
-    	sensors.updateSmartDB();
+    		autonomous.lowbarPeriodic();
     	}
+    	tankDriveTrain.mainDrive.tankDrive(0,0);
+//    	sensors.updateSmartDB();
     }
+
     /**s
      * This function is called periodically during operator control
      */
@@ -114,7 +114,7 @@ public class Robot extends IterativeRobot {
  	    	tankDriveTrain.driveBreach(); 
  	    }
     	
-    	shooter.manipulatorPeriodic(); // Obviously only controlled by the shooter person.
+    //	shooter.manipulatorPeriodic(); // Obviously only controlled by the shooter person.
     	hook.UArmPeriodic(); // Only controlled by the breach person.
     	arm2.straightArmPeriodic(); // Only controlled by the breach person.
     	
