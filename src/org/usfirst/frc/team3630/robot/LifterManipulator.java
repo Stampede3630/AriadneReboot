@@ -160,6 +160,27 @@ public class LifterManipulator  {
 		resetKickBall();
 		}
 	
+	public boolean set_shooter_angle(double angle){
+		final double margin = 1;
+		double curPos = shooterrotation.getDistance();
+		boolean atDesiredAngle = false;
+		
+		double magnitudeDif = Math.abs(angle - curPos);
+		if (magnitudeDif > margin){
+			if (angle > curPos){ // desired position is less negative, lower angle
+				// lifterTalon.set(-0.35); // go up
+				// lifterTalon.set(0);
+				atDesiredAngle = true;
+			}else{
+				lifterTalon.set(0.4); // go down
+			}
+		} else {
+			lifterTalon.set(0);
+			atDesiredAngle = true;
+		}
+		return atDesiredAngle;
+	}
+	
 	public void set_shooter_pos(double pos){
 		final double margin = 0.25;
 		final double offset = 0.2;

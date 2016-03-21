@@ -50,23 +50,16 @@ public class DriveTrain {
 		mainDrive.tankDrive(-amount, amount);
 	}
 	
-	  public void moveLeft(double speed){
-			mainDrive.tankDrive(-speed, speed);
-			//left.set(-0.25);
-			//right.set(.25);
-		}
+	public void moveLeft(double speed){
+		mainDrive.tankDrive(speed, -speed);
+	}
 		
-		public void moreRight(double speed){
-			mainDrive.tankDrive(speed, -speed);
-			//left.set(.25);
-			//right.set(-.25);
-		}
-		public void moveForward(double speed){
-			mainDrive.tankDrive(speed,speed);
-			//mainDrive.tankDrive(1, 1);
-			//left.set(1);
-			//right.set(1);
-		}
+	public void moveRight(double speed){
+		mainDrive.tankDrive(-speed, speed);
+	}
+	public void moveForward(double speed){
+		mainDrive.tankDrive(-speed,-speed);
+	}
     
     public void updateSmartDB() {
     	sensors.updateSmartDB();

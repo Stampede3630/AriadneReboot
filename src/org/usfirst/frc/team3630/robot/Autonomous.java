@@ -5,13 +5,16 @@ package org.usfirst.frc.team3630.robot;
 
 public class Autonomous {
 
+	LifterManipulator shooter;
 	DriveTrain mainDrive;
 	
 	Sensors sensors;
 	int state;
 	
-	public void autonomousInit(DriveTrain myDriveTrain, Sensors mySensors){
+	public void autonomousInit(LifterManipulator myShooter, DriveTrain myDriveTrain, Sensors mySensors){
+		shooter = myShooter;
 		mainDrive = myDriveTrain;
+		sensors = mySensors;
 		//if (ahrs == null)
 		//ahrs = new AHRS(SPI.Port.kMXP); 
 		
@@ -31,20 +34,34 @@ public class Autonomous {
 	}
 	
 	public void turnRight(){
-		mainDrive.moreRight(.25);
+		mainDrive.moveRight(.25);
 	}
 	
 	public void lowbarPeriodic(){
+		boolean atDesiredAngle = false;
 		switch(state){
 		case 1: //lower shooter and drive towards low bar
 			if (sensors.sideSonar.getRangeInches() > 25){
+				atDesiredAngle = shooter.set_shooter_angle(-23);
 				mainDrive.moveForward(0.75);
 			}else{
-				mainDrive.moveForward(0.25);
+				// We have reached the defense
+				if (atDesiredAngle) {
+					state++;
+				}
+				else
+				{
+					mainDrive.moveForward(0);
+					atDesiredAngle = shooter.set_shooter_angle(-23);
+					if (atDesiredAngle) {
+						state++;
+					}
+				}
 			}
 			break;
 			
 		case 2:
+			mainDrive.moveForward(0.75);
 			break;
 			
 		default:

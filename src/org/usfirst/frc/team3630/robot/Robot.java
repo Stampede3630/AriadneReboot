@@ -83,7 +83,7 @@ public class Robot extends IterativeRobot {
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
 	 */
     public void autonomousInit() {
-		autonomous.autonomousInit(tankDriveTrain, sensors);
+		autonomous.autonomousInit(shooter, tankDriveTrain, sensors);
   }
 
     /**
@@ -92,13 +92,15 @@ public class Robot extends IterativeRobot {
     public void autonomousPeriodic(){
     	double curTime = Timer.getMatchTime();
     	
-    	if (curTime < 4)
+    	if (curTime < 2.5)
     	{
-    	autonomous.lowbarPeriodic();
+    		autonomous.lowbarPeriodic();
     	}else{
-    	tankDriveTrain.mainDrive.tankDrive(0,0);
-    	sensors.updateSmartDB();
+	    	tankDriveTrain.mainDrive.tankDrive(0,0);
+	    	shooter.LifterManipulatorinit();
     	}
+    	
+    	sensors.updateSmartDB();
     }
     /**s
      * This function is called periodically during operator control
