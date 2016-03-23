@@ -57,8 +57,49 @@ public class DriveTrain {
 	public void moveRight(double speed){
 		mainDrive.tankDrive(-speed, speed);
 	}
-	public void moveForward(double speed){
-		mainDrive.tankDrive(-speed,-speed);
+	
+	// note that this is for autonomous, where we always drive backwards,
+	// therefore the negative drive values. More negative means faster.
+	// also, motor-wise the left motor is right-most when driving backwards.
+	public void moveForwardDriftRight(double speed){
+		double leftChange = 0.1;
+		double rightChange = 0;
+		mainDrive.tankDrive(-(speed + rightChange), -(speed + leftChange));
+	}
+	
+	// note that this is for autonomous, where we always drive backwards,
+	// therefore the negative drive values. More negative means faster.
+	// also, motor-wise the left motor is right-most when driving backwards.
+	public void moveForward(double speed, float heading){
+		// TODO: make use of heading to tweak direction of travel.
+		float curHeading = sensors.ahrs.getFusedHeading();
+		float headingChange = heading - curHeading;
+		// Make the direction change in the direction of heading change.
+		final float headingMargin = 1.0f; // Acceptable inaccuracy in degrees.
+		final float maxHeadingChange = 5.0f; // Don't try to correct too quickly.
+		double adjMagnitude = 0.0;
+		double leftChange = 0.0;
+		double rightChange = 0.0;
+		boolean enabled = true;
+		float magChange = Math.abs(headingChange);
+		if (enabled && (magChange > headingMargin)) {
+			if (magChange > maxHeadingChange) {
+				magChange = maxHeadingChange;
+			}
+			// Translate 1 degree to 0.05, 2 degrees to 0.1, 5 degrees to 0.25
+			adjMagnitude = magChange / 20;
+			// Change the direction a bit.
+			if (headingChange > 0) {
+				// Want to turn right a little bit.
+				rightChange = -adjMagnitude; // Slow down the right motor to turn right.
+				leftChange = adjMagnitude; // Speed up the left motor to turn right.
+			} else {
+				// Want to turn left a little bit.
+				leftChange = -adjMagnitude; // Slow down the left motor to turn left.
+				rightChange = adjMagnitude; // Speed up the right motor to turn left.
+			}
+		}
+		mainDrive.tankDrive(-(speed + rightChange), -(speed + leftChange));
 	}
     
     public void updateSmartDB() {

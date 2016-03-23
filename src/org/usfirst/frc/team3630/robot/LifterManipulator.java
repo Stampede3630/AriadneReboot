@@ -101,7 +101,7 @@ public class LifterManipulator  {
 		}
 
 	public void LifterUp(){
-		lifterTalon.set(-.75);
+		lifterTalon.set(-.6);
 		}
 	
 	public void loadBall(){
@@ -117,14 +117,17 @@ public class LifterManipulator  {
 		kick_ball();
 		}
 
-	public void LifterManipulatorinit(){
+	public boolean LifterManipulatorinit(){
+		boolean isComplete = false;
 		if (lifterLimit.get() == true){
 			LifterUp();
 			}
 		else if ((lifterLimit.get() == false)){
 			stop();
 			shooterrotation.reset();
+			isComplete = true;
 			}
+		return isComplete;
 		}
 	
 	public void armIn(){
@@ -172,7 +175,7 @@ public class LifterManipulator  {
 				// lifterTalon.set(0);
 				atDesiredAngle = true;
 			}else{
-				lifterTalon.set(0.4); // go down
+				lifterTalon.set(0.5); // go down
 			}
 		} else {
 			lifterTalon.set(0);
@@ -181,10 +184,11 @@ public class LifterManipulator  {
 		return atDesiredAngle;
 	}
 	
-	public void set_shooter_pos(double pos){
-		final double margin = 0.25;
-		final double offset = 0.2;
+	public boolean set_shooter_pos(double pos){
+		final double margin = 0.25; 
+		final double offset = 0.0;
 		double curPos = shooterrotation.getDistance();
+		boolean isComplete = false;
 		
 		// adjust desire position - we want it a bit higher than requested.
 		pos = pos + offset; // a positive offset adjustment will make it higher.
@@ -197,76 +201,98 @@ public class LifterManipulator  {
 
 			// Shooter position: further down has more negative (lesser number)
 			if (pos > curPos){ // desired position is less negative, lower angle
-				lifterTalon.set(-0.35); // go up
+				lifterTalon.set(-0.55); // go up -0.35
 			}else{
-				lifterTalon.set(0.1); // go down
-				}
-			}else{
+				lifterTalon.set(0.2); // go down
+			}
+		}else{
 			lifterTalon.set(0);
-				}
-			evenPos = !evenPos;
+			isComplete = true;
+		}
+		evenPos = !evenPos;
+		return isComplete;
 		}
 	
-	public void auto_adjust() {
+	public boolean auto_adjust() {
+		boolean isComplete = false;
 		ImageMath	math = new ImageMath();
 		double distance= math.get_dist_from_image();
 		SmartDashboard.putNumber("Distance Away", distance);
 		
 		if (180 <= distance){
 			lifterTalon.set(0);
+			isComplete = true;
 		}
 		else if (115 <= distance){
-			set_shooter_pos(-12.75);
+			isComplete = set_shooter_pos(-13.3);
 		}
 
 		else if(105 <= distance){
-			set_shooter_pos(-12.75);
+			isComplete = set_shooter_pos(-13);
 		}
 		else if(97 <= distance){
-			set_shooter_pos(-12);
+			isComplete = set_shooter_pos(-12.3);
 		}
 		else if( 89 <= distance){
-			set_shooter_pos(-11.5);
+			isComplete = set_shooter_pos(-11.75);
 		}
 
 		else if( 81 <= distance){
-			set_shooter_pos(-10.75);
+			isComplete = set_shooter_pos(-11.4);
 		}
 		else if( 77  <= distance){
-			set_shooter_pos(-10);
+			isComplete = set_shooter_pos(-10.05);
 		}
 		else {
 			lifterTalon.set(0);
+			isComplete = true;
 		}
+		return isComplete;
 	}
 	
-		public void driveAdjust(){
-			ImageMath	math = new ImageMath();
-			double distance= math.get_dist_from_image();
+	public boolean driveAdjust(){
+		boolean isComplete = false;
+		ImageMath	math = new ImageMath();
+		double distance= math.get_dist_from_image();
 			
 		// Determine left/right robot orientation.
 		double actual_right_of_center_px = math.get_target_right_of_center_px();
 		double desired_right_of_center_px = actual_right_of_center_px; // Will do nothing if not in range.
 		if (100 <= distance) {
-			desired_right_of_center_px = 40;
+			desired_right_of_center_px = 7; //40
 		} 
 		else if (91 <= distance) {
-			desired_right_of_center_px = 44;
+			desired_right_of_center_px = 11; //44
 		}
 		else if (81 <= distance) {
-			desired_right_of_center_px = 51;
+			desired_right_of_center_px = 16; //51
 		}
 		else if (77 <= distance) {
-			desired_right_of_center_px = 55;
+			desired_right_of_center_px = 22; //55
 		}
 		
 		// Desired rotation will be positive if we need to rotate left.
 		double desired_rotation_px = desired_right_of_center_px - actual_right_of_center_px;
 		double desired_rotation_deg = Consts.imageWidthDeg * desired_rotation_px / Consts.imageWidthPx;
-		final double rot_margin_deg = 1.0;
+		final double rot_margin_deg = 0.1;
+		final double max_rot_angle_deg = 8;
 		if (Math.abs(desired_rotation_deg) > rot_margin_deg) {
-			tankDriveTrain.turnLeft(0.2 * desired_rotation_deg); // Need to figure out the constant.
+			if (Math.abs(desired_rotation_deg) > max_rot_angle_deg) {
+				if (desired_rotation_deg >= 0) {
+					desired_rotation_deg = max_rot_angle_deg;
+				}
+				else
+				{
+					desired_rotation_deg = -max_rot_angle_deg;
+				}
+			}
+			tankDriveTrain.turnLeft(0.1 * desired_rotation_deg); // Need to figure out the constant.
 		}
+		else {
+			isComplete = true;
+		}
+			
+		return isComplete;
 	}
 	
 

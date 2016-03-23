@@ -90,16 +90,8 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic(){
-    	double curTime = Timer.getMatchTime();
-    	
-    	if (curTime < 2.5)
-    	{
-    		autonomous.lowbarPeriodic();
-    	}else{
-	    	tankDriveTrain.mainDrive.tankDrive(0,0);
-	    	shooter.LifterManipulatorinit();
-    	}
-    	
+		// autonomous.lowbarPeriodic();
+		autonomous.autoBPeriodic();
     	sensors.updateSmartDB();
     }
     /**s
