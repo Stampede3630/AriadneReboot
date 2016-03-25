@@ -224,7 +224,7 @@ public class LifterManipulator  {
 			isComplete = true;
 		}
 		else if (115 <= distance){
-			isComplete = set_shooter_pos(-13.3);
+			isComplete = set_shooter_pos(-14);
 		}
 
 		else if(105 <= distance){
@@ -259,7 +259,7 @@ public class LifterManipulator  {
 		double actual_right_of_center_px = math.get_target_right_of_center_px();
 		double desired_right_of_center_px = actual_right_of_center_px; // Will do nothing if not in range.
 		if (100 <= distance) {
-			desired_right_of_center_px = 7; //40
+			desired_right_of_center_px = 10; //40
 		} 
 		else if (91 <= distance) {
 			desired_right_of_center_px = 11; //44
@@ -274,7 +274,7 @@ public class LifterManipulator  {
 		// Desired rotation will be positive if we need to rotate left.
 		double desired_rotation_px = desired_right_of_center_px - actual_right_of_center_px;
 		double desired_rotation_deg = Consts.imageWidthDeg * desired_rotation_px / Consts.imageWidthPx;
-		final double rot_margin_deg = 0.1;
+		final double rot_margin_deg = 0.4;
 		final double max_rot_angle_deg = 8;
 		if (Math.abs(desired_rotation_deg) > rot_margin_deg) {
 			if (Math.abs(desired_rotation_deg) > max_rot_angle_deg) {

@@ -90,8 +90,11 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic(){
-		// autonomous.lowbarPeriodic();
-		autonomous.autoBPeriodic();
+		autonomous.lowbarPeriodic();
+    	//autonomous.autoAPeriodic();
+		//autonomous.autoBPeriodic();
+    	//autonomous.autoCPeriodic();
+    	//autonomous.autoDPeriodic();
     	sensors.updateSmartDB();
     }
     /**s
