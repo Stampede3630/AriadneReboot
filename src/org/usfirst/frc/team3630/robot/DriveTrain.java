@@ -58,6 +58,14 @@ public class DriveTrain {
 		mainDrive.tankDrive(-speed, speed);
 	}
 	
+	public void moveForward(double speed){
+		mainDrive.tankDrive(speed, speed);
+	}
+	
+	public void stopDrive(){
+		mainDrive.tankDrive(0,0);
+	}
+	
 	// note that this is for autonomous, where we always drive backwards,
 	// therefore the negative drive values. More negative means faster.
 	// also, motor-wise the left motor is right-most when driving backwards.
@@ -176,7 +184,12 @@ public class DriveTrain {
 //    	//}
 //    }
     	
+    public void driveSlower(double speed){
+    	mainDrive.tankDrive(-speed, -speed);
+    }
+    
     public void driveShooter(){
+    	mainDrive.setSensitivity(0.1);
     	mainDrive.arcadeDrive((shootLeftJoy.getY()*-1), (shootRightJoy.getX()*-1));
     }
     
@@ -191,6 +204,7 @@ public class DriveTrain {
     		
     	mainDrive.arcadeDrive((-breachLeftJoy.getY()*-1 * driveStrength), (breachRightJoy.getX()*-1 * driveStrength));
     }
+
     
 //    public void driveTrainPeriodic(){
 //        if (!driveAutoCorrect) {

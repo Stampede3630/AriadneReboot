@@ -5,11 +5,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ImageMath {
 	
 	public  double  get_dist_from_image(){
-		double BOTTOM_RIGHT_X = SmartDashboard.getNumber("BOTTOM_RIGHT_X");
 		double BOTTOM_LEFT_X = SmartDashboard.getNumber("BOTTOM_LEFT_X");
+		double BOTTOM_RIGHT_X = SmartDashboard.getNumber("BOTTOM_RIGHT_X");
 		double Width_Px = Math.abs(BOTTOM_RIGHT_X-BOTTOM_LEFT_X);
 		double targetWidthDeg = Consts.imageWidthDeg * Width_Px / Consts.imageWidthPx;
-		double targetDistance = (20 ) / Math.tan(targetWidthDeg * Math.PI / (Consts.imageWidthPx / 2));
+		double targetDistance = (20) / Math.tan(targetWidthDeg * Math.PI / (Consts.imageWidthPx / 2));
 		return targetDistance;
 		}
 	

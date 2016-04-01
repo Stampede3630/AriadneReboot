@@ -103,7 +103,7 @@ public final class Consts {
 	public static final int BREACH_RIGHT_JOYSTICK_UARM_CODE_7 = 7;
 
 	public static final int imageWidthPx = 320;
-	public static final double imageWidthDeg = 47.0;
+	public static final double imageWidthDeg = 67.0;
 
 	/**
 	   The caller references the constants using <tt>Consts.EMPTY_STRING</tt>, 

@@ -10,13 +10,15 @@ public class UshapedArm {
 	Talon uShapedArmTalon;
  	Joystick breachRightJoy;
 	DigitalInput uarmLimit;
+	DriveTrain tankDriveTrain;
 	//Encoder Urot; // encoder to fetch degrees of lifter shaft
 			
- 	public UshapedArm () {
+ 	public UshapedArm (DriveTrain myTankDriveTrain) {
 		breachRightJoy = new Joystick(Consts.BREACH_RIGHT_JOYSTICK_CHAN);
 		//Urot = new Encoder(10, 11);
 		uarmLimit = new  DigitalInput(Consts.UARM_LIMIT_DIGITAL_INPUT_CHAN);
 		uShapedArmTalon = new Talon(Consts.UARM_TALON_CHAN);
+		tankDriveTrain = myTankDriveTrain;
  	}
 
 	public void Armdown(){
@@ -56,10 +58,10 @@ public class UshapedArm {
 		else if (breachRightJoy.getRawButton(Consts.BREACH_RIGHT_BTN_ARMUP)){
 			return Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_ARMUP;
 		}
-		else if (breachRightJoy.getRawButton(Consts.BREACH_RIGHT_BTN_ARMRESET)){
+		else if (breachRightJoy.getRawButton(4)){
 			return Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_ARMRESET;
 		}
-		else if (breachRightJoy.getRawButton(Consts.BREACH_RIGHT_BTN_AUTODOWN)){
+		else if (breachRightJoy.getRawButton(6)){
 			return  Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_AUTODOWN ; 
 		}
 		else if (breachRightJoy.getRawButton(Consts.BREACH_RIGHT_BTN_5)){
@@ -89,11 +91,13 @@ public class UshapedArm {
 				break;
 			
 			case Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_ARMRESET: 
-				
+				tankDriveTrain.moveForward(0.5);
+				Armdown();
 				break;
 			
 			case Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_AUTODOWN: 
-				
+				tankDriveTrain.moveForward(-1);
+				armReset();
 				break;
 				
 			case Consts.BREACH_RIGHT_JOYSTICK_UARM_CODE_5:

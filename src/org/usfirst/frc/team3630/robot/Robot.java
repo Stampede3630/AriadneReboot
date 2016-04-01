@@ -30,7 +30,7 @@ public class Robot extends IterativeRobot {
     int RightFrontChannel;
     DriveTrain tankDriveTrain;
     LifterManipulator shooter;
-    UshapedArm hook;
+    UshapedArm uArm;
     StraitArm arm2;
     
     Sensors sensors;
@@ -52,7 +52,7 @@ public class Robot extends IterativeRobot {
     	tankDriveTrain = new DriveTrain(sensors);
 		shooter = new LifterManipulator(tankDriveTrain);
 		tankDriveTrain.driveTrainInit(); 
-		hook = new UshapedArm();
+		uArm = new UshapedArm(tankDriveTrain);
 		arm2= new StraitArm();
 		
 		autonomous = new Autonomous();
@@ -73,6 +73,10 @@ public class Robot extends IterativeRobot {
 
     }
     
+    public void disableInit(){
+    	tankDriveTrain.stopDrive();
+    }
+    
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
 	 * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
@@ -90,11 +94,27 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic(){
-		autonomous.lowbarPeriodic();
+   	//low bar and shoot
+		//autonomous.lowbarPeriodic();
+		
+	//low bas without shooting
+		//autonomous.noShootlowbarPeriodic();
+		
+	//driveTrain defense in location A
     	//autonomous.autoAPeriodic();
+		
+	//driveTrain defense in location B
 		//autonomous.autoBPeriodic();
+		
+	//driveTrain defense in location C
     	//autonomous.autoCPeriodic();
+		
+	//driveTrain defense in location D
     	//autonomous.autoDPeriodic();
+		
+	//driveTrain defense without shooting
+		//autonomous.noShootautoPeriodic();
+		
     	sensors.updateSmartDB();
     }
     /**s
@@ -112,7 +132,7 @@ public class Robot extends IterativeRobot {
  	    }
     	
     	shooter.manipulatorPeriodic(); // Obviously only controlled by the shooter person.
-    	hook.UArmPeriodic(); // Only controlled by the breach person.
+    	uArm.UArmPeriodic(); // Only controlled by the breach person.
     	arm2.straightArmPeriodic(); // Only controlled by the breach person.
     	
     	tankDriveTrain.updateSmartDB();

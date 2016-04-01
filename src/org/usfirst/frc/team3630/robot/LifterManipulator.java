@@ -185,7 +185,7 @@ public class LifterManipulator  {
 	}
 	
 	public boolean set_shooter_pos(double pos){
-		final double margin = 0.25; 
+		final double margin = 0.23; 
 		final double offset = 0.0;
 		double curPos = shooterrotation.getDistance();
 		boolean isComplete = false;
@@ -224,24 +224,24 @@ public class LifterManipulator  {
 			isComplete = true;
 		}
 		else if (115 <= distance){
-			isComplete = set_shooter_pos(-14);
+			isComplete = set_shooter_pos(-12.75);
 		}
 
 		else if(105 <= distance){
-			isComplete = set_shooter_pos(-13);
+			isComplete = set_shooter_pos(-12.50);
 		}
 		else if(97 <= distance){
-			isComplete = set_shooter_pos(-12.3);
+			isComplete = set_shooter_pos(-12.5);
 		}
 		else if( 89 <= distance){
 			isComplete = set_shooter_pos(-11.75);
 		}
 
 		else if( 81 <= distance){
-			isComplete = set_shooter_pos(-11.4);
+			isComplete = set_shooter_pos(-11.25);
 		}
 		else if( 77  <= distance){
-			isComplete = set_shooter_pos(-10.05);
+			isComplete = set_shooter_pos(-10.25);
 		}
 		else {
 			lifterTalon.set(0);
@@ -259,34 +259,36 @@ public class LifterManipulator  {
 		double actual_right_of_center_px = math.get_target_right_of_center_px();
 		double desired_right_of_center_px = actual_right_of_center_px; // Will do nothing if not in range.
 		if (100 <= distance) {
-			desired_right_of_center_px = 10; //40
+			desired_right_of_center_px = 28;
 		} 
 		else if (91 <= distance) {
-			desired_right_of_center_px = 11; //44
+			desired_right_of_center_px = 29;
 		}
 		else if (81 <= distance) {
-			desired_right_of_center_px = 16; //51
+			desired_right_of_center_px = 34; 
 		}
 		else if (77 <= distance) {
-			desired_right_of_center_px = 22; //55
+			desired_right_of_center_px = 42; 
 		}
 		
 		// Desired rotation will be positive if we need to rotate left.
 		double desired_rotation_px = desired_right_of_center_px - actual_right_of_center_px;
 		double desired_rotation_deg = Consts.imageWidthDeg * desired_rotation_px / Consts.imageWidthPx;
-		final double rot_margin_deg = 0.4;
-		final double max_rot_angle_deg = 8;
+		final double rot_margin_deg = 0;
+		final double max_rot_angle_deg = 3;
 		if (Math.abs(desired_rotation_deg) > rot_margin_deg) {
 			if (Math.abs(desired_rotation_deg) > max_rot_angle_deg) {
 				if (desired_rotation_deg >= 0) {
 					desired_rotation_deg = max_rot_angle_deg;
+					tankDriveTrain.turnLeft(0.6);
 				}
 				else
 				{
 					desired_rotation_deg = -max_rot_angle_deg;
+					tankDriveTrain.turnLeft(-0.6);
 				}
 			}
-			tankDriveTrain.turnLeft(0.1 * desired_rotation_deg); // Need to figure out the constant.
+			//tankDriveTrain.turnLeft(0.13 * desired_rotation_deg); // Need to figure out the constant.
 		}
 		else {
 			isComplete = true;
@@ -294,11 +296,10 @@ public class LifterManipulator  {
 			
 		return isComplete;
 	}
-	
 
 	public void resetKickBall() {
 		while (kickReady.get()) {
-			ballKickerTalon.set(0.25);	
+			ballKickerTalon.set(0.4);	
 		}
 		ballKickerTalon.set(0);
 	}
@@ -325,10 +326,10 @@ public class LifterManipulator  {
 		else if (shootRightJoy.getRawButton(4)){
 			return Consts.SHOOTER_JOYSTICK_CODE_DEGREE_PICKUP;
 		}
-		else if (shootRightJoy.getRawButton(Consts.SHOOTER_RIGHT_BTN_DEGREE_CORRECTION)){
+		else if (breachRightJoy.getRawButton(11)){
 			return  Consts.SHOOTER_JOYSTICK_CODE_DEGREE_CORRECTION; 
 		}
-		else if (shootRightJoy.getRawButton(Consts.SHOOTER_RIGHT_BTN_DEGREE_DRIVE)){
+		else if (breachRightJoy.getRawButton(12)){
 			return  Consts.SHOOTER_JOYSTICK_CODE_DEGREE_DRIVE; 
 		}
 		else if (shootRightJoy.getRawButton(Consts.SHOOTER_RIGHT_BTN_ARM_RESET)){
@@ -372,11 +373,11 @@ public class LifterManipulator  {
 			break;
 
 		case Consts.SHOOTER_JOYSTICK_CODE_DEGREE_CORRECTION: // This is for shooting. We are going to a 45 deg shooting angle.
-			degree_shoot();
+			tankDriveTrain.moveRight(0.8);
 			break;
 
 		case Consts.SHOOTER_JOYSTICK_CODE_DEGREE_DRIVE: // This is for driving. WE are going to a 103 deg pick up angle.
-			degree_drive();
+			tankDriveTrain.moveLeft(0.8);
 			break;
 		
 		case Consts.SHOOTER_JOYSTICK_CODE_ARM_RESET: 
