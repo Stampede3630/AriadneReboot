@@ -20,7 +20,7 @@ public class StraitArm {
 	}
 
 	public void Armdown(){
-		 straitArmTalon.set(-0.5);
+		 straitArmTalon.set(-1);
 	}
 	
 	public void ArmUp(){

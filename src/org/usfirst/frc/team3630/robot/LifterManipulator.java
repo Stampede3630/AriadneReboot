@@ -101,8 +101,12 @@ public class LifterManipulator  {
 		}
 
 	public void LifterUp(){
-		lifterTalon.set(-.6);
+		lifterTalon.set(-.7);
 		}
+	
+	public void autoLifterUp(){
+		lifterTalon.set(-1);
+	}
 	
 	public void loadBall(){
 		spinLeftTalon.set(-.5);
@@ -114,6 +118,14 @@ public class LifterManipulator  {
 		spinLeftTalon.set(1);
 		spinRightTalon.set(-1);
 		Timer.delay(1.5);
+		kick_ball();
+		}
+
+	public void shootBallQuickly(){
+		
+		spinLeftTalon.set(1);
+		spinRightTalon.set(-1);
+		Timer.delay(0.5);
 		kick_ball();
 		}
 
@@ -171,7 +183,7 @@ public class LifterManipulator  {
 		double magnitudeDif = Math.abs(angle - curPos);
 		if (magnitudeDif > margin){
 			if (angle > curPos){ // desired position is less negative, lower angle
-				// lifterTalon.set(-0.35); // go up
+				lifterTalon.set(-0.4); // go up
 				// lifterTalon.set(0);
 				atDesiredAngle = true;
 			}else{
@@ -201,7 +213,7 @@ public class LifterManipulator  {
 
 			// Shooter position: further down has more negative (lesser number)
 			if (pos > curPos){ // desired position is less negative, lower angle
-				lifterTalon.set(-0.55); // go up -0.35
+				lifterTalon.set(-0.6); // go up -0.35
 			}else{
 				lifterTalon.set(0.2); // go down
 			}
@@ -224,24 +236,27 @@ public class LifterManipulator  {
 			isComplete = true;
 		}
 		else if (115 <= distance){
-			isComplete = set_shooter_pos(-12.75);
+			isComplete = set_shooter_pos(-13.5);
 		}
 
 		else if(105 <= distance){
-			isComplete = set_shooter_pos(-12.50);
+			isComplete = set_shooter_pos(-13.25);
 		}
 		else if(97 <= distance){
-			isComplete = set_shooter_pos(-12.5);
+			isComplete = set_shooter_pos(-13.25);
 		}
 		else if( 89 <= distance){
-			isComplete = set_shooter_pos(-11.75);
+			isComplete = set_shooter_pos(-13);
 		}
 
 		else if( 81 <= distance){
-			isComplete = set_shooter_pos(-11.25);
+			isComplete = set_shooter_pos(-12.5);
 		}
 		else if( 77  <= distance){
 			isComplete = set_shooter_pos(-10.25);
+		}
+		else if( 50  <= distance){
+			isComplete = set_shooter_pos(-10); //test
 		}
 		else {
 			lifterTalon.set(0);
@@ -259,17 +274,21 @@ public class LifterManipulator  {
 		double actual_right_of_center_px = math.get_target_right_of_center_px();
 		double desired_right_of_center_px = actual_right_of_center_px; // Will do nothing if not in range.
 		if (100 <= distance) {
-			desired_right_of_center_px = 28;
+			desired_right_of_center_px = 27;
 		} 
 		else if (91 <= distance) {
-			desired_right_of_center_px = 29;
+			desired_right_of_center_px = 28;
 		}
 		else if (81 <= distance) {
-			desired_right_of_center_px = 34; 
+			desired_right_of_center_px = 33; 
 		}
 		else if (77 <= distance) {
-			desired_right_of_center_px = 42; 
+			desired_right_of_center_px = 41; 
 		}
+		else {
+			desired_right_of_center_px = 44; 
+		}
+		
 		
 		// Desired rotation will be positive if we need to rotate left.
 		double desired_rotation_px = desired_right_of_center_px - actual_right_of_center_px;
@@ -320,6 +339,9 @@ public class LifterManipulator  {
 		else if (shootRightJoy.getRawButton(Consts.SHOOTER_RIGHT_BTN_SHOOTBALL)){
 			return Consts.SHOOTER_JOYSTICK_CODE_SHOOTBALL;
 		}
+		else if (shootRightJoy.getRawButton(Consts.SHOOTER_RIGHT_BTN_SHOOTQUICK)){
+			return Consts.SHOOTER_JOYSTICK_CODE_SHOOTQUICK;
+		}
 		else if (breachRightJoy.getRawButton(3)){
 			return 8;
 		}
@@ -362,6 +384,10 @@ public class LifterManipulator  {
 		
 		case Consts.SHOOTER_JOYSTICK_CODE_SHOOTBALL:
 			shootBall();
+			break;
+
+		case Consts.SHOOTER_JOYSTICK_CODE_SHOOTQUICK:
+			shootBallQuickly();
 			break;
 
 		case 8:

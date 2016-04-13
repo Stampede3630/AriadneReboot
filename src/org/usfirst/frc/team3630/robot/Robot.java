@@ -95,7 +95,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic(){
    	//low bar and shoot
-		//autonomous.lowbarPeriodic();
+		autonomous.lowbarPeriodic();
 		
 	//low bas without shooting
 		//autonomous.noShootlowbarPeriodic();

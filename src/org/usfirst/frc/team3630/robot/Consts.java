@@ -40,7 +40,8 @@ public final class Consts {
 	public static final int SHOOTER_RIGHT_BTN_LOADBALL = 2;
 	public static final int SHOOTER_RIGHT_BTN_DEGREE_PICKUP = 3;
 	public static final int SHOOTER_RIGHT_BTN_DEGREE_DRIVE = 4;
-	public static final int SHOOTER_RIGHT_BTN_DEGREE_CORRECTION = 5;
+	//public static final int SHOOTER_RIGHT_BTN_DEGREE_CORRECTION = 5;
+	public static final int SHOOTER_RIGHT_BTN_SHOOTQUICK = 5;
 	public static final int SHOOTER_RIGHT_BTN_ARM_RESET = 6;
 //	public static final int SHOOTER_RIGHT_BTN_KICK_TEST = 7;
 	
@@ -56,6 +57,7 @@ public final class Consts {
 //	public static final int SHOOTER_JOYSTICK_CODE_AUTODRIVEADJUST = 8;
 	public static final int SHOOTER_JOYSTICK_CODE_DEGREE_DRIVE = 10;
 	public static final int SHOOTER_JOYSTICK_CODE_ARM_RESET = 11;
+	public static final int SHOOTER_JOYSTICK_CODE_SHOOTQUICK = 12;
 	// return camera values
 	public static final int SHOOTER_JOYSTICK_CODE_CAMERA_DEFAULT = 20;
 	public static final int SHOOTER_JOYSTICK_CODE_PANLEFT = 21;

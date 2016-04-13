@@ -112,7 +112,7 @@ public class Autonomous {
 		
 		// Known shooter angles:
 		final double barrierShooterAngle = -24;
-		final double nominalShootingAngle = -11;
+		final double nominalShootingAngle = -10.5;
 		
 		// local state machine steps
 		final int initialState = 1;
