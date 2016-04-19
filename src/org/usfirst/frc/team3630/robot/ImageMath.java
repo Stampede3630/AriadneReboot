@@ -4,20 +4,30 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ImageMath {
 	
-	public  double  get_dist_from_image(){
+	public static double  get_targetDistanceInches() {
 		double BOTTOM_LEFT_X = SmartDashboard.getNumber("BOTTOM_LEFT_X");
 		double BOTTOM_RIGHT_X = SmartDashboard.getNumber("BOTTOM_RIGHT_X");
-		double Width_Px = Math.abs(BOTTOM_RIGHT_X-BOTTOM_LEFT_X);
-		double targetWidthDeg = Consts.imageWidthDeg * Width_Px / Consts.imageWidthPx;
-		double targetDistance = (20) / Math.tan(targetWidthDeg * Math.PI / (Consts.imageWidthPx / 2));
-		return targetDistance;
+		double targetWidthPx = Math.abs(BOTTOM_RIGHT_X - BOTTOM_LEFT_X);
+		double targetWidthDeg = Consts.cameraFovWidthDegrees * targetWidthPx / Consts.cameraFovWidthPx;
+		
+		// Perform distance calculation based on half the target width, since we assume we are straight
+		// in front of the target. So the triangle for calculations has:
+		//    adjacent side = distance to the target;
+		//    opposite side = half the width of the target (10 inches)
+		//    theta degrees is the angle between pointing at the target center and its right side.
+		double thetaDegrees = targetWidthDeg / 2.0;
+		double thetaRadians = thetaDegrees * Math.PI / 180.0;
+		double targetDistanceInches = (Consts.targetWidthInches / 2.0) / Math.tan(thetaRadians);
+		
+		return targetDistanceInches;
 		}
 	
-	public double get_target_right_of_center_px() {
+	// Todo: Check this calculation.
+	public static double get_target_right_of_center_px() {
 		double BOTTOM_RIGHT_X = SmartDashboard.getNumber("BOTTOM_RIGHT_X");
 		double BOTTOM_LEFT_X = SmartDashboard.getNumber("BOTTOM_LEFT_X");
-		double width = Math.abs(BOTTOM_RIGHT_X - BOTTOM_LEFT_X);
-		double right_of_center = Math.min(BOTTOM_RIGHT_X, BOTTOM_LEFT_X) + (width / 2) - (Consts.imageWidthPx / 2);
+		double targetWidthPx = Math.abs(BOTTOM_RIGHT_X - BOTTOM_LEFT_X);
+		double right_of_center = Math.min(BOTTOM_RIGHT_X, BOTTOM_LEFT_X) + (targetWidthPx / 2) - (Consts.cameraFovWidthPx / 2);
 		return right_of_center;
 	}
 }

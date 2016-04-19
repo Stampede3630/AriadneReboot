@@ -104,17 +104,44 @@ public final class Consts {
 	public static final int BREACH_RIGHT_JOYSTICK_UARM_CODE_6 = 6;
 	public static final int BREACH_RIGHT_JOYSTICK_UARM_CODE_7 = 7;
 
-	public static final int imageWidthPx = 320;
-	public static final double imageWidthDeg = 67.0;
+	// For some calculations assume the degrees per Px is the same for both
+	// horizontal and vertical. Todo: Determine if this is true.
+	public static final double cameraFovWidthDegrees = 67.0;
+	public static final int cameraFovWidthPx = 320;
+	public static final int cameraFovHeightPx = 240;
+
+	public static final double cameraPxPerDegree = cameraFovWidthPx / cameraFovWidthDegrees;
+	public static final int cameraTiltDegrees = 18; // Camera points 18 degrees lower than the shooter angle.
+	public static final double targetWidthInches = 20.0;
+	public static final int nominalCameraHeightInches = 24;
+	public static final int targetBottomHeightInches = 83;
+	public static final int targetMiddleHeightInches = targetBottomHeightInches + 12;
+	public static final double gravityAcceleration = 9.80665; // meters / (sec * sec)
+	public static final double inchesPerMeter = 39.3701;
+	public static final double boulderWheelDiameterInches = 6;
+	public static final double boulderWheelCircumferenceInches = boulderWheelDiameterInches * 2 * Math.PI;
+	public static final double boulderSpeedInchPerSec = 304.33;
+	public static final double boulderSpeedMetersPerSec = boulderSpeedInchPerSec / inchesPerMeter;
+
+	// Todo: Measure: ramp wheel to  max velocity, record rpm, shoot ball, check rpm every tick, record min rpm.
+	// The max - min = the delta. Take measurements for multiple shots, put the average in a Java constant.
+	public static final double boulderWheelDeltaRpm = 16; // Measure this during  practice shooting.
+	public static final double boulderWheelRpm = boulderWheelDeltaRpm + 60 * boulderSpeedInchPerSec  / boulderWheelCircumferenceInches;
+	
+	// Todo: Correct the following value once we know what angle the shooter is at to improve accuracy.
+	public static final double deltaTargetHeightInches = targetBottomHeightInches - nominalCameraHeightInches;
+	
+	// Average of angles that produce long level travel between 120 and 160 inches from target.
+	public static final double defaultShooterAngleDegrees = 25.0; 
 
 	/**
 	   The caller references the constants using <tt>Consts.EMPTY_STRING</tt>, 
 	   and so on. Thus, the caller should be prevented from constructing objects of 
 	   this class, by declaring this private constructor. 
 	  */
-	  private Consts(){
+	  // private Consts(){
 	    // This prevents anyone from calling this constructor:
-	    throw new AssertionError();
-	  }
+	  //  throw new AssertionError(); // Let's not do any assertion errors.
+	  //}
 
 }

@@ -118,6 +118,7 @@ public class LifterManipulator  {
 		spinLeftTalon.set(1);
 		spinRightTalon.set(-1);
 		Timer.delay(1.5);
+		// Todo: Add initial test code here to measure the left and right boulder encoder RPM values.
 		kick_ball();
 		}
 
@@ -160,8 +161,13 @@ public class LifterManipulator  {
 		}
 
 		
-	public void kick_ball(){
-
+	public void kick_ball() {
+		// Todo: add code to measure the left and right boulder encoder RPM slow-down amounts
+		// during the ball shooting. To get a good slowdown, take multiple measurements of the
+		// RPMs, getting the initial RPMs, then determining the minimum RPMs prior to RPM
+		// increase after the ball has shot. So give a little extra motor run-time to verify
+		// the RPM increase again after the kicker kicks.
+		
 		final int maxTimeDelaySec = 2;
 		final int loopsPerSec = 10;
 		int kickLoops = 0;
@@ -175,45 +181,44 @@ public class LifterManipulator  {
 		resetKickBall();
 		}
 	
-	public boolean set_shooter_angle(double angle){
+	public boolean set_shooter_angle(double newEncVal) {
 		final double margin = 1;
-		double curPos = shooterrotation.getDistance();
-		boolean atDesiredAngle = false;
+		double curEncVal = shooterrotation.getDistance();
+		boolean isComplete = false;
 		
-		double magnitudeDif = Math.abs(angle - curPos);
-		if (magnitudeDif > margin){
-			if (angle > curPos){ // desired position is less negative, lower angle
+		double magnitudeDif = Math.abs(newEncVal - curEncVal);
+		if (magnitudeDif > margin) {
+			if (newEncVal > curEncVal) {
 				lifterTalon.set(-0.4); // go up
-				// lifterTalon.set(0);
-				atDesiredAngle = true;
-			}else{
+				// isComplete = true; // this was why the shooter would stop going up in autonomous!
+			} else {
 				lifterTalon.set(0.5); // go down
 			}
 		} else {
 			lifterTalon.set(0);
-			atDesiredAngle = true;
+			isComplete = true;
 		}
-		return atDesiredAngle;
+		return isComplete;
 	}
 	
-	public boolean set_shooter_pos(double pos){
+	public boolean set_shooter_pos(double newEncVal) {
 		final double margin = 0.23; 
 		final double offset = 0.0;
-		double curPos = shooterrotation.getDistance();
+		double curEncVal = shooterrotation.getDistance();
 		boolean isComplete = false;
 		
 		// adjust desire position - we want it a bit higher than requested.
-		pos = pos + offset; // a positive offset adjustment will make it higher.
+		newEncVal = newEncVal + offset; // a positive offset adjustment will make it higher.
 		
-		SmartDashboard.putNumber("Goto Lifter Pos", pos);
-		SmartDashboard.putNumber("Cur Lifter Pos", curPos);
+		SmartDashboard.putNumber("Goto Lifter Pos", newEncVal);
+		SmartDashboard.putNumber("Cur Lifter Pos", curEncVal);
 
-		double magnitudeDif = Math.abs(pos - curPos);
+		double magnitudeDif = Math.abs(newEncVal - curEncVal);
 		if ((magnitudeDif > margin) && evenPos){
 
 			// Shooter position: further down has more negative (lesser number)
-			if (pos > curPos){ // desired position is less negative, lower angle
-				lifterTalon.set(-0.6); // go up -0.35
+			if (newEncVal > curEncVal){ // desired position is less negative, lower angle
+				lifterTalon.set(-0.6); // go up
 			}else{
 				lifterTalon.set(0.2); // go down
 			}
@@ -225,53 +230,95 @@ public class LifterManipulator  {
 		return isComplete;
 		}
 	
-	public boolean auto_adjust() {
-		boolean isComplete = false;
-		ImageMath	math = new ImageMath();
-		double distance= math.get_dist_from_image();
-		SmartDashboard.putNumber("Distance Away", distance);
-		
-		if (180 <= distance){
-			lifterTalon.set(0);
-			isComplete = true;
-		}
-		else if (115 <= distance){
-			isComplete = set_shooter_pos(-13.5);
-		}
-
-		else if(105 <= distance){
-			isComplete = set_shooter_pos(-13.25);
-		}
-		else if(97 <= distance){
-			isComplete = set_shooter_pos(-13.25);
-		}
-		else if( 89 <= distance){
-			isComplete = set_shooter_pos(-13);
-		}
-
-		else if( 81 <= distance){
-			isComplete = set_shooter_pos(-12.5);
-		}
-		else if( 77  <= distance){
-			isComplete = set_shooter_pos(-10.25);
-		}
-		else if( 50  <= distance){
-			isComplete = set_shooter_pos(-10); //test
-		}
-		else {
-			lifterTalon.set(0);
-			isComplete = true;
-		}
-		return isComplete;
+	public boolean setShooterAngleDeg(double shooterAngleDegrees) {
+		// First map degrees to encoder values.
+		double shooterEncoderValue = getShooterEncoderValue(shooterAngleDegrees);
+		return set_shooter_pos(shooterEncoderValue);
 	}
 	
+	public boolean auto_adjust() {
+		double distanceInches = ImageMath.get_targetDistanceInches();
+		SmartDashboard.putNumber("Distance Away", distanceInches);
+		
+		double shooterAngleDegrees = getShooterAngleDegrees(distanceInches);
+		return setShooterAngleDeg(shooterAngleDegrees);
+	}
+	
+	private double getShooterEncoderValue(double shooterAngleDegrees) {
+/*		double shooterEncoderValue = -13.25;
+		if (shooterAngleDegrees < 27) {
+			shooterEncoderValue = -13.5;
+		}
+		else if (shooterAngleDegrees < 30) {
+			shooterEncoderValue = -13.25;
+		}
+		else if (shooterAngleDegrees < 33) {
+			shooterEncoderValue = -13.0;
+		}
+		else if (shooterAngleDegrees < 35) {
+			shooterEncoderValue = -12.5;
+		}
+		else if (shooterAngleDegrees < 37.5) {
+			shooterEncoderValue = -10.25;
+		}
+		else if (shooterAngleDegrees < 48) {
+			shooterEncoderValue = -10.0;
+		}
+		else {
+			shooterEncoderValue = -10.0;
+		}
+*/		
+		// The following formula was empirically determined from initial target
+		// calibration data table values. The error is greater for smaller values
+		// of angle degrees, corresponding to shooting from a greater distance.
+		return (-289.0 / shooterAngleDegrees) - 1.0;
+	}
+
+	private double getShooterAngleDegrees(double distanceInches) {
+		// Just from the target distance from imaging and knowing the nominal delta height, we can
+		// calculate the angle 'phi' from horizontal the target bottom position is at.
+		double targetAngleRadians = Math.asin(Consts.deltaTargetHeightInches / distanceInches);
+		// double phiRad = targetAngleRadians;
+		double targetAngleDegrees = targetAngleRadians * 180 / Math.PI; // display on dashboard
+		double phiDeg = targetAngleDegrees;
+		// The x-axis is the horizontal distance from the robot to the target.
+		double xTargetDistInches = distanceInches * Math.cos(targetAngleRadians);
+		// The y-axis is the vertical distance from the floor up to the target.
+		// double yTargetDistInches = Consts.deltaTargetHeightInches + 12.0; // want to shoot 12" above the target bottom
+		double xTargetDistMeters = xTargetDistInches / Consts.inchesPerMeter;
+		double x = xTargetDistMeters;
+		double yTargetDistMeters = (Consts.targetMiddleHeightInches - Consts.nominalCameraHeightInches) / Consts.inchesPerMeter;
+		double y = yTargetDistMeters;
+		double v = Consts.boulderSpeedMetersPerSec;
+		double g = Consts.gravityAcceleration;
+		double termInsideSqrt = v * v * v * v - g * (g * x * x + 2 * y * v * v);
+		// theta is vertical angle pointing shooter to shoot boulder through middle of target opening.
+		double shooterAngleDegrees = Consts.defaultShooterAngleDegrees;
+		if (termInsideSqrt >= 0) {
+			double shooterAngleRadians = Math.atan(v * v - Math.sqrt(termInsideSqrt));
+			// double thetaRad = shooterAngleRadians;
+			shooterAngleDegrees = shooterAngleRadians * 180 / Math.PI; // display this on the dashboard
+			double thetaDeg = shooterAngleDegrees;
+			// phi is the vertical angle of the target bottom from the 0-angle horizon.
+			// double deltaRad = thetaRad - phiRad;
+			double deltaDeg = thetaDeg - phiDeg;
+			double cameraDeltaDeg = deltaDeg - Consts.cameraTiltDegrees;
+			// Camera delta y-pixels should correlate with the target y-position from the image when the shooter is at the
+			// desired angle. This can be used as a cross-check visually to verify the shooter is at the desired angle.
+			double cameraDeltaYPx = cameraDeltaDeg  * Consts.cameraPxPerDegree; // display this value in the dashboard
+			// Todo: Determine relation between cameraDeltaYPx and cameraTargetBotYPx.
+		}
+
+		return shooterAngleDegrees;
+	}
+
+	// Rotate robot left or right so to aim at the target.
 	public boolean driveAdjust(){
 		boolean isComplete = false;
-		ImageMath	math = new ImageMath();
-		double distance= math.get_dist_from_image();
+		double distance= ImageMath.get_targetDistanceInches();
 			
 		// Determine left/right robot orientation.
-		double actual_right_of_center_px = math.get_target_right_of_center_px();
+		double actual_right_of_center_px = ImageMath.get_target_right_of_center_px();
 		double desired_right_of_center_px = actual_right_of_center_px; // Will do nothing if not in range.
 		if (100 <= distance) {
 			desired_right_of_center_px = 27;
@@ -292,7 +339,7 @@ public class LifterManipulator  {
 		
 		// Desired rotation will be positive if we need to rotate left.
 		double desired_rotation_px = desired_right_of_center_px - actual_right_of_center_px;
-		double desired_rotation_deg = Consts.imageWidthDeg * desired_rotation_px / Consts.imageWidthPx;
+		double desired_rotation_deg = Consts.cameraFovWidthDegrees * desired_rotation_px / Consts.cameraFovWidthPx;
 		final double rot_margin_deg = 0;
 		final double max_rot_angle_deg = 3;
 		if (Math.abs(desired_rotation_deg) > rot_margin_deg) {
