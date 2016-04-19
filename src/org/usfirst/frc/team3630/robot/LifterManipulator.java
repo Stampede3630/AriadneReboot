@@ -27,8 +27,10 @@ public class LifterManipulator  {
 	boolean evenPos = false;
 	
 	DriveTrain tankDriveTrain;
-	
+	Boulder_encoder LeftMoter;
+	Boulder_encoder RightMoter;
 	public LifterManipulator(DriveTrain myTankDriveTrain){
+		
 		tankDriveTrain = myTankDriveTrain;
 		spinLeftTalon = new Talon(Consts.SPIN_LEFT_TALON_CHAN);
 		spinRightTalon = new Talon(Consts.SPIN_RIGHT_TALON_CHAN);
@@ -42,6 +44,8 @@ public class LifterManipulator  {
 		breachRightJoy = new Joystick(Consts.BREACH_RIGHT_JOYSTICK_CHAN);
 		shooterrotation = new Encoder(13,14, false);
 		shooterrotation.setDistancePerPulse(1);
+		LeftMoter= new Boulder_encoder(2,3);
+		RightMoter = new Boulder_encoder(1,2);
 	}
 	
 	public void degree_shoot(){
@@ -465,6 +469,8 @@ public class LifterManipulator  {
 	SmartDashboard.putNumber("Time", Timer.getMatchTime());
 	SmartDashboard.putNumber("Shooter Angle",shooterrotation.getDistance());
 	SmartDashboard.putNumber("Shooter Angle RAW",shooterrotation.getRaw());
+	SmartDashboard.putNumber("Right moter RPM",RightMoter.RPM());
+	SmartDashboard.putNumber("Left Moter RMP",LeftMoter.RPM());
 	}
 }
 	

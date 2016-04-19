@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 
 public class Boulder_encoder{
-<<<<<<< HEAD
+
 Encoder boulderEncoder;
 	
 	//requires the 
@@ -23,7 +23,7 @@ Encoder boulderEncoder;
 		double rps =  boulderEncoder.getDistance();
 		double rpm = rps*60;
 		return rpm;
-=======
+
 	Encoder primenc;
 	
 	// Encoder for CIM Motor
@@ -53,7 +53,7 @@ Encoder boulderEncoder;
 		double rotationsPerSec = primenc.getRate();
 		double rotationsPerMin = rotationsPerSec * 60;
 		return rotationsPerMin;
->>>>>>> origin/PostScrimmage
+
 	}
 	
 	// The encoder will begin counting as soon as it is created. 
