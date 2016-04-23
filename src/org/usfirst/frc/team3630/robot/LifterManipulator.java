@@ -27,8 +27,8 @@ public class LifterManipulator  {
 	boolean evenPos = false;
 	
 	DriveTrain tankDriveTrain;
-	Boulder_encoder LeftMoter;
-	Boulder_encoder RightMoter;
+	Boulder_encoder leftMotor;
+	Boulder_encoder rightMotor;
 	public LifterManipulator(DriveTrain myTankDriveTrain){
 		
 		tankDriveTrain = myTankDriveTrain;
@@ -42,11 +42,17 @@ public class LifterManipulator  {
 		shootLeftJoy = new Joystick(Consts.SHOOTER_LEFT_JOYSTICK_CHAN);
 		shootRightJoy = new Joystick(Consts.SHOOTER_RIGHT_JOYSTICK_CHAN);
 		breachRightJoy = new Joystick(Consts.BREACH_RIGHT_JOYSTICK_CHAN);
-		shooterrotation = new Encoder(13,14, false);
+		shooterrotation = new Encoder(
+				Consts.SHOOTER_ENCODER_DIGITAL_INPUT_CHAN,
+				Consts.SHOOTER_ENCODER_DIGITAL_OUTPUT_CHAN, false);
 		shooterrotation.setDistancePerPulse(1);
-		LeftMoter= new Boulder_encoder(2,3);
-		RightMoter = new Boulder_encoder(1,2);
-	}
+		leftMotor = new Boulder_encoder(
+				Consts.LEFT_BOULDER_ENCODER_DIGITAL_INPUT_CHAN,
+				Consts.LEFT_BOULDER_ENCODER_DIGITAL_OUTPUT_CHAN);
+		rightMotor = new Boulder_encoder(
+				Consts.RIGHT_BOULDER_ENCODER_DIGITAL_INPUT_CHAN,
+				Consts.RIGHT_BOULDER_ENCODER_DIGITAL_OUTPUT_CHAN);
+		}
 	
 	public void degree_shoot(){
 		boolean upperbinaryValue = lifterLimit.get();
@@ -121,7 +127,14 @@ public class LifterManipulator  {
 		
 		spinLeftTalon.set(1);
 		spinRightTalon.set(-1);
-		Timer.delay(1.5);
+		// Loop for 1.5 sec - read the RPM each 0.1 sec
+		for (int i = 0; i < 15; i++) {
+ 			SmartDashboard.putNumber("Right motor RPM",rightMotor.RPM());
+ 			SmartDashboard.putNumber("Left Motor RPM",leftMotor.RPM());
+			Timer.delay(0.1);
+		}
+		SmartDashboard.putNumber("Right motor RPM",rightMotor.RPM());
+		SmartDashboard.putNumber("Left Motor RPM",leftMotor.RPM());
 		// Todo: Add initial test code here to measure the left and right boulder encoder RPM values.
 		kick_ball();
 		}
@@ -130,7 +143,14 @@ public class LifterManipulator  {
 		
 		spinLeftTalon.set(1);
 		spinRightTalon.set(-1);
-		Timer.delay(0.5);
+		// Loop for 0.5 sec - read the RPM each 0.1 sec
+		for (int i = 0; i < 5; i++) {
+ 			SmartDashboard.putNumber("Right motor RPM",rightMotor.RPM());
+ 			SmartDashboard.putNumber("Left Motor RPM",leftMotor.RPM());
+			Timer.delay(0.1);
+		}
+		SmartDashboard.putNumber("Right motor RPM",rightMotor.RPM());
+		SmartDashboard.putNumber("Left Motor RPM",leftMotor.RPM());
 		kick_ball();
 		}
 
@@ -173,14 +193,35 @@ public class LifterManipulator  {
 		// the RPM increase again after the kicker kicks.
 		
 		final int maxTimeDelaySec = 2;
-		final int loopsPerSec = 10;
 		int kickLoops = 0;
- 		while (kickComplete.get() && (kickLoops < (maxTimeDelaySec * loopsPerSec)) && !shootLeftJoy.getRawButton(Consts.SHOOTER_LEFT_BTN_STOP)) {
+		final int loopsPerSec = 10;
+		int maxLoops = maxTimeDelaySec * loopsPerSec;
+		double initialRightRPM = rightMotor.RPM();
+		double initialLeftRPM = leftMotor.RPM();
+		double decreasedRightRPM = initialRightRPM;
+		double decreasedLeftRPM = initialLeftRPM;
+		SmartDashboard.putNumber("Prekick Right motor RPM", initialRightRPM);
+		SmartDashboard.putNumber("Prekick Left Motor RPM", initialLeftRPM);
+ 		while (kickComplete.get() && (kickLoops < maxLoops) && !shootLeftJoy.getRawButton(Consts.SHOOTER_LEFT_BTN_STOP)) {
+ 			double curRightRPM = rightMotor.RPM();
+ 			double curLeftRPM = leftMotor.RPM();
+ 			if (Math.abs(curRightRPM - initialRightRPM) > Math.abs(decreasedRightRPM - initialRightRPM)) {
+ 				decreasedRightRPM = curRightRPM; // Record the max change in RPM
+ 			}
+ 			if (Math.abs(curLeftRPM - initialLeftRPM) > Math.abs(decreasedLeftRPM - initialLeftRPM)) {
+ 				decreasedLeftRPM = curLeftRPM; // Record the max change in RPM
+ 			}
  			SmartDashboard.putBoolean("Kick completed",kickComplete.get());
+ 			SmartDashboard.putNumber("Right motor RPM", curRightRPM);
+ 			SmartDashboard.putNumber("Left Motor RPM", curLeftRPM);
  			ballKickerTalon.set(-1);
-			Timer.delay(1.5 / loopsPerSec);
+			Timer.delay(0.1);
 			kickLoops++;
  			}
+		SmartDashboard.putNumber("Decreased Right motor RPM", decreasedRightRPM);
+		SmartDashboard.putNumber("Decreased Left Motor RPM", decreasedLeftRPM);
+		SmartDashboard.putNumber("Right motor RPM",rightMotor.RPM());
+		SmartDashboard.putNumber("Left Motor RPM",leftMotor.RPM());
 		ballKickerTalon.set(0);
 		resetKickBall();
 		}
@@ -469,8 +510,8 @@ public class LifterManipulator  {
 	SmartDashboard.putNumber("Time", Timer.getMatchTime());
 	SmartDashboard.putNumber("Shooter Angle",shooterrotation.getDistance());
 	SmartDashboard.putNumber("Shooter Angle RAW",shooterrotation.getRaw());
-	SmartDashboard.putNumber("Right moter RPM",RightMoter.RPM());
-	SmartDashboard.putNumber("Left Moter RMP",LeftMoter.RPM());
+	SmartDashboard.putNumber("Right motor RPM",rightMotor.RPM());
+	SmartDashboard.putNumber("Left Motor RPM",leftMotor.RPM());
 	}
 }
 	
