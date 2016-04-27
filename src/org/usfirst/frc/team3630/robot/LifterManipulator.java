@@ -127,14 +127,26 @@ public class LifterManipulator  {
 		
 		spinLeftTalon.set(1);
 		spinRightTalon.set(-1);
+/*		StringBuilder sbRight = new StringBuilder(32);
+		sbRight.append("Right motor RPM");
+		StringBuilder sbLeft = new StringBuilder(32);
+		sbLeft.append("Left motor RPM");
 		// Loop for 1.5 sec - read the RPM each 0.1 sec
 		for (int i = 0; i < 15; i++) {
- 			SmartDashboard.putNumber("Right motor RPM",rightMotor.RPM());
- 			SmartDashboard.putNumber("Left Motor RPM",leftMotor.RPM());
+			StringBuilder sbR = new StringBuilder(32);
+			StringBuilder sbL = new StringBuilder(32);
+			sbR.append(sbRight);
+			sbR.append(Integer.toString(i));
+			sbL.append(sbLeft);
+			sbL.append(Integer.toString(i));
+ 			SmartDashboard.putNumber(sbR.toString(),rightMotor.RPM());
+ 			SmartDashboard.putNumber(sbL.toString(),leftMotor.RPM());
 			Timer.delay(0.1);
 		}
-		SmartDashboard.putNumber("Right motor RPM",rightMotor.RPM());
-		SmartDashboard.putNumber("Left Motor RPM",leftMotor.RPM());
+		*/
+		Timer.delay(1.0); // Ramp up shooter motor for only 1 second (not 1.5 second).
+		// SmartDashboard.putNumber("Right motor RPM",rightMotor.RPM());
+		// SmartDashboard.putNumber("Left Motor RPM",leftMotor.RPM());
 		// Todo: Add initial test code here to measure the left and right boulder encoder RPM values.
 		kick_ball();
 		}
@@ -186,23 +198,33 @@ public class LifterManipulator  {
 
 		
 	public void kick_ball() {
-		// Todo: add code to measure the left and right boulder encoder RPM slow-down amounts
+		// NOTE: The RPM related functionality is fully commented out because our initial
+		// encoders on the shooter motors were of different types, and RPM values we
+		// measured were inconsistent.
+		
+		// Add code to measure the left and right boulder encoder RPM slow-down amounts
 		// during the ball shooting. To get a good slowdown, take multiple measurements of the
 		// RPMs, getting the initial RPMs, then determining the minimum RPMs prior to RPM
-		// increase after the ball has shot. So give a little extra motor run-time to verify
+		// increase afer the ball has shot. So give a little extra motor run-time to verify
 		// the RPM increase again after the kicker kicks.
 		
 		final int maxTimeDelaySec = 2;
 		int kickLoops = 0;
 		final int loopsPerSec = 10;
 		int maxLoops = maxTimeDelaySec * loopsPerSec;
+		
+		/* DEPRECATED RPM CODE:
 		double initialRightRPM = rightMotor.RPM();
 		double initialLeftRPM = leftMotor.RPM();
 		double decreasedRightRPM = initialRightRPM;
 		double decreasedLeftRPM = initialLeftRPM;
 		SmartDashboard.putNumber("Prekick Right motor RPM", initialRightRPM);
-		SmartDashboard.putNumber("Prekick Left Motor RPM", initialLeftRPM);
+		SmartDashboard.putNumber("Prekick Left Motor RPM", initialLeftRPM);*/
+		
  		while (kickComplete.get() && (kickLoops < maxLoops) && !shootLeftJoy.getRawButton(Consts.SHOOTER_LEFT_BTN_STOP)) {
+ 			
+ 			/* DEPRECATED RPM MEASUREMENT CODE:
+ 			 *This is measurement code (removed when done)
  			double curRightRPM = rightMotor.RPM();
  			double curLeftRPM = leftMotor.RPM();
  			if (Math.abs(curRightRPM - initialRightRPM) > Math.abs(decreasedRightRPM - initialRightRPM)) {
@@ -211,25 +233,47 @@ public class LifterManipulator  {
  			if (Math.abs(curLeftRPM - initialLeftRPM) > Math.abs(decreasedLeftRPM - initialLeftRPM)) {
  				decreasedLeftRPM = curLeftRPM; // Record the max change in RPM
  			}
- 			SmartDashboard.putBoolean("Kick completed",kickComplete.get());
  			SmartDashboard.putNumber("Right motor RPM", curRightRPM);
  			SmartDashboard.putNumber("Left Motor RPM", curLeftRPM);
+			*/
+ 			
+ 			SmartDashboard.putBoolean("Kick completed", kickComplete.get());
  			ballKickerTalon.set(-1);
 			Timer.delay(0.1);
 			kickLoops++;
  			}
+		SmartDashboard.putBoolean("Kick completed", kickComplete.get());
+		
+ 		ballKickerTalon.set(0);
+		resetKickBall();
+		
+		/* DEPRECATED RPM MEASUREMENT CODE:
+		for (int i=0; i < 20; i++) {
+			double curRightRPM = rightMotor.RPM();
+			double curLeftRPM = leftMotor.RPM();
+			if (Math.abs(curRightRPM - initialRightRPM) > Math.abs(decreasedRightRPM - initialRightRPM)) {
+				decreasedRightRPM = curRightRPM; // Record the max change in RPM
+			}
+			if (Math.abs(curLeftRPM - initialLeftRPM) > Math.abs(decreasedLeftRPM - initialLeftRPM)) {
+				decreasedLeftRPM = curLeftRPM; // Record the max change in RPM
+			}
+ 			SmartDashboard.putNumber("Right motor RPM", curRightRPM);
+ 			SmartDashboard.putNumber("Left Motor RPM", curLeftRPM);
+			Timer.delay(0.1);
+		}
 		SmartDashboard.putNumber("Decreased Right motor RPM", decreasedRightRPM);
 		SmartDashboard.putNumber("Decreased Left Motor RPM", decreasedLeftRPM);
-		SmartDashboard.putNumber("Right motor RPM",rightMotor.RPM());
-		SmartDashboard.putNumber("Left Motor RPM",leftMotor.RPM());
-		ballKickerTalon.set(0);
-		resetKickBall();
+		 */	
 		}
 	
+	// This version of the set shooter angle/pos is called from autonomous low-bar periodic only
+	// for lowering the shooter to -23.5 or -24 encoder setting so to traverse the low-bar barrier.
 	public boolean set_shooter_angle(double newEncVal) {
-		final double margin = 1;
-		double curEncVal = shooterrotation.getDistance();
+		// Return true if complete: if the shooter encoder value is close enough to that requested.
 		boolean isComplete = false;
+
+		final double margin = 1; // big margin - just to get the shooter down quickly
+		double curEncVal = shooterrotation.getDistance();
 		
 		double magnitudeDif = Math.abs(newEncVal - curEncVal);
 		if (magnitudeDif > margin) {
@@ -246,13 +290,16 @@ public class LifterManipulator  {
 		return isComplete;
 	}
 	
+	// This version of the set_shooter angle/pos is called for shooting, so should be semi-accurate.
 	public boolean set_shooter_pos(double newEncVal) {
-		final double margin = 0.23; 
-		final double offset = 0.0;
-		double curEncVal = shooterrotation.getDistance();
+		// Return true if complete: if the shooter encoder value is close enough to that requested.
 		boolean isComplete = false;
+
+		final double margin = 0.2; // was 0.23; changed hoping for more accuracy
+		final double offset = 0.0; // No offset - we expect to be told an accurate encoder value to go to.
+		double curEncVal = shooterrotation.getDistance();
 		
-		// adjust desire position - we want it a bit higher than requested.
+		// Adjust desire position - we want it a bit higher than requested.
 		newEncVal = newEncVal + offset; // a positive offset adjustment will make it higher.
 		
 		SmartDashboard.putNumber("Goto Lifter Pos", newEncVal);
@@ -263,13 +310,15 @@ public class LifterManipulator  {
 
 			// Shooter position: further down has more negative (lesser number)
 			if (newEncVal > curEncVal){ // desired position is less negative, lower angle
-				lifterTalon.set(-0.6); // go up
+				lifterTalon.set(-0.6); // go up - must be large enough for the motor to react.
 			}else{
 				lifterTalon.set(0.2); // go down
 			}
-		}else{
-			lifterTalon.set(0);
-			isComplete = true;
+		} else {
+			lifterTalon.set(0); // stop the motor
+			if (magnitudeDif <= margin) {
+				isComplete = true; // Only done once we are at or below the margin.
+			}
 		}
 		evenPos = !evenPos;
 		return isComplete;
@@ -278,14 +327,22 @@ public class LifterManipulator  {
 	public boolean setShooterAngleDeg(double shooterAngleDegrees) {
 		// First map degrees to encoder values.
 		double shooterEncoderValue = getShooterEncoderValue(shooterAngleDegrees);
+		SmartDashboard.putNumber("AUTO_ADJ Encoder Goal", shooterEncoderValue);
 		return set_shooter_pos(shooterEncoderValue);
 	}
 	
 	public boolean auto_adjust() {
-		double distanceInches = ImageMath.get_targetDistanceInches();
-		SmartDashboard.putNumber("Distance Away", distanceInches);
+		// Automatically adjust the shooter up/down angle from the camera info.
 		
+		// The camera gives us the distance based on the width of the detected target.
+		double distanceInches = ImageMath.get_targetDistanceInches();
+		SmartDashboard.putNumber("AUTO_ADJ Distance (inches)", distanceInches);
+		
+		// The smarts of the algorithm are here. There are two implementation methods.
+		// It can either determine the shooter angle based on lookup-tables or a formula.
 		double shooterAngleDegrees = getShooterAngleDegrees(distanceInches);
+		SmartDashboard.putNumber("AUTO_ADJ Angle (degrees)", shooterAngleDegrees);
+		
 		return setShooterAngleDeg(shooterAngleDegrees);
 	}
 	
@@ -316,7 +373,11 @@ public class LifterManipulator  {
 		// The following formula was empirically determined from initial target
 		// calibration data table values. The error is greater for smaller values
 		// of angle degrees, corresponding to shooting from a greater distance.
-		return (-289.0 / shooterAngleDegrees) - 1.0;
+		//return (-289.0 / shooterAngleDegrees) - 1.0;
+		// return (shooterAngleDegrees-100.8)/(-4.185); // new fromula from saturday 4/23/16 pre champs 
+		
+		// Formula from Encoder value vs. shooter degrees best curve fit over 13 to 70 degrees.
+		return 0.2253 * shooterAngleDegrees - 23.38;
 	}
 
 	private double getShooterAngleDegrees(double distanceInches) {
@@ -340,7 +401,7 @@ public class LifterManipulator  {
 		// theta is vertical angle pointing shooter to shoot boulder through middle of target opening.
 		double shooterAngleDegrees = Consts.defaultShooterAngleDegrees;
 		if (termInsideSqrt >= 0) {
-			double shooterAngleRadians = Math.atan(v * v - Math.sqrt(termInsideSqrt));
+			double shooterAngleRadians = Math.atan((v * v - Math.sqrt(termInsideSqrt)) / (g * x));
 			// double thetaRad = shooterAngleRadians;
 			shooterAngleDegrees = shooterAngleRadians * 180 / Math.PI; // display this on the dashboard
 			double thetaDeg = shooterAngleDegrees;
@@ -353,6 +414,8 @@ public class LifterManipulator  {
 			double cameraDeltaYPx = cameraDeltaDeg  * Consts.cameraPxPerDegree; // display this value in the dashboard
 			// Todo: Determine relation between cameraDeltaYPx and cameraTargetBotYPx.
 		}
+		
+		ImageMath.put_shooter_angle(shooterAngleDegrees);
 
 		return shooterAngleDegrees;
 	}
@@ -434,11 +497,11 @@ public class LifterManipulator  {
 		else if (shootRightJoy.getRawButton(Consts.SHOOTER_RIGHT_BTN_SHOOTQUICK)){
 			return Consts.SHOOTER_JOYSTICK_CODE_SHOOTQUICK;
 		}
-		else if (breachRightJoy.getRawButton(3)){
-			return 8;
+		else if (breachRightJoy.getRawButton(Consts.BREACH_RIGHT_BTN_AUTODOWN)){
+			return Consts.SHOOTER_JOYSTICK_CODE_AUTOLEFTRIGHT;
 		}
-		else if (shootRightJoy.getRawButton(4)){
-			return Consts.SHOOTER_JOYSTICK_CODE_DEGREE_PICKUP;
+		else if (shootRightJoy.getRawButton(Consts.SHOOTER_RIGHT_BTN_AUTOUPDOWN)){
+			return Consts.SHOOTER_JOYSTICK_CODE_AUTOUPDOWN;
 		}
 		else if (breachRightJoy.getRawButton(11)){
 			return  Consts.SHOOTER_JOYSTICK_CODE_DEGREE_CORRECTION; 
@@ -482,11 +545,11 @@ public class LifterManipulator  {
 			shootBallQuickly();
 			break;
 
-		case 8:
+		case Consts.SHOOTER_JOYSTICK_CODE_AUTOLEFTRIGHT:
 			driveAdjust();
 			break;
 
-		case Consts.SHOOTER_JOYSTICK_CODE_DEGREE_PICKUP: // This is for picking up. WE are going to a 115 deg pick up angle.
+		case Consts.SHOOTER_JOYSTICK_CODE_AUTOUPDOWN: // This is for picking up. WE are going to a 115 deg pick up angle.
 			auto_adjust();
 			break;
 

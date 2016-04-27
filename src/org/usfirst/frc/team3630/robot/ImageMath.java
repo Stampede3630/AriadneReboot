@@ -10,6 +10,9 @@ public class ImageMath {
 		double targetWidthPx = Math.abs(BOTTOM_RIGHT_X - BOTTOM_LEFT_X);
 		double targetWidthDeg = Consts.cameraFovWidthDegrees * targetWidthPx / Consts.cameraFovWidthPx;
 		
+		SmartDashboard.putNumber("AUTO_ADJ Width Pixels", targetWidthPx);
+		SmartDashboard.putNumber("AUTO_ADJ Width Degrees", targetWidthDeg);
+
 		// Perform distance calculation based on half the target width, since we assume we are straight
 		// in front of the target. So the triangle for calculations has:
 		//    adjacent side = distance to the target;
@@ -29,5 +32,9 @@ public class ImageMath {
 		double targetWidthPx = Math.abs(BOTTOM_RIGHT_X - BOTTOM_LEFT_X);
 		double right_of_center = Math.min(BOTTOM_RIGHT_X, BOTTOM_LEFT_X) + (targetWidthPx / 2) - (Consts.cameraFovWidthPx / 2);
 		return right_of_center;
+	}
+	
+	public static void put_shooter_angle(double curShooterAngle) {
+		SmartDashboard.putNumber("CUR_SHOOTER_ANGLE", curShooterAngle);
 	}
 }

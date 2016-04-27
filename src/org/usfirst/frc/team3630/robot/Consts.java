@@ -43,12 +43,11 @@ public final class Consts {
 	public static final int SHOOTER_LEFT_BTN_LIFTDOWN = 7;
 	public static final int SHOOTER_LEFT_BTN_LIFTUP = 8;
 	
-
 	// Put all the Shooter Right Joystick BUTTON definitions here:
 	public static final int SHOOTER_RIGHT_BTN_SHOOTBALL = 1;
 	public static final int SHOOTER_RIGHT_BTN_LOADBALL = 2;
 	public static final int SHOOTER_RIGHT_BTN_DEGREE_PICKUP = 3;
-	public static final int SHOOTER_RIGHT_BTN_DEGREE_DRIVE = 4;
+	public static final int SHOOTER_RIGHT_BTN_AUTOUPDOWN = 4;
 	//public static final int SHOOTER_RIGHT_BTN_DEGREE_CORRECTION = 5;
 	public static final int SHOOTER_RIGHT_BTN_SHOOTQUICK = 5;
 	public static final int SHOOTER_RIGHT_BTN_ARM_RESET = 6;
@@ -61,9 +60,9 @@ public final class Consts {
 	public static final int SHOOTER_JOYSTICK_CODE_LIFTERUP = 3;
 	public static final int SHOOTER_JOYSTICK_CODE_LOADBALL = 4;
 	public static final int SHOOTER_JOYSTICK_CODE_SHOOTBALL = 5;
-	public static final int SHOOTER_JOYSTICK_CODE_DEGREE_PICKUP = 6;
+	public static final int SHOOTER_JOYSTICK_CODE_AUTOUPDOWN = 6;
 	public static final int SHOOTER_JOYSTICK_CODE_DEGREE_CORRECTION = 7;
-//	public static final int SHOOTER_JOYSTICK_CODE_AUTODRIVEADJUST = 8;
+	public static final int SHOOTER_JOYSTICK_CODE_AUTOLEFTRIGHT = 8;
 	public static final int SHOOTER_JOYSTICK_CODE_DEGREE_DRIVE = 10;
 	public static final int SHOOTER_JOYSTICK_CODE_ARM_RESET = 11;
 	public static final int SHOOTER_JOYSTICK_CODE_SHOOTQUICK = 12;
