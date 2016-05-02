@@ -50,7 +50,7 @@ public final class Consts {
 	public static final int SHOOTER_RIGHT_BTN_AUTOUPDOWN = 4;
 	//public static final int SHOOTER_RIGHT_BTN_DEGREE_CORRECTION = 5;
 	public static final int SHOOTER_RIGHT_BTN_SHOOTQUICK = 5;
-	public static final int SHOOTER_RIGHT_BTN_ARM_RESET = 6;
+	public static final int SHOOTER_RIGHT_BTN_FEEDOUT = 6;
 //	public static final int SHOOTER_RIGHT_BTN_KICK_TEST = 7;
 	
 	// Put all COMBINED (left and right) Shooter Joystick codes here:
@@ -64,8 +64,9 @@ public final class Consts {
 	public static final int SHOOTER_JOYSTICK_CODE_DEGREE_CORRECTION = 7;
 	public static final int SHOOTER_JOYSTICK_CODE_AUTOLEFTRIGHT = 8;
 	public static final int SHOOTER_JOYSTICK_CODE_DEGREE_DRIVE = 10;
-	public static final int SHOOTER_JOYSTICK_CODE_ARM_RESET = 11;
+	public static final int SHOOTER_JOYSTICK_CODE_FEEDOUT = 11;
 	public static final int SHOOTER_JOYSTICK_CODE_SHOOTQUICK = 12;
+	
 	// return camera values
 	public static final int SHOOTER_JOYSTICK_CODE_CAMERA_DEFAULT = 20;
 	public static final int SHOOTER_JOYSTICK_CODE_PANLEFT = 21;

@@ -144,27 +144,26 @@ public class LifterManipulator  {
 			Timer.delay(0.1);
 		}
 		*/
-		Timer.delay(1.0); // Ramp up shooter motor for only 1 second (not 1.5 second).
+		Timer.delay(1.5); // Ramp up shooter motor for only 1 second (not 1.5 second).
 		// SmartDashboard.putNumber("Right motor RPM",rightMotor.RPM());
 		// SmartDashboard.putNumber("Left Motor RPM",leftMotor.RPM());
 		// Todo: Add initial test code here to measure the left and right boulder encoder RPM values.
 		kick_ball();
 		}
 
-	public void shootBallQuickly(){
-		
+	public void shootBallQuickly() {
 		spinLeftTalon.set(1);
 		spinRightTalon.set(-1);
-		// Loop for 0.5 sec - read the RPM each 0.1 sec
-		for (int i = 0; i < 5; i++) {
- 			SmartDashboard.putNumber("Right motor RPM",rightMotor.RPM());
- 			SmartDashboard.putNumber("Left Motor RPM",leftMotor.RPM());
-			Timer.delay(0.1);
-		}
-		SmartDashboard.putNumber("Right motor RPM",rightMotor.RPM());
-		SmartDashboard.putNumber("Left Motor RPM",leftMotor.RPM());
+		Timer.delay(0.5);
 		kick_ball();
 		}
+
+	public void feedoutBall() {
+		spinLeftTalon.set(0.4);
+		spinRightTalon.set(-0.4);
+		Timer.delay(0.5);
+		kick_ball();
+	}
 
 	public boolean LifterManipulatorinit(){
 		boolean isComplete = false;
@@ -295,7 +294,7 @@ public class LifterManipulator  {
 		// Return true if complete: if the shooter encoder value is close enough to that requested.
 		boolean isComplete = false;
 
-		final double margin = 0.2; // was 0.23; changed hoping for more accuracy
+		final double margin = 0.3; // was 0.23; changed hoping for more accuracy
 		final double offset = 0.0; // No offset - we expect to be told an accurate encoder value to go to.
 		double curEncVal = shooterrotation.getDistance();
 		
@@ -509,8 +508,8 @@ public class LifterManipulator  {
 		else if (breachRightJoy.getRawButton(12)){
 			return  Consts.SHOOTER_JOYSTICK_CODE_DEGREE_DRIVE; 
 		}
-		else if (shootRightJoy.getRawButton(Consts.SHOOTER_RIGHT_BTN_ARM_RESET)){
-			return  Consts.SHOOTER_JOYSTICK_CODE_ARM_RESET; 
+		else if (shootRightJoy.getRawButton(Consts.SHOOTER_RIGHT_BTN_FEEDOUT)){
+			return  Consts.SHOOTER_JOYSTICK_CODE_FEEDOUT; 
 		}
 		else{
 			return Consts.SHOOTER_JOYSTICK_CODE_DEFAULT;
@@ -561,7 +560,10 @@ public class LifterManipulator  {
 			tankDriveTrain.moveLeft(0.8);
 			break;
 		
-		case Consts.SHOOTER_JOYSTICK_CODE_ARM_RESET: 
+		case Consts.SHOOTER_JOYSTICK_CODE_FEEDOUT:
+			feedoutBall();
+			break;
+			
 			default: // i.e. Consts.SHOOTER_JOYSTICK_CODE_DEFAULT:
 			stop();
 			break;

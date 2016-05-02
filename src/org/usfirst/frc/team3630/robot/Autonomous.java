@@ -22,6 +22,10 @@ public class Autonomous {
 	// Time points
 	double barrierTimeSec;
 	
+	boolean shootingEnabled;
+	
+	boolean firstThrough;
+	
 	public void autonomousInit(LifterManipulator myShooter, DriveTrain myDriveTrain, Sensors mySensors){
 		shooter = myShooter;
 		mainDrive = myDriveTrain;
@@ -36,6 +40,7 @@ public class Autonomous {
 		timer = new Timer();
 		state = 1;
 		initialHeading = sensors.ahrs.getFusedHeading();
+		shootingEnabled = false;
 	}
 	
 	public void forward() {
@@ -379,6 +384,7 @@ public class Autonomous {
 			break;
 		}
 	}
+
 	public void autoAPeriodic(){
 		final double postBarrierDriveSec = 2; // Drive this amount of time after the barrier.
 		final double barrierSideDetectInches = 20;
@@ -555,7 +561,7 @@ public class Autonomous {
 		final int traversingBarrierState = driveToBarrierState + 1;
 		final int exitBarrierState = traversingBarrierState + 1;
 		final int approachingTargetState = exitBarrierState + 1;
-		final int liftShooter = approachingTargetState +1;
+		final int liftShooter = approachingTargetState + 1;
 		final int aimUpDown = liftShooter + 1;
 		final int aimLeftRight = aimUpDown + 1;
 		final int shoot = aimLeftRight +1;
@@ -686,6 +692,7 @@ public class Autonomous {
 			break;
 		}
 	}
+	
 	public void autoCPeriodic(){
 		final double postBarrierDriveSec = 2; // Drive this amount of time after the barrier.
 		final double barrierSideDetectInches = 20;
@@ -837,6 +844,7 @@ public class Autonomous {
 			break;
 		}
 	}
+
 	public void autoDPeriodic(){
 		final double postBarrierDriveSec = 3; // Drive this amount of time after the barrier.
 		final double barrierSideDetectInches = 20;
@@ -988,8 +996,9 @@ public class Autonomous {
 			break;
 		}
 	}
-	public void noShootautoPeriodic(){
-		final double postBarrierDriveSec = 3; // Drive this amount of time after the barrier.
+
+	public void noShootAutoPeriodic() {
+		final double postBarrierDriveSec = 2; // Drive this amount of time after the barrier.
 		final double barrierSideDetectInches = 20;
 
 		// Robot drive speeds:
@@ -998,7 +1007,7 @@ public class Autonomous {
 		final double barrierExitSpeed = 0.75;
 		final double slowDownSpeed = 0.35;
 		final double stoppedSpeed = 0.0;
-		
+
 		// Known shooter angles:
 		final double nominalShootingAngle = -12.5;
 		
@@ -1026,7 +1035,7 @@ public class Autonomous {
 			state++;
 			break;
 
-		case driveToBarrierState: //lower shooter and drive towards barrier
+		case driveToBarrierState: // drive towards barrier
 			if (sensors.sideSonar.getRangeInches() > barrierSideDetectInches){
 				// We are not yet at the barrier
 				mainDrive.moveForward(barrierApproachSpeed, initialHeading);
@@ -1051,7 +1060,7 @@ public class Autonomous {
 		case exitBarrierState:
 			 if (timer.get() < 0.4) { 
 				mainDrive.moveForward(barrierExitSpeed, initialHeading);
-				shooter.lifterTalon.set(1); // down
+				shooter.lifterTalon.set(1); // move shooter down for 0.4 second while driving
 				}
 			else if (timer.get() < (postBarrierDriveSec * .7)) { 
 				mainDrive.moveForward(barrierExitSpeed, initialHeading);
@@ -1062,19 +1071,146 @@ public class Autonomous {
 			}
 			else {
 				mainDrive.moveForward(stoppedSpeed, initialHeading);
+				timer.stop();
+				timer.reset();
 				state++;
 			}
 			break;
 
-		case complete:
-			isLifterInitComplete = shooter.LifterManipulatorinit();
-			if (isLifterInitComplete)
-			{
+		case approachingTargetState:
+			// Rotate left 180 degrees.
+			float desiredHeading = initialHeading - 180;
+			if (desiredHeading < 0) {
+				desiredHeading += 360.0f;
+			}
+			atDesiredHeading = turnLeft(desiredHeading);
+			shooter.set_shooter_pos(nominalShootingAngle);
+			if (atDesiredHeading) {
+				mainDrive.moveForward(stoppedSpeed, initialHeading);
 				state++;
 			}
+			break;
+
+		case complete: // Do nothing, leave shooter ready to shoot.
+			mainDrive.moveForward(stoppedSpeed, initialHeading);
+			shooter.stop();
+			state++;
 			break;
 
 		default:
+			mainDrive.moveForward(stoppedSpeed, initialHeading);
+			shooter.stop();
+			break;
+		}
+	}
+
+	public void superBreachAutoPeriodic() {
+		final double barrierSideDetectInches = 20;
+
+		// Robot drive speeds:
+		final double barrierApproachSpeed = 1;
+		final double barrierTraversalSpeed = 1;
+		final double barrierExitSpeed = 0.75;
+		final double slowDownSpeed = 0.35;
+		final double stoppedSpeed = 0.0;
+
+		// Known shooter angles:
+		final double nominalShootingAngle = -12.5;
+		
+		// local state machine steps
+		final int initialState = 1;
+		final int driveToBarrierState = initialState + 1;
+		final int traversingBarrierState = driveToBarrierState + 1;
+		final int exitBarrierState = traversingBarrierState + 1;
+		final int approachingTargetState = exitBarrierState + 1;
+		final int complete = approachingTargetState + 1;
+
+		final double postBarrierDriveSec = 1.0; // Drive this amount of time after the barrier.
+
+		boolean atDesiredAngle = false;
+		boolean atDesiredHeading = false;
+		boolean isLifterInitComplete = false;
+		boolean isUpDownComplete = false;
+		boolean isLeftRightComplete = false;
+
+		
+		SmartDashboard.putNumber("Auto State", state);
+		
+		switch (state) {
+		
+		case initialState:
+			initialHeading = sensors.ahrs.getFusedHeading();
+			SmartDashboard.putNumber("Auto Initial Heading", initialHeading);
+			firstThrough = true;
+			state++;
+			break;
+
+		case driveToBarrierState: // drive towards barrier
+			if (sensors.sideSonar.getRangeInches() > barrierSideDetectInches){
+				// We are not yet at the barrier
+				mainDrive.moveForward(barrierApproachSpeed, initialHeading);
+			} else { // we are at the barrier
+				// We have reached the defense
+				state++;
+			}
+			break;
+			
+		case traversingBarrierState: // traverse the barrier at a slow speed
+			if (sensors.sideSonar.getRangeInches() <= barrierSideDetectInches){
+				// We are still at the barrier
+				mainDrive.moveForward(barrierTraversalSpeed, initialHeading);
+			} else { // we have passed the barrier
+				state++;
+				timer.reset();
+				timer.start();
+			}
+			break;
+			
+		case exitBarrierState:
+			if (timer.get() < postBarrierDriveSec) { 
+				mainDrive.moveForward(slowDownSpeed, initialHeading);// slow down before stopping
+			}
+			else {
+				mainDrive.moveForward(stoppedSpeed, initialHeading);
+				timer.stop();
+				timer.reset();
+				state++;
+			}
+			break;
+
+		case approachingTargetState:
+			// Rotate left 180 degrees.
+			float desiredHeading = initialHeading - 180;
+			if (desiredHeading < 0) {
+				desiredHeading += 360.0f;
+			}
+			atDesiredHeading = turnLeft(desiredHeading);
+			if (atDesiredHeading) {
+				mainDrive.moveForward(stoppedSpeed, initialHeading);
+				if (firstThrough)
+				{
+					state = driveToBarrierState;
+					initialHeading = initialHeading - 180;
+					if (initialHeading < 0) {
+						initialHeading += 360.0f;
+					}
+					firstThrough = false;
+				}
+				else
+				{
+					state++;
+				}
+			}
+			break;
+
+		case complete: // Do nothing, leave shooter ready to shoot.
+			mainDrive.moveForward(stoppedSpeed, initialHeading);
+			shooter.stop();
+			state++;
+			break;
+
+		default:
+			mainDrive.moveForward(stoppedSpeed, initialHeading);
 			shooter.stop();
 			break;
 		}

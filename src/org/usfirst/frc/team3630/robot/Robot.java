@@ -35,6 +35,7 @@ public class Robot extends IterativeRobot {
     
     Sensors sensors;
     Autonomous autonomous;
+    int autoMode;
     
     //public AHRS ahrs = null;
 //    I2C bob;
@@ -56,6 +57,10 @@ public class Robot extends IterativeRobot {
 		arm2= new StraitArm();
 		
 		autonomous = new Autonomous();
+		autoMode = 1; // Low bar
+		SmartDashboard.putNumber("AUTO_MODE", autoMode);
+		SmartDashboard.putString("AUTO_NAME", "PREMATCH");
+
 		
 		//if (ahrs == null)
 		//ahrs = new AHRS(SerialPort.Port.kUSB); 
@@ -88,29 +93,63 @@ public class Robot extends IterativeRobot {
 	 */
     public void autonomousInit() {
 		autonomous.autonomousInit(shooter, tankDriveTrain, sensors);
-  }
+		
+		autoMode = (int)SmartDashboard.getNumber("AUTO_MODE");
+		if ((autoMode < 0) || (autoMode > 7)) {
+			autoMode = 1; // Low Bar
+			SmartDashboard.putNumber("AUTO_MODE", autoMode);
+		}
+		
+		// Start recording AVI video of the first practice match.
+		// SmartDashboard.putString("RR_AVI_COMMAND", "Start");
+    }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic(){
-   	//low bar and shoot
-		autonomous.lowbarPeriodic();
-		
-	//low bas without shooting
-		//autonomous.noShootlowbarPeriodic();
-		
-	//driveTrain defense in location A
-    	//autonomous.autoAPeriodic();
-		
-	//driveTrain defense in location B
-		//autonomous.autoBPeriodic();
-		
-	//driveTrain defense in location C
-    	//autonomous.autoCPeriodic();
-		
-	//driveTrain defense in location D
-    	//autonomous.autoDPeriodic();
+    	switch (autoMode) {
+    	case 0: // Low Bar No Shoot
+    		//low bar without shooting
+    		autonomous.noShootlowbarPeriodic();
+    		SmartDashboard.putString("AUTO_NAME", "LBARNOSHOOT");
+    		break;
+    	case 1: // Low Bar
+    	   	//low bar and shoot
+    		autonomous.lowbarPeriodic();
+    		SmartDashboard.putString("AUTO_NAME", "LOWBAR");
+    		break;
+    	case 2: // A
+    		//driveTrain defense in location A
+        	autonomous.autoAPeriodic();
+    		SmartDashboard.putString("AUTO_NAME", "BREACH A");
+    		break;
+    	case 3: // B
+    		//driveTrain defense in location B
+    		autonomous.autoBPeriodic();
+    		SmartDashboard.putString("AUTO_NAME", "BREACH B");
+    		break;
+    	case 4: // C
+    		//driveTrain defense in location C
+        	autonomous.autoCPeriodic();
+    		SmartDashboard.putString("AUTO_NAME", "BREACH C");
+    		break;
+    	case 5: // D
+    		//driveTrain defense in location D
+        	autonomous.autoDPeriodic();
+    		SmartDashboard.putString("AUTO_NAME", "BREACH C");
+    		break;
+    	case 6: // Any barrier breach, NO SHOOT
+    		autonomous.noShootAutoPeriodic();
+    		SmartDashboard.putString("AUTO_NAME", "NOSHOOT");
+    		break;
+    	case 7: // Super Breach: Breach once, return over barrier, rotate, ready to re-breach
+    		autonomous.superBreachAutoPeriodic();
+    		SmartDashboard.putString("AUTO_NAME", "SUPER");
+    		break;
+		default:
+			break;
+    	}
 		
 	//driveTrain defense without shooting
 		//autonomous.noShootautoPeriodic();
